@@ -47,18 +47,22 @@ ul { list-style: none; }
   --sys-text:     #f7e6e8; --sys-text-dim: #c9a4aa;
   --sys-line:     rgba(168,49,63,0.35); --sys-glow: rgba(168,49,63,0.55);
 }
+/* PATHFINDER
 .systems[data-system="pf"] {
   --sys-bg-base:  #0f1a0c; --sys-bg-elev: #1a2916;
   --sys-accent:   #B89A36; --sys-accent-2: #F4F1EA;
   --sys-text:     #F4F1EA; --sys-text-dim: #c4b78a;
   --sys-line:     rgba(184,154,54,0.35); --sys-glow: rgba(184,154,54,0.55);
 }
+*/
+/* CYBERPUNK
 .systems[data-system="cyber"] {
   --sys-bg-base:  #000000; --sys-bg-elev: #0a0a14;
   --sys-accent:   #E500FF; --sys-accent-2: #00BFFF;
   --sys-text:     #f7e6ff; --sys-text-dim: #A0A0A0;
   --sys-line:     rgba(229,0,255,0.35); --sys-glow: rgba(229,0,255,0.7);
 }
+*/
 .systems[data-system="mod"] {
   --sys-bg-base:  #0e1a18; --sys-bg-elev: #16221f;
   --sys-accent:   #00A896; --sys-accent-2: #F26419;
@@ -1351,8 +1355,8 @@ body {
         </p>
         <div class="srds-badge-row">
           <span class="srds-badge"><span class="srds-badge-dot" style="background:#A8313F"></span>D&amp;D 5e SRD 5.1</span>
-          <span class="srds-badge"><span class="srds-badge-dot" style="background:#B89A36"></span>Pathfinder 2e SRD</span>
-          <span class="srds-badge"><span class="srds-badge-dot" style="background:#E500FF"></span>Cyberpunk</span>
+          <!-- PATHFINDER <span class="srds-badge"><span class="srds-badge-dot" style="background:#B89A36"></span>Pathfinder 2e SRD</span> -->
+          <!-- CYBERPUNK <span class="srds-badge"><span class="srds-badge-dot" style="background:#E500FF"></span>Cyberpunk</span> -->
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
           <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues" target="_blank" rel="noopener" class="btn btn-github">
@@ -1369,7 +1373,7 @@ body {
       <div class="srds-list-panel">
         <div class="srds-list-header">
           <span class="srds-list-title">DOCUMENTOS_DISPONÍVEIS</span>
-          <span class="srds-count">3 sistemas</span>
+          <span class="srds-count">1 sistema</span>
         </div>
         <ul class="srds-list">
           <li class="srds-item">
@@ -1380,6 +1384,7 @@ body {
             </div>
             <span class="srds-item-tag">GRÁTIS</span>
           </li>
+          <!-- PATHFINDER
           <li class="srds-item">
             <span class="srds-item-dot" style="background:#B89A36;box-shadow:0 0 8px rgba(184,154,54,0.7)"></span>
             <div class="srds-item-info">
@@ -1388,6 +1393,8 @@ body {
             </div>
             <span class="srds-item-tag">GRÁTIS</span>
           </li>
+          -->
+          <!-- CYBERPUNK
           <li class="srds-item">
             <span class="srds-item-dot" style="background:#E500FF;box-shadow:0 0 8px rgba(229,0,255,0.7)"></span>
             <div class="srds-item-info">
@@ -1396,6 +1403,7 @@ body {
             </div>
             <span class="srds-item-tag">GRÁTIS</span>
           </li>
+          -->
         </ul>
       </div>
 
@@ -1415,12 +1423,16 @@ body {
       <button class="tab" role="tab" aria-selected="true"  aria-controls="panel-dnd5e" id="tab-dnd5e" data-target="dnd5e">
         <span class="tab-num">I</span><span class="tab-label">Quinta Edição</span>
       </button>
+      <!-- PATHFINDER
       <button class="tab" role="tab" aria-selected="false" aria-controls="panel-pf"    id="tab-pf"    data-target="pf">
         <span class="tab-num">II</span><span class="tab-label">Pathfinder SRD</span>
       </button>
+      -->
+      <!-- CYBERPUNK
       <button class="tab" role="tab" aria-selected="false" aria-controls="panel-cyber" id="tab-cyber" data-target="cyber">
         <span class="tab-num">III</span><span class="tab-label">Cyberpunk</span>
       </button>
+      -->
       <button class="tab" role="tab" aria-selected="false" aria-controls="panel-mod"   id="tab-mod"   data-target="mod">
         <span class="tab-num">IV</span><span class="tab-label">Modulares</span>
       </button>
@@ -1449,6 +1461,7 @@ body {
         </aside>
       </article>
 
+      <!-- PATHFINDER
       <article class="tab-panel" role="tabpanel" id="panel-pf" aria-labelledby="tab-pf">
         <div class="panel-content">
           <p class="panel-tag">Pathfinder · SRD 2e</p>
@@ -1470,7 +1483,9 @@ body {
           </svg>
         </aside>
       </article>
+      -->
 
+      <!-- CYBERPUNK
       <article class="tab-panel" role="tabpanel" id="panel-cyber" aria-labelledby="tab-cyber">
         <div class="panel-content">
           <p class="panel-tag">Custom · Neon Engine</p>
@@ -1494,6 +1509,7 @@ body {
           </svg>
         </aside>
       </article>
+      -->
 
       <article class="tab-panel" role="tabpanel" id="panel-mod" aria-labelledby="tab-mod">
         <div class="panel-content">
