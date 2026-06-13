@@ -452,7 +452,7 @@ body {
 }
 .btn-large { padding: 16px 36px; font-size: 24px; }
 
-/* === PROPOSTA / PILARES (Antigo Features) === */
+/* === PROPOSTA / PILARES === */
 .proposta { padding: 100px 0; position: relative; }
 
 .section-header { text-align: center; margin-bottom: 52px; }
@@ -527,7 +527,7 @@ body {
   box-shadow: 2px 7px 0 rgba(0,0,0,0.6), 0 0 0 1px var(--primary-alt) inset, 0 16px 32px -16px rgba(151,21,206,0.5);
 }
 
-/* === TOOLS (Layout Ziguezague) === */
+/* === TOOLS (Layout Ziguezague com Imagens Reais) === */
 .tools { padding: 100px 0; background: radial-gradient(ellipse at top, rgba(99,0,176,0.05), transparent 60%); }
 
 .tool-row {
@@ -591,11 +591,12 @@ body {
   font-size: 18px;
 }
 
+/* Modificado para suportar imagens (img/picture) em vez de SVG */
 .tool-visual {
   flex: 1;
   background: linear-gradient(180deg, var(--bg-elev), var(--bg-deep));
   border: 1px solid var(--line-strong);
-  padding: 40px;
+  padding: 30px; /* Reduzido levemente o padding para dar mais espaço à imagem */
   border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 32px 100%, 0 calc(100% - 32px));
   box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
@@ -612,13 +613,24 @@ body {
   background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
   pointer-events: none;
 }
-.tool-visual svg {
+
+/* CSS novo para as imagens reais */
+.tool-visual picture, 
+.tool-visual img {
   width: 100%;
-  max-width: 340px;
-  color: var(--primary-alt);
+  max-width: 480px;
+  height: auto;
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 0 12px rgba(151,21,206,0.3));
+  border-radius: 8px; /* Arredonda os cantos da captura de tela */
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6); /* Sombra 3D para destacar a imagem */
+  filter: drop-shadow(0 0 15px rgba(151,21,206,0.3)); /* Mantém o brilho Y2K */
+  object-fit: cover;
+  transition: transform 0.4s var(--ease);
+}
+.tool-visual:hover img {
+  transform: scale(1.02);
 }
 
 /* === SYSTEMS === */
@@ -1220,29 +1232,12 @@ body {
           </ul>
         </div>
         <div class="tool-visual" aria-hidden="true">
-          <svg viewBox="0 0 220 110" fill="none" stroke="currentColor" stroke-width="1.2">
-            <rect x="8" y="6" width="204" height="98" rx="2" stroke-width="1" opacity="0.4"/>
-            <rect x="16" y="14" width="72" height="32" rx="1" fill="rgba(99,0,176,0.18)"/>
-            <text x="52" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="8" fill="currentColor" opacity="0.8">Thorin Duskmantle</text>
-            <text x="52" y="40" text-anchor="middle" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.5">Guerreiro · Nv 5</text>
-            <line x1="96" y1="14" x2="96" y2="100" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.3"/>
-            <rect x="104" y="14" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="121" y="21" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">FOR: 18</text>
-            <rect x="104" y="26" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="121" y="33" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">DES: 14</text>
-            <rect x="104" y="38" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="121" y="45" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">CON: 16</text>
-            <rect x="146" y="14" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="163" y="21" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">INT: 10</text>
-            <rect x="146" y="26" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="163" y="33" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">SAB: 12</text>
-            <rect x="146" y="38" width="34" height="9" rx="1" fill="rgba(0,125,255,0.12)"/>
-            <text x="163" y="45" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.7">CAR: 8</text>
-            <rect x="16" y="54" width="184" height="12" rx="1" fill="rgba(168,49,63,0.25)"/>
-            <text x="108" y="63" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.75">HP: 45 / 52</text>
-            <rect x="16" y="72" width="184" height="22" rx="1" fill="rgba(99,0,176,0.1)" stroke-dasharray="2 2" opacity="0.7"/>
-            <text x="108" y="86" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.5">[ MAGIAS ] [ ITENS ] [ HABILIDADES ]</text>
-          </svg>
+          <picture>
+            <source srcset="images/fichas.png" type="image/png">
+            <source srcset="images/fichas.jpg" type="image/jpeg">
+            <source srcset="images/fichas.jpeg" type="image/jpeg">
+            <img src="images/fichas.png" alt="Demonstração das Fichas Automatizadas">
+          </picture>
         </div>
       </div>
 
@@ -1259,29 +1254,12 @@ body {
           </ul>
         </div>
         <div class="tool-visual" aria-hidden="true">
-          <svg viewBox="0 0 220 110" fill="none" stroke="currentColor" stroke-width="1.2">
-            <rect x="8" y="6" width="204" height="16" rx="1" fill="rgba(99,0,176,0.25)"/>
-            <text x="110" y="17" text-anchor="middle" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.8">SALA: Caverna do Dragão · Sessão #12</text>
-            <rect x="8" y="26" width="56" height="76" rx="1" fill="rgba(0,0,0,0.25)" stroke-dasharray="2 2" opacity="0.6"/>
-            <text x="36" y="38" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.5">JOGADORES</text>
-            <circle cx="36" cy="52" r="7" fill="rgba(0,168,150,0.35)"/>
-            <text x="36" y="55" text-anchor="middle" font-family="VT323,monospace" font-size="6" fill="currentColor">GM</text>
-            <circle cx="20" cy="70" r="6" fill="rgba(0,125,255,0.3)"/>
-            <text x="20" y="73" text-anchor="middle" font-family="VT323,monospace" font-size="5" fill="currentColor">P1</text>
-            <circle cx="36" cy="70" r="6" fill="rgba(0,125,255,0.3)"/>
-            <text x="36" y="73" text-anchor="middle" font-family="VT323,monospace" font-size="5" fill="currentColor">P2</text>
-            <circle cx="52" cy="70" r="6" fill="rgba(0,125,255,0.3)"/>
-            <text x="52" y="73" text-anchor="middle" font-family="VT323,monospace" font-size="5" fill="currentColor">P3</text>
-            <circle cx="20" cy="86" r="6" fill="rgba(0,125,255,0.15)" stroke-dasharray="2 2"/>
-            <text x="20" y="89" text-anchor="middle" font-family="VT323,monospace" font-size="5" fill="currentColor" opacity="0.4">P4</text>
-            <rect x="70" y="26" width="138" height="56" rx="1" fill="rgba(99,0,176,0.08)" stroke-dasharray="2 2" opacity="0.7"/>
-            <text x="139" y="56" text-anchor="middle" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.3">[ MAPA DE BATALHA ]</text>
-            <line x1="70" y1="88" x2="208" y2="88" stroke-width="0.5" stroke-dasharray="2 2" opacity="0.4"/>
-            <rect x="70" y="90" width="98" height="16" rx="1" fill="rgba(0,0,0,0.35)"/>
-            <text x="119" y="101" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.5">▸ rolar 1d20...</text>
-            <rect x="172" y="90" width="36" height="16" rx="1" fill="rgba(99,0,176,0.5)"/>
-            <text x="190" y="101" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor">ROLAR</text>
-          </svg>
+          <picture>
+            <source srcset="images/salas.png" type="image/png">
+            <source srcset="images/salas.jpg" type="image/jpeg">
+            <source srcset="images/salas.jpeg" type="image/jpeg">
+            <img src="images/salas.png" alt="Demonstração das Salas P2P">
+          </picture>
         </div>
       </div>
 
@@ -1298,24 +1276,12 @@ body {
           </ul>
         </div>
         <div class="tool-visual" aria-hidden="true">
-          <svg viewBox="0 0 220 110" fill="none" stroke="currentColor" stroke-width="1.2">
-            <text x="16" y="18" font-family="VT323,monospace" font-size="9" fill="currentColor" opacity="0.5">[ SISTEMAS INSTALADOS ]</text>
-            <line x1="8" y1="23" x2="212" y2="23" stroke-width="0.5" opacity="0.3"/>
-            <rect x="8" y="27" width="204" height="18" rx="1" fill="rgba(168,49,63,0.18)"/>
-            <circle cx="20" cy="36" r="5" fill="rgba(168,49,63,0.6)"/>
-            <text x="32" y="39" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.85">D&amp;D 5e — Quinta Edição</text>
-            <text x="202" y="39" text-anchor="end" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.55">ATIVO</text>
-            <rect x="8" y="49" width="204" height="18" rx="1" fill="rgba(184,154,54,0.14)"/>
-            <circle cx="20" cy="58" r="5" fill="rgba(184,154,54,0.5)"/>
-            <text x="32" y="61" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.85">Pathfinder 2e SRD</text>
-            <text x="202" y="61" text-anchor="end" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.55">ATIVO</text>
-            <rect x="8" y="71" width="204" height="18" rx="1" fill="rgba(229,0,255,0.1)"/>
-            <circle cx="20" cy="80" r="5" fill="rgba(229,0,255,0.45)"/>
-            <text x="32" y="83" font-family="VT323,monospace" font-size="8" fill="currentColor" opacity="0.85">Cyberpunk — Neon Engine</text>
-            <text x="202" y="83" text-anchor="end" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.55">ATIVO</text>
-            <rect x="8" y="93" width="204" height="14" rx="1" fill="rgba(0,0,0,0.2)" stroke-dasharray="2 2" opacity="0.5"/>
-            <text x="110" y="103" text-anchor="middle" font-family="VT323,monospace" font-size="7" fill="currentColor" opacity="0.4">+ Importar sistema customizado (JSON)</text>
-          </svg>
+          <picture>
+            <source srcset="images/sistemas.png" type="image/png">
+            <source srcset="images/sistemas.jpg" type="image/jpeg">
+            <source srcset="images/sistemas.jpeg" type="image/jpeg">
+            <img src="images/sistemas.png" alt="Demonstração do Gerenciador de Sistemas">
+          </picture>
         </div>
       </div>
 
