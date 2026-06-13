@@ -591,12 +591,11 @@ body {
   font-size: 18px;
 }
 
-/* Modificado para suportar imagens (img/picture) em vez de SVG */
 .tool-visual {
   flex: 1;
   background: linear-gradient(180deg, var(--bg-elev), var(--bg-deep));
   border: 1px solid var(--line-strong);
-  padding: 30px; /* Reduzido levemente o padding para dar mais espaço à imagem */
+  padding: 30px; 
   border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 32px 100%, 0 calc(100% - 32px));
   box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
@@ -614,7 +613,6 @@ body {
   pointer-events: none;
 }
 
-/* CSS novo para as imagens reais */
 .tool-visual picture, 
 .tool-visual img {
   width: 100%;
@@ -622,10 +620,10 @@ body {
   height: auto;
   position: relative;
   z-index: 1;
-  border-radius: 8px; /* Arredonda os cantos da captura de tela */
+  border-radius: 8px; 
   border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6); /* Sombra 3D para destacar a imagem */
-  filter: drop-shadow(0 0 15px rgba(151,21,206,0.3)); /* Mantém o brilho Y2K */
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6); 
+  filter: drop-shadow(0 0 15px rgba(151,21,206,0.3)); 
   object-fit: cover;
   transition: transform 0.4s var(--ease);
 }
@@ -1243,22 +1241,22 @@ body {
 
       <div class="tool-row">
         <div class="tool-content">
-          <span class="tool-tag">02 · NETWORKING</span>
-          <h3 class="tool-title">Salas P2P via Steam</h3>
-          <p class="tool-desc">Chega de IPs externos e liberação de portas no roteador. O DiceVTT usa os servidores da Steam unicamente para encontrar os jogadores (matchmaking), fazendo a transferência real dos dados (mapas, tokens, mensagens) fluir diretamente do seu computador para o de seus amigos em alta velocidade via <i>chunking</i> nativo.</p>
+          <span class="tool-tag">02 · EXPLORAÇÃO TÁTICA</span>
+          <h3 class="tool-title">Mapas</h3>
+          <p class="tool-desc">Transforme sua narrativa com mapas interativos e diretos ao ponto. Esqueça configurações complexas: basta arrastar sua imagem para o tabuleiro, alinhar o grid e começar a jogar. Tudo o que você precisa para criar encontros épicos e gerenciar o combate está ao seu alcance, garantindo foco total na diversão e na estratégia da sua party.</p>
           <ul class="tool-features">
-            <li>Conexão de um clique usando a aba de amigos da Steam</li>
-            <li>Suporta a criação de senhas e lobbies ocultos</li>
-            <li>Transferência de pacotes otimizada em background</li>
-            <li>Modo Offline: prepare as campanhas com a internet caída</li>
+            <li>Arraste e solte mapas e tokens instantaneamente</li>
+            <li>Alinhamento de grid ágil e réguas de movimentação</li>
+            <li>Ferramentas essenciais: desenho, pings e marcações</li>
+            <li>Névoa de guerra (Fog of War) prática para esconder segredos</li>
           </ul>
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="images/salas.png" type="image/png">
-            <source srcset="images/salas.jpg" type="image/jpeg">
-            <source srcset="images/salas.jpeg" type="image/jpeg">
-            <img src="images/salas.png" alt="Demonstração das Salas P2P">
+            <source srcset="images/mapas.png" type="image/png">
+            <source srcset="images/mapas.jpg" type="image/jpeg">
+            <source srcset="images/mapas.jpeg" type="image/jpeg">
+            <img src="images/mapas.png" alt="Demonstração dos Mapas de Batalha">
           </picture>
         </div>
       </div>
