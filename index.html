@@ -10,7 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="styles.css" />
 <style>
 /* === RESET === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -842,6 +841,102 @@ body {
 }
 .cta-text { font-size: 17px; color: var(--text-dim); margin-bottom: 30px; }
 
+/* === LINUX INSTALL INSTRUCTIONS === */
+.linux-instructions {
+  text-align: left;
+  margin-top: 36px;
+  padding: 28px 30px;
+  border: 1px solid var(--line-strong);
+  background: rgba(0,0,0,0.3);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+.linux-instructions-head { margin-bottom: 22px; }
+.linux-instructions-tag {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  color: var(--primary-alt);
+  display: block;
+  margin-bottom: 8px;
+}
+.linux-instructions-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.linux-instructions-lead {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.linux-instructions-list { margin-bottom: 0; }
+.linux-instructions-list li {
+  position: relative;
+  padding: 6px 0 6px 24px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.linux-instructions-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--primary-blue);
+  font-family: var(--font-mono);
+}
+
+.terminal-box {
+  border: 1px solid var(--primary-alt);
+  background: rgba(13,13,18,0.85);
+  margin-bottom: 22px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.terminal-steps { padding: 18px 22px; }
+.terminal-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  font-family: var(--font-mono);
+  font-size: 17px;
+}
+.terminal-steps li code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.terminal-steps li code::before { content: "$ "; color: var(--primary-blue); }
+.terminal-step-num {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+  border-radius: 50%;
+}
+
+.linux-instructions-note {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.6;
+}
+.linux-instructions code {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--primary-blue);
+}
+
 /* === SRDS === */
 .srds { padding: 100px 0; position: relative; }
 .srds-layout {
@@ -1487,10 +1582,46 @@ body {
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Windows
         </a>
-        <a href="#" class="btn btn-ghost btn-large">
+        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" class="btn btn-ghost btn-large" download>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Linux
         </a>
+      </div>
+
+      <div class="linux-instructions">
+        <div class="linux-instructions-head">
+          <span class="linux-instructions-tag">// LINUX_SETUP.SH</span>
+          <h3 class="linux-instructions-title">Como instalar no Linux</h3>
+          <p class="linux-instructions-lead">
+            O download é o script <code>installer.sh</code>. Ele abre uma janela de confirmação e,
+            se você aceitar, faz tudo sozinho:
+          </p>
+          <ul class="linux-instructions-list">
+            <li>Cria a pasta <code>~/DiceVTT</code> no seu diretório pessoal</li>
+            <li>Baixa o pacote do jogo direto do GitHub</li>
+            <li>Extrai os arquivos e remove o pacote temporário</li>
+          </ul>
+        </div>
+
+        <div class="terminal-box">
+          <div class="hero-titlebar">
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-title">TERMINAL — EXECUTAR_INSTALADOR</span>
+          </div>
+          <ol class="terminal-steps">
+            <li><span class="terminal-step-num">1</span><code>cd ~/Downloads</code></li>
+            <li><span class="terminal-step-num">2</span><code>chmod +x installer.sh</code></li>
+            <li><span class="terminal-step-num">3</span><code>./installer.sh</code></li>
+          </ol>
+        </div>
+
+        <p class="linux-instructions-note">
+          <strong>Pré-requisitos:</strong> <code>zenity</code>, <code>wget</code> e <code>unzip</code>.
+          A maioria das distros já vem com eles; se faltar algum, instale com
+          <code>sudo apt install zenity wget unzip</code> (ou o gerenciador de pacotes da sua distro).
+        </p>
       </div>
     </div>
   </div>
