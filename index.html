@@ -631,6 +631,27 @@ body {
   transform: scale(1.02);
 }
 
+.tool-row-video { margin-top: 80px; }
+.tool-visual-video { padding: 14px; }
+.video-embed {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 16 / 9;
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* === SYSTEMS === */
 .systems {
   position: relative;
@@ -1129,6 +1150,107 @@ body {
   .site-nav a:not(.nav-cta):not([href="#download"]) { display: none; }
 }
 
+/* === DOWNLOAD TERMS MODAL === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(5,5,8,0.82);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay[hidden] { display: none; }
+.modal-box {
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--primary-alt);
+  background: rgba(13,13,18,0.97);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  box-shadow: 0 0 60px rgba(99,0,176,0.35), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  text-align: left;
+}
+.modal-box .hero-titlebar { margin-bottom: 0; position: relative; }
+.modal-close {
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.85;
+}
+.modal-close:hover { opacity: 1; }
+.modal-content { padding: 28px 30px 30px; }
+.modal-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.modal-text {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.modal-text em { color: var(--text); font-style: italic; }
+.modal-list { margin-bottom: 22px; }
+.modal-list li {
+  position: relative;
+  padding: 6px 0 6px 24px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.modal-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0; top: 6px;
+  color: var(--primary-blue);
+  font-family: var(--font-mono);
+}
+.modal-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  margin-bottom: 22px;
+  border: 1px solid var(--line-strong);
+  background: rgba(0,0,0,0.3);
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+.modal-checkbox input {
+  margin-top: 3px;
+  width: 16px; height: 16px;
+  accent-color: var(--primary-alt);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.modal-actions .btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+.modal-actions .btn-primary:disabled:hover { transform: none; }
+@media (max-width: 480px) {
+  .modal-actions { justify-content: stretch; }
+  .modal-actions .btn { flex: 1; justify-content: center; }
+}
+
 /* === A11Y === */
 :focus-visible { outline: 2px solid var(--primary-alt); outline-offset: 4px; }
 .systems :focus-visible { outline-color: var(--sys-accent); }
@@ -1328,10 +1450,10 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="ficha.png" type="image/png">
+            <source srcset="images/fichas.png" type="image/png">
             <source srcset="images/fichas.jpg" type="image/jpeg">
             <source srcset="images/fichas.jpeg" type="image/jpeg">
-            <img src="ficha.png" alt="Demonstração das Fichas Automatizadas">
+            <img src="images/fichas.png" alt="Demonstração das Fichas Automatizadas">
           </picture>
         </div>
       </div>
@@ -1350,10 +1472,10 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="mapa.png" type="image/png">
+            <source srcset="images/mapas.png" type="image/png">
             <source srcset="images/mapas.jpg" type="image/jpeg">
             <source srcset="images/mapas.jpeg" type="image/jpeg">
-            <img src="mapa.png" alt="Demonstração dos Mapas de Batalha">
+            <img src="images/mapas.png" alt="Demonstração dos Mapas de Batalha">
           </picture>
         </div>
       </div>
@@ -1372,15 +1494,44 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="sistema.png" type="image/png">
+            <source srcset="images/sistemas.png" type="image/png">
             <source srcset="images/sistemas.jpg" type="image/jpeg">
             <source srcset="images/sistemas.jpeg" type="image/jpeg">
-            <img src="sistema.png" alt="Demonstração do Gerenciador de Sistemas">
+            <img src="images/sistemas.png" alt="Demonstração do Gerenciador de Sistemas">
           </picture>
         </div>
       </div>
 
     </div>
+
+    <div class="tool-row tool-row-video">
+      <div class="tool-content">
+        <span class="tool-tag">04 · DEMONSTRAÇÃO</span>
+        <h3 class="tool-title">Veja o DiceVTT em Ação</h3>
+        <p class="tool-desc">
+          Este é um vídeo demonstrativo das ferramentas do DiceVTT — fichas automatizadas, mapas
+          interativos e o gerenciador de sistemas funcionando juntos numa sessão real de RPG.
+        </p>
+        <ul class="tool-features">
+          <li>Tour completo pela interface do programa</li>
+          <li>Exemplo de uma rolagem e sincronização em tempo real</li>
+          <li>Visão geral de como configurar sua primeira mesa</li>
+        </ul>
+      </div>
+      <div class="tool-visual tool-visual-video">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/SEU_VIDEO_ID"
+            title="Vídeo demonstrativo do DiceVTT"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1578,14 +1729,14 @@ body {
       <h2 class="cta-title">A próxima sessão começa agora.</h2>
       <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
       <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
-        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.0/setup_dicevtt.exe" class="btn btn-primary btn-large" download>
+        <button type="button" class="btn btn-primary btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.0/setup_dicevtt.exe" data-download-name="setup_dicevtt.exe" onclick="openDownloadModal(this)">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Windows
-        </a>
-        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" class="btn btn-ghost btn-large" download>
+        </button>
+        <button type="button" class="btn btn-ghost btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" data-download-name="installer.sh" onclick="openDownloadModal(this)">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Linux
-        </a>
+        </button>
       </div>
 
       <div class="linux-instructions">
@@ -1661,6 +1812,42 @@ body {
   </div>
 </footer>
 
+<div id="download-modal-overlay" class="modal-overlay" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="download-modal-title">
+    <div class="hero-titlebar">
+      <span class="hero-tb-btn"></span>
+      <span class="hero-tb-btn"></span>
+      <span class="hero-tb-btn"></span>
+      <span class="hero-tb-title">AVISO_DE_PRIVACIDADE.TXT</span>
+      <button type="button" class="modal-close" aria-label="Fechar" onclick="closeDownloadModal()">✕</button>
+    </div>
+    <div class="modal-content">
+      <h3 id="download-modal-title" class="modal-title">Antes de baixar</h3>
+      <p class="modal-text">
+        Para melhorar a experiência de uso e corrigir problemas mais rápido, o DiceVTT coleta
+        <em>de forma anônima</em> dados de log, erros e uso através do <strong>Sentry</strong>
+        (rastreamento de erros) e do <strong>PostHog</strong> (análise de uso/game analytics).
+      </p>
+      <ul class="modal-list">
+        <li>Nenhum dado pessoal identificável é coletado ou vendido</li>
+        <li>As informações servem só para encontrar bugs e melhorar o produto</li>
+        <li>Você pode usar o programa normalmente mesmo com a coleta ativa</li>
+      </ul>
+      <label class="modal-checkbox">
+        <input type="checkbox" id="download-terms-checkbox" onchange="toggleDownloadConfirm()">
+        <span>Li e concordo com a coleta anônima de dados descrita acima</span>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeDownloadModal()">Cancelar</button>
+        <button type="button" id="download-confirm-btn" class="btn btn-primary" disabled onclick="confirmDownload()">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Baixar agora
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   "use strict";
@@ -1708,6 +1895,44 @@ body {
     sections.forEach(s => obs.observe(s));
   }
 })();
+
+let pendingDownload = null;
+
+function openDownloadModal(btn) {
+  pendingDownload = { url: btn.dataset.downloadUrl, name: btn.dataset.downloadName };
+  const checkbox = document.getElementById("download-terms-checkbox");
+  checkbox.checked = false;
+  toggleDownloadConfirm();
+  document.getElementById("download-modal-overlay").hidden = false;
+}
+
+function closeDownloadModal() {
+  pendingDownload = null;
+  document.getElementById("download-modal-overlay").hidden = true;
+}
+
+function toggleDownloadConfirm() {
+  const checkbox = document.getElementById("download-terms-checkbox");
+  document.getElementById("download-confirm-btn").disabled = !checkbox.checked;
+}
+
+function confirmDownload() {
+  if (!pendingDownload) return;
+  const link = document.createElement("a");
+  link.href = pendingDownload.url;
+  link.download = pendingDownload.name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  closeDownloadModal();
+}
+
+document.getElementById("download-modal-overlay").addEventListener("click", e => {
+  if (e.target.id === "download-modal-overlay") closeDownloadModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !document.getElementById("download-modal-overlay").hidden) closeDownloadModal();
+});
 </script>
 </body>
 </html>
