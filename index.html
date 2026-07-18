@@ -1074,6 +1074,18 @@ body {
   transform: translateY(-2px);
 }
 
+/* === DISCORD BUTTON === */
+.btn-discord {
+  color: #fff;
+  background: linear-gradient(180deg, #6b74f9, #5865F2);
+  border-color: rgba(255,255,255,0.35);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.25), inset -1px -1px 0 rgba(0,0,0,0.35), 0 8px 24px rgba(88,101,242,0.45);
+}
+.btn-discord:hover {
+  background: linear-gradient(180deg, #7d85fb, #6b74f9);
+  transform: translateY(-2px);
+}
+
 /* === FOOTER === */
 .site-footer {
   background: var(--bg-deep);
@@ -1277,6 +1289,8 @@ body {
       <a href="#pilares">Filosofia</a>
       <a href="#tools">Ferramentas</a>
       <a href="#systems">Sistemas</a>
+      <a href="#discord">Discord</a>
+      <a href="#pesquisa">Pesquisa</a>
       <a href="#srds">SRDs</a>
       <a href="#sobre">Sobre</a>
       <a href="#download" class="nav-cta">Baixar</a>
@@ -1288,7 +1302,7 @@ body {
   <div class="container">
     <div class="status-bar-inner">
       <span class="status-item"><span class="status-dot"></span><span>SYS_STATUS:</span><span class="status-val">ONLINE</span></span>
-      <span class="status-item"><span>VER:</span><span class="status-val">1.0.0</span></span>
+      <span class="status-item"><span>VER:</span><span class="status-val">0.1.0.4</span></span>
       <span class="status-item"><span>REDE:</span><span class="status-val">Steam P2P</span></span>
       <span class="status-item"><span>ASSINATURA:</span><span class="status-val">$0.00/mês</span></span>
       <span class="status-item"><span>MAPAS:</span><span class="status-val">∞</span></span>
@@ -1346,7 +1360,7 @@ body {
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
               Baixar
             </a>
-            <a href="#pilares" class="btn btn-ghost">Explorar Visão</a>
+            <a href="#pilares" class="btn btn-ghost">Explorar Filosofia</a>
           </div>
           <div class="hero-stats" aria-label="Estatísticas rápidas">
             <div class="hero-stat"><strong>P2P</strong>via Steam</div>
@@ -1361,10 +1375,10 @@ body {
 
 <section id="pilares" class="proposta">
   <div class="container">
-    <div class="y2k-divider"><span class="y2k-divider-label">[ // NOSSO_MANIFESTO ]</span></div>
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // NOSSA_MISSÃO ]</span></div>
     <header class="section-header">
-      <h2 class="section-title">O Manifesto <span class="text-glow">DiceVTT</span></h2>
-      <p class="section-lead">O que defendemos e o roteiro do que estamos construindo para o futuro do RPG de mesa digital.</p>
+      <h2 class="section-title">A Missão do <span class="text-glow">DiceVTT</span></h2>
+      <p class="section-lead">Os princípios que defendemos e o futuro que estamos construindo para o RPG de mesa digital.</p>
     </header>
     <div class="proposta-grid">
       
@@ -1440,7 +1454,7 @@ body {
         <div class="tool-content">
           <span class="tool-tag">01 · REGRAS & ESTATÍSTICAS</span>
           <h3 class="tool-title">Fichas Automatizadas</h3>
-          <p class="tool-desc">Diga adeus ao papel amassado e contas matemáticas esquecidas. Nossas fichas calculam automaticamente os modificadores de atributos, bônus de proficiência, classe de armadura e vida. Um simples clique em uma perícia ou arma já rola os dados virtuais enviando o resultado direto para a sala de todos os jogadores.</p>
+          <p class="tool-desc">Diga adeus ao papel amassado e contas matemáticas esquecidas. Nossas fichas calculam automaticamente os modificadores de atributos, bônus de proficiência, classe de armadura e vida. Um simples clique em uma perícia ou arma já rola os dados virtuais e envia o resultado direto para a mesa de todos os jogadores.</p>
           <ul class="tool-features">
             <li>Automação de rolagem com um clique</li>
             <li>Gestão de inventário e peso</li>
@@ -1557,7 +1571,7 @@ body {
         <div class="panel-content">
           <p class="panel-tag">D&amp;D 5e · SRD 5.1</p>
           <h3 class="panel-title">Quinta Edição</h3>
-          <p class="panel-desc">Suporte automatizado ao maior RPG de fantasia do mundo. Fichas reativas, ataques calculados, magias com gasto de slot, vantagem/desvantagem em um clique e iniciativa em rodadas perfeitamente cronometradas.</p>
+          <p class="panel-desc">Suporte automatizado ao maior RPG de fantasia do mundo. Fichas reativas, ataques calculados, magias com gasto de slot, vantagem/desvantagem em um clique e um tracker de iniciativa que organiza os turnos de cada rodada.</p>
           <ul class="panel-features">
             <li>Ficha de personagem 100% interativa</li>
             <li>Compêndio de magias e itens do SRD</li>
@@ -1605,20 +1619,120 @@ body {
   </div>
 </section>
 
+<section id="discord" class="cta">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // COMUNIDADE_BETA ]</span></div>
+    <div class="cta-box">
+      <h2 class="cta-title">Entre para o Discord</h2>
+      <p class="cta-text">O canal oficial dos <em style="color:var(--text)">beta testers</em> do DiceVTT.</p>
+      <ul class="modal-list" style="max-width:480px;margin:0 auto 30px;">
+        <li>Acesso antecipado às builds de teste antes de todo mundo</li>
+        <li>Fale direto com a gente, os criadores do DiceVTT</li>
+        <li>Reporte bugs e dê feedback que molda o desenvolvimento</li>
+        <li>Faça parte da comunidade que está construindo o VTT junto com a gente</li>
+      </ul>
+      <a href="https://discord.gg/SfqRAX52" target="_blank" rel="noopener" class="btn btn-discord btn-large">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.211.375-.444.87-.608 1.262a18.27 18.27 0 0 0-5.902 0A12.64 12.64 0 0 0 9.44 3a19.736 19.736 0 0 0-3.76 1.369C2.633 8.086 1.803 11.69 2.218 15.24a19.9 19.9 0 0 0 5.993 3.03c.483-.657.914-1.354 1.285-2.087a12.9 12.9 0 0 1-2.023-.968c.17-.123.336-.252.497-.384a14.19 14.19 0 0 0 12.06 0c.163.132.33.261.497.384-.641.38-1.317.702-2.023.968.371.733.802 1.43 1.285 2.087a19.83 19.83 0 0 0 6.002-3.03c.487-4.117-.545-7.685-2.474-10.871ZM9.677 13.021c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.556.797 1.542 1.763 0 .973-.678 1.762-1.542 1.762Zm5.335 0c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.557.797 1.542 1.763 0 .973-.671 1.762-1.542 1.762Z"/></svg>
+        Entrar no Discord
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="pesquisa" class="cta">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // PESQUISA_DE_SISTEMA ]</span></div>
+    <div class="cta-box">
+      <h2 class="cta-title">Ajude a moldar o DiceVTT</h2>
+      <p class="cta-text">
+        Estamos com uma pesquisa rápida para entender melhor como você joga e o que você espera
+        de um VTT. Suas respostas viram dados reais para <em style="color:var(--text)">priorizar
+        funções, corrigir problemas e deixar o sistema cada vez melhor</em> antes das próximas versões.
+      </p>
+      <ul class="modal-list" style="max-width:480px;margin:0 auto 30px;">
+        <li>Leva menos de 5 minutos para responder</li>
+        <li>Ajuda a definir quais sistemas e ferramentas entram primeiro</li>
+        <li>Respostas usadas só para orientar o desenvolvimento do DiceVTT</li>
+      </ul>
+      <a href="https://forms.gle/SEU_FORMULARIO_AQUI" target="_blank" rel="noopener" class="btn btn-primary btn-large">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Responder a pesquisa
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="download" class="cta">
+  <div class="container" style="text-align:center">
+    <div class="cta-box">
+      <h2 class="cta-title">A próxima sessão começa agora.</h2>
+      <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
+        <button type="button" class="btn btn-primary btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.0/setup_dicevtt.exe" data-download-name="setup_dicevtt.exe" onclick="openDownloadModal(this)">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Baixar para Windows
+        </button>
+        <button type="button" class="btn btn-ghost btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" data-download-name="installer.sh" onclick="openDownloadModal(this)">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Baixar para Linux
+        </button>
+      </div>
+
+      <div class="linux-instructions">
+        <div class="linux-instructions-head">
+          <span class="linux-instructions-tag">// LINUX_SETUP.SH</span>
+          <h3 class="linux-instructions-title">Como instalar no Linux</h3>
+          <p class="linux-instructions-lead">
+            O download é o script <code>installer.sh</code>. Ele abre uma janela de confirmação e,
+            se você aceitar, faz tudo sozinho:
+          </p>
+          <ul class="linux-instructions-list">
+            <li>Cria a pasta <code>~/DiceVTT</code> no seu diretório pessoal</li>
+            <li>Baixa o pacote do jogo direto do GitHub</li>
+            <li>Extrai os arquivos e remove o pacote temporário</li>
+          </ul>
+        </div>
+
+        <div class="terminal-box">
+          <div class="hero-titlebar">
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-btn"></span>
+            <span class="hero-tb-title">TERMINAL — EXECUTAR_INSTALADOR</span>
+          </div>
+          <ol class="terminal-steps">
+            <li><span class="terminal-step-num">1</span><code>cd ~/Downloads</code></li>
+            <li><span class="terminal-step-num">2</span><code>chmod +x installer.sh</code></li>
+            <li><span class="terminal-step-num">3</span><code>./installer.sh</code></li>
+          </ol>
+        </div>
+
+        <p class="linux-instructions-note">
+          <strong>Pré-requisitos:</strong> <code>zenity</code>, <code>wget</code> e <code>unzip</code>.
+          A maioria das distros já vem com eles; se faltar algum, instale com
+          <code>sudo apt install zenity wget unzip</code> (ou o gerenciador de pacotes da sua distro).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="srds" class="srds">
   <div class="container">
     <div class="y2k-divider"><span class="y2k-divider-label">[ // SRDs_LIVRES ]</span></div>
     <div class="srds-layout">
 
       <div class="srds-intro">
-        <p class="srds-intro-tag">OPEN CONTENT · PT-BR</p>
+        <p class="srds-intro-tag">OPEN CONTENT · PT-BR · XML</p>
         <h2 class="srds-title">SRDs em Português, <span class="text-glow">de graça.</span></h2>
         <p class="srds-desc">
-          Os documentos de referência dos principais sistemas estão disponíveis gratuitamente no GitHub — em <em>português brasileiro</em>.
+          Os documentos de referência dos principais sistemas estão disponíveis gratuitamente no GitHub — em <em>português brasileiro</em>
+          e <em>todos no formato XML</em>, prontos para importar direto no motor do DiceVTT.
           Mesmo que venham integrados ao DiceVTT, você pode baixar, imprimir ou usar em qualquer mesa, sem custo algum.
         </p>
         <div class="srds-badge-row">
           <span class="srds-badge"><span class="srds-badge-dot" style="background:#A8313F"></span>D&amp;D 5e SRD 5.1</span>
+          <span class="srds-badge"><span class="srds-badge-dot" style="background:#00A896"></span>Pathfinder 2e SRD</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
           <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues" target="_blank" rel="noopener" class="btn btn-github">
@@ -1635,14 +1749,22 @@ body {
       <div class="srds-list-panel">
         <div class="srds-list-header">
           <span class="srds-list-title">DOCUMENTOS_DISPONÍVEIS</span>
-          <span class="srds-count">1 sistema</span>
+          <span class="srds-count">2 sistemas · .xml</span>
         </div>
         <ul class="srds-list">
           <li class="srds-item">
             <span class="srds-item-dot" style="background:#A8313F;box-shadow:0 0 8px rgba(168,49,63,0.7)"></span>
             <div class="srds-item-info">
               <p class="srds-item-name">D&amp;D 5e — SRD 5.1</p>
-              <p class="srds-item-meta">Quinta Edição · Open Game License · PT-BR</p>
+              <p class="srds-item-meta">Quinta Edição · Open Game License · PT-BR · XML</p>
+            </div>
+            <span class="srds-item-tag">GRÁTIS</span>
+          </li>
+          <li class="srds-item">
+            <span class="srds-item-dot" style="background:#00A896;box-shadow:0 0 8px rgba(0,168,150,0.7)"></span>
+            <div class="srds-item-info">
+              <p class="srds-item-name">Pathfinder 2e — SRD</p>
+              <p class="srds-item-meta">Segunda Edição · Open Game License · PT-BR · XML</p>
             </div>
             <span class="srds-item-tag">GRÁTIS</span>
           </li>
@@ -1719,61 +1841,6 @@ body {
           <p class="proposta-desc">Desenvolvido por estudantes que jogam RPG e entendem o que uma mesa precisa para funcionar de verdade.</p>
         </div>
       </article>
-    </div>
-  </div>
-</section>
-
-<section id="download" class="cta">
-  <div class="container" style="text-align:center">
-    <div class="cta-box">
-      <h2 class="cta-title">A próxima sessão começa agora.</h2>
-      <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
-      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
-        <button type="button" class="btn btn-primary btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.0/setup_dicevtt.exe" data-download-name="setup_dicevtt.exe" onclick="openDownloadModal(this)">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
-          Baixar para Windows
-        </button>
-        <button type="button" class="btn btn-ghost btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" data-download-name="installer.sh" onclick="openDownloadModal(this)">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
-          Baixar para Linux
-        </button>
-      </div>
-
-      <div class="linux-instructions">
-        <div class="linux-instructions-head">
-          <span class="linux-instructions-tag">// LINUX_SETUP.SH</span>
-          <h3 class="linux-instructions-title">Como instalar no Linux</h3>
-          <p class="linux-instructions-lead">
-            O download é o script <code>installer.sh</code>. Ele abre uma janela de confirmação e,
-            se você aceitar, faz tudo sozinho:
-          </p>
-          <ul class="linux-instructions-list">
-            <li>Cria a pasta <code>~/DiceVTT</code> no seu diretório pessoal</li>
-            <li>Baixa o pacote do jogo direto do GitHub</li>
-            <li>Extrai os arquivos e remove o pacote temporário</li>
-          </ul>
-        </div>
-
-        <div class="terminal-box">
-          <div class="hero-titlebar">
-            <span class="hero-tb-btn"></span>
-            <span class="hero-tb-btn"></span>
-            <span class="hero-tb-btn"></span>
-            <span class="hero-tb-title">TERMINAL — EXECUTAR_INSTALADOR</span>
-          </div>
-          <ol class="terminal-steps">
-            <li><span class="terminal-step-num">1</span><code>cd ~/Downloads</code></li>
-            <li><span class="terminal-step-num">2</span><code>chmod +x installer.sh</code></li>
-            <li><span class="terminal-step-num">3</span><code>./installer.sh</code></li>
-          </ol>
-        </div>
-
-        <p class="linux-instructions-note">
-          <strong>Pré-requisitos:</strong> <code>zenity</code>, <code>wget</code> e <code>unzip</code>.
-          A maioria das distros já vem com eles; se faltar algum, instale com
-          <code>sudo apt install zenity wget unzip</code> (ou o gerenciador de pacotes da sua distro).
-        </p>
-      </div>
     </div>
   </div>
 </section>
