@@ -484,6 +484,32 @@ body {
 }
 @media (prefers-reduced-motion: reduce) { .btn-tutorial { animation: none; } }
 
+/* === VISÃO GERAL / TELA INICIAL (dentro de Ferramentas) === */
+.visao-geral-shot {
+  max-width: 720px;
+  margin: 8px auto 24px;
+  background: linear-gradient(180deg, var(--bg-elev), var(--bg-deep));
+  border: 1px solid var(--line-strong);
+  padding: 24px;
+  clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.visao-geral-shot picture, .visao-geral-shot img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+.visao-geral-caption {
+  max-width: 640px;
+  margin: 0 auto 56px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+.visao-geral-caption strong { color: var(--text); }
+
 /* === PROPOSTA / PILARES === */
 .proposta { padding: 100px 0; position: relative; }
 
@@ -1481,6 +1507,16 @@ body {
       <p class="section-lead">Conheça os sistemas técnicos já implementados no motor do DiceVTT que dão suporte à sua narrativa.</p>
     </header>
 
+    <div class="visao-geral-shot">
+      <picture>
+        <source srcset="imagens/inicio.png" type="image/png">
+        <source srcset="imagens/inicio.jpg" type="image/jpeg">
+        <source srcset="imagens/inicio.jpeg" type="image/jpeg">
+        <img src="imagens/inicio.png" alt="Tela inicial do DiceVTT logo ao abrir o programa">
+      </picture>
+    </div>
+    <p class="visao-geral-caption">É assim que o DiceVTT recebe você: <strong>suas mesas, sistemas e personagens já organizados</strong> numa tela simples, sem configuração complicada antes de começar a jogar.</p>
+
     <div class="tools-list">
       
       <div class="tool-row">
@@ -1507,7 +1543,29 @@ body {
 
       <div class="tool-row">
         <div class="tool-content">
-          <span class="tool-tag">02 · EXPLORAÇÃO TÁTICA</span>
+          <span class="tool-tag">02 · EM JOGO</span>
+          <h3 class="tool-title">Visualização da Ficha em Jogo</h3>
+          <p class="tool-desc">Durante a sessão, a ficha vira um painel vivo. Cada rolagem mostra o dado individual, o modificador aplicado e o total final — nada de adivinhar de onde veio o número. Vida, recursos, magias e usos diários ficam sempre visíveis e são atualizados sozinhos, sem precisar abrir menus ou fazer conta na cabeça.</p>
+          <ul class="tool-features">
+            <li>Detalhamento completo de cada rolagem: dado, modificador e total</li>
+            <li>Valores sempre visíveis, sem menus escondidos ou telas extras</li>
+            <li>Vida, recursos e usos diários atualizados automaticamente</li>
+            <li>Histórico de rolagens para conferir os resultados da mesa</li>
+          </ul>
+        </div>
+        <div class="tool-visual" aria-hidden="true">
+          <picture>
+            <source srcset="imagens/ficha-visualizacao.png" type="image/png">
+            <source srcset="imagens/ficha-visualizacao.jpg" type="image/jpeg">
+            <source srcset="imagens/ficha-visualizacao.jpeg" type="image/jpeg">
+            <img src="imagens/ficha-visualizacao.png" alt="Visualização da ficha durante uma sessão de jogo, mostrando rolagens detalhadas e valores atualizados automaticamente">
+          </picture>
+        </div>
+      </div>
+
+      <div class="tool-row">
+        <div class="tool-content">
+          <span class="tool-tag">03 · EXPLORAÇÃO TÁTICA</span>
           <h3 class="tool-title">Mapas</h3>
           <p class="tool-desc">Transforme sua narrativa com mapas interativos e diretos ao ponto. Esqueça configurações complexas: basta arrastar sua imagem para o tabuleiro, alinhar o grid e começar a jogar. Tudo o que você precisa para criar encontros épicos e gerenciar o combate está ao seu alcance, garantindo foco total na diversão e na estratégia da sua party.</p>
           <ul class="tool-features">
@@ -1529,7 +1587,7 @@ body {
 
       <div class="tool-row">
         <div class="tool-content">
-          <span class="tool-tag">03 · COMPATIBILIDADE</span>
+          <span class="tool-tag">04 · COMPATIBILIDADE</span>
           <h3 class="tool-title">Gerenciador de Sistemas</h3>
           <p class="tool-desc">Não seja refém de uma única edição ou franquia. O DiceVTT é um ambiente multi-sistemas onde o mestre define as regras da sala e os jogadores automaticamente sincronizam com elas, carregando os dados, fichas e compêndios adequados ao estilo de jogo em andamento.</p>
           <ul class="tool-features">
@@ -1553,7 +1611,7 @@ body {
 
     <div class="tool-row tool-row-video">
       <div class="tool-content">
-        <span class="tool-tag">04 · DEMONSTRAÇÃO</span>
+        <span class="tool-tag">05 · DEMONSTRAÇÃO</span>
         <h3 class="tool-title">Veja o DiceVTT em Ação</h3>
         <p class="tool-desc">
           Este é um vídeo demonstrativo das ferramentas do DiceVTT — fichas automatizadas, mapas
