@@ -452,6 +452,38 @@ body {
 }
 .btn-large { padding: 16px 36px; font-size: 24px; }
 
+/* === TUTORIAL BUTTON (chamativo) === */
+.btn-tutorial {
+  color: #1a1200;
+  background: linear-gradient(180deg, #FFD23D 0%, #FFB020 100%);
+  border-color: #FFE68A;
+  text-shadow: none;
+  font-weight: 700;
+  box-shadow:
+    2px 2px 0 rgba(0,0,0,0.6),
+    inset 1px 1px 0 rgba(255,255,255,0.6),
+    inset -1px -1px 0 rgba(0,0,0,0.25),
+    0 0 0 3px rgba(255,176,32,0.18),
+    0 8px 28px rgba(255,176,32,0.5);
+  animation: tutorialPulse 2.2s ease-in-out infinite;
+}
+.btn-tutorial:hover {
+  background: linear-gradient(180deg, #FFE68A, #FFD23D);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    3px 3px 0 rgba(0,0,0,0.7),
+    inset 1px 1px 0 rgba(255,255,255,0.7),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    0 0 0 3px rgba(255,176,32,0.28),
+    0 12px 36px rgba(255,176,32,0.7);
+}
+.btn-tutorial-icon { width: 20px; height: 20px; flex-shrink: 0; }
+@keyframes tutorialPulse {
+  0%, 100% { box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.6), inset -1px -1px 0 rgba(0,0,0,0.25), 0 0 0 3px rgba(255,176,32,0.18), 0 8px 28px rgba(255,176,32,0.5); }
+  50% { box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.6), inset -1px -1px 0 rgba(0,0,0,0.25), 0 0 0 8px rgba(255,176,32,0.05), 0 8px 40px rgba(255,176,32,0.85); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-tutorial { animation: none; } }
+
 /* === PROPOSTA / PILARES === */
 .proposta { padding: 100px 0; position: relative; }
 
@@ -1159,7 +1191,7 @@ body {
   .status-bar-inner { flex-wrap: wrap; }
 }
 @media (max-width: 640px) {
-  .site-nav a:not(.nav-cta):not([href="#download"]) { display: none; }
+  .site-nav a:not(.nav-cta) { display: none; }
 }
 
 /* === DOWNLOAD TERMS MODAL === */
@@ -1293,6 +1325,7 @@ body {
       <a href="#pesquisa">Pesquisa</a>
       <a href="#srds">SRDs</a>
       <a href="#sobre">Sobre</a>
+      <a href="tutorial.html">Tutorial</a>
       <a href="#download" class="nav-cta">Baixar</a>
     </nav>
   </div>
@@ -1464,10 +1497,10 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="ficha.png" type="image/png">
-            <source srcset="images/fichas.jpg" type="image/jpeg">
-            <source srcset="images/fichas.jpeg" type="image/jpeg">
-            <img src="ficha.png" alt="Demonstração das Fichas Automatizadas">
+            <source srcset="imagens/ficha.png" type="image/png">
+            <source srcset="imagens/ficha.jpg" type="image/jpeg">
+            <source srcset="imagens/ficha.jpeg" type="image/jpeg">
+            <img src="imagens/ficha.png" alt="Demonstração das Fichas Automatizadas">
           </picture>
         </div>
       </div>
@@ -1486,10 +1519,10 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="mapa.png" type="image/png">
-            <source srcset="images/mapas.jpg" type="image/jpeg">
-            <source srcset="images/mapas.jpeg" type="image/jpeg">
-            <img src="mapa.png" alt="Demonstração dos Mapas de Batalha">
+            <source srcset="imagens/mapa.png" type="image/png">
+            <source srcset="imagens/mapa.jpg" type="image/jpeg">
+            <source srcset="imagens/mapa.jpeg" type="image/jpeg">
+            <img src="imagens/mapa.png" alt="Demonstração dos Mapas de Batalha">
           </picture>
         </div>
       </div>
@@ -1508,10 +1541,10 @@ body {
         </div>
         <div class="tool-visual" aria-hidden="true">
           <picture>
-            <source srcset="sistema.png" type="image/png">
-            <source srcset="images/sistemas.jpg" type="image/jpeg">
-            <source srcset="images/sistemas.jpeg" type="image/jpeg">
-            <img src="sistema.png" alt="Demonstração do Gerenciador de Sistemas">
+            <source srcset="imagens/sistema.png" type="image/png">
+            <source srcset="imagens/sistema.jpg" type="image/jpeg">
+            <source srcset="imagens/sistema.jpeg" type="image/jpeg">
+            <img src="imagens/sistema.png" alt="Demonstração do Gerenciador de Sistemas">
           </picture>
         </div>
       </div>
@@ -1667,6 +1700,16 @@ body {
     <div class="cta-box">
       <h2 class="cta-title">A próxima sessão começa agora.</h2>
       <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
+
+      <div style="margin-bottom:22px">
+        <a href="tutorial.html" class="btn btn-tutorial btn-large">
+          <svg class="btn-tutorial-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="0.5" fill="currentColor" stroke-width="1.5"/>
+          </svg>
+          Leia o tutorial antes de instalar
+        </a>
+      </div>
+
       <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
         <button type="button" class="btn btn-primary btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.0/setup_dicevtt.exe" data-download-name="setup_dicevtt.exe" onclick="openDownloadModal(this)">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
