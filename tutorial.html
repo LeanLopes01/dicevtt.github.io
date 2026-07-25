@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="DiceVTT — Tutorial de instalação, avisos do Windows e atualização automática." />
+<title>Tutorial de Instalação — DiceVTT</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+
+<style>
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* === PALETTE === */
+:root {
+  --primary:      #6300B0;
+  --primary-alt:  #9715CE;
+  --primary-blue: #007DFF;
+  --warn:         #FFB020;
+  --warn-strong:  #FF6A3D;
+  --bg:           #0d0d12;
+  --bg-elev:      #1c1c28;
+  --bg-deep:      #080810;
+  --text:         #ECECEC;
+  --text-dim:     #A0A0A0;
+  --text-mute:    #5a5a68;
+  --line:         rgba(255,255,255,0.08);
+  --line-strong:  rgba(255,255,255,0.18);
+  --bevel-hi:     rgba(255,255,255,0.22);
+  --bevel-lo:     rgba(0,0,0,0.6);
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --font-mono:    'VT323', 'Courier New', monospace;
+  --font-body:    'Spectral', Georgia, serif;
+  --ease:         cubic-bezier(.2,.7,.2,1);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--bg);
+  background-image:
+    linear-gradient(rgba(99,0,176,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,0,176,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+
+/* === CRT OVERLAY === */
+.crt-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+  mix-blend-mode: overlay; opacity: 0.55;
+}
+
+/* === Y2K DIVIDER === */
+.y2k-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
+.y2k-divider::before, .y2k-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--primary-alt), transparent); }
+.y2k-divider-label {
+  font-family: var(--font-mono); font-size: 20px; color: var(--primary-blue);
+  letter-spacing: 0.15em; padding: 4px 18px; border: 1px solid var(--primary-alt);
+  background: rgba(99,0,176,0.15); box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); white-space: nowrap;
+}
+.y2k-divider-label.is-warn { color: var(--warn); border-color: var(--warn); background: rgba(255,176,32,0.12); }
+
+/* === HEADER === */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: linear-gradient(180deg, #150820 0%, #0d0d12 100%);
+  border-bottom: 2px solid var(--primary-alt);
+  box-shadow: 0 2px 0 var(--primary), 0 4px 20px rgba(0,0,0,0.8);
+}
+.nav-container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); }
+.brand-icon { width: 36px; height: 36px; color: var(--primary-alt); filter: drop-shadow(0 0 8px rgba(151,21,206,0.7)); }
+.brand-text { font-family: var(--font-display); font-weight: 900; font-size: 20px; letter-spacing: 0.08em; }
+.brand-accent { background: linear-gradient(90deg, var(--primary-alt), var(--primary-blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.site-nav { display: flex; align-items: flex-end; gap: 4px; }
+.site-nav a {
+  font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.08em; color: var(--text-dim);
+  padding: 8px 18px; background: linear-gradient(180deg, #2a1040 0%, #1a0828 100%);
+  border: 1px solid var(--primary-alt); border-bottom: none; position: relative; top: 1px;
+  transition: all 0.2s var(--ease); box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% 100%, 0% 100%, 0% 6px);
+}
+.site-nav a:hover { color: var(--text); background: linear-gradient(180deg, #3a1860 0%, #2a1040 100%); }
+.site-nav a.nav-cta {
+  color: #fff; background: linear-gradient(180deg, var(--primary-alt) 0%, var(--primary) 100%);
+  border-color: var(--primary-blue); text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.site-nav a.nav-cta:hover { background: linear-gradient(180deg, #b020e0, var(--primary-alt)); box-shadow: 0 0 16px rgba(151,21,206,0.5); }
+@media (max-width: 780px) { .site-nav a:not(.nav-cta) { display: none; } }
+
+/* === TUTORIAL HERO === */
+.tut-hero { padding: 72px 0 56px; position: relative; }
+.tut-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(151,21,206,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(151,21,206,0.10) 1px, transparent 1px);
+  background-size: 60px 60px; mask-image: radial-gradient(ellipse at 20% 0%, black 0%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse at 20% 0%, black 0%, transparent 65%); z-index: 0;
+}
+.tut-hero-inner { position: relative; z-index: 1; max-width: 760px; }
+.tut-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 17px;
+  letter-spacing: 0.12em; color: var(--primary-alt); margin-bottom: 18px; padding: 4px 14px;
+  border: 1px solid var(--line-strong); background: rgba(99,0,176,0.1);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%, 8px 50%);
+}
+.tut-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 6vw, 58px); line-height: 1.05; margin-bottom: 18px; }
+.tut-title-accent { background: linear-gradient(110deg, var(--primary-alt) 0%, var(--primary-blue) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
+.tut-lead { font-size: 17px; color: var(--text-dim); max-width: 620px; margin-bottom: 28px; }
+.tut-lead em { color: var(--text); font-style: italic; }
+
+/* TOC */
+.toc { display: flex; flex-wrap: wrap; gap: 10px; }
+.toc a {
+  font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.05em; color: var(--text-dim);
+  padding: 7px 16px; border: 1px solid var(--line-strong); background: rgba(0,0,0,0.3);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); transition: all 0.2s var(--ease);
+}
+.toc a:hover { color: var(--primary-blue); border-color: var(--primary-blue); background: rgba(0,125,255,0.08); }
+
+/* === SECTION SHELL === */
+.tut-section { padding: 64px 0; }
+.tut-section:nth-child(even) { background: radial-gradient(ellipse at top, rgba(99,0,176,0.05), transparent 60%); }
+.sec-head { margin-bottom: 36px; max-width: 760px; }
+.sec-num { font-family: var(--font-mono); font-size: 18px; color: var(--primary-blue); letter-spacing: 0.15em; display: block; margin-bottom: 8px; }
+.sec-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 4vw, 38px); line-height: 1.1; margin-bottom: 12px; }
+.text-glow { background: linear-gradient(110deg, var(--primary-alt), var(--primary-blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sec-lead { font-size: 16px; color: var(--text-dim); line-height: 1.7; }
+.sec-lead em { color: var(--text); font-style: italic; }
+
+/* two-col row with visual */
+.row {
+  display: flex; align-items: center; gap: 52px; margin-bottom: 40px;
+}
+.row:nth-child(even) { flex-direction: row-reverse; }
+.row-content { flex: 1.1; min-width: 0; }
+.row-visual {
+  flex: 1; background: linear-gradient(180deg, var(--bg-elev), var(--bg-deep));
+  border: 1px solid var(--line-strong); padding: 24px;
+  clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.row-visual picture, .row-visual img {
+  width: 100%; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+.row-visual-caption { font-family: var(--font-mono); font-size: 15px; color: var(--text-mute); letter-spacing: 0.04em; text-align: center; }
+
+.feature-list li { position: relative; padding: 8px 0 8px 26px; color: var(--text); font-size: 15px; border-bottom: 1px dashed var(--line); }
+.feature-list li:last-child { border-bottom: none; }
+.feature-list li::before { content: "▸"; position: absolute; left: 0; top: 8px; color: var(--primary-blue); font-family: var(--font-mono); font-size: 18px; }
+
+/* === ALERT / WARNING BOX === */
+.alert-box {
+  border: 1px solid var(--warn); background: rgba(255,176,32,0.08); padding: 20px 24px; margin: 22px 0;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.alert-box.is-critical { border-color: var(--warn-strong); background: rgba(255,106,61,0.09); }
+.alert-icon { flex-shrink: 0; width: 26px; height: 26px; color: var(--warn); margin-top: 2px; }
+.alert-box.is-critical .alert-icon { color: var(--warn-strong); }
+.alert-title { font-family: var(--font-mono); font-size: 17px; letter-spacing: 0.06em; color: var(--warn); margin-bottom: 6px; text-transform: uppercase; }
+.alert-box.is-critical .alert-title { color: var(--warn-strong); }
+.alert-text { font-size: 15px; color: var(--text); line-height: 1.6; }
+.alert-text strong { color: #fff; }
+
+/* === TERMINAL / NUMBERED STEPS === */
+.terminal-box {
+  border: 1px solid var(--primary-alt); background: rgba(13,13,18,0.85);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo); margin: 18px 0;
+}
+.hero-titlebar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+  background: linear-gradient(90deg, var(--primary) 0%, rgba(0,125,255,0.6) 100%);
+  border-bottom: 1px solid var(--primary-alt);
+}
+.hero-tb-btn { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.35); box-shadow: inset 0 1px 0 rgba(255,255,255,0.3); }
+.hero-tb-btn:nth-child(1) { background: #ff5f57; }
+.hero-tb-btn:nth-child(2) { background: #febc2e; }
+.hero-tb-btn:nth-child(3) { background: #28c840; }
+.hero-tb-title { font-family: var(--font-mono); font-size: 17px; color: rgba(255,255,255,0.9); letter-spacing: 0.1em; margin-left: 6px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+
+.step-list { padding: 18px 22px; }
+.step-list li { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; font-size: 15px; color: var(--text); }
+.step-num {
+  flex-shrink: 0; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 13px; color: var(--primary-blue); border: 1px solid var(--primary-blue); border-radius: 50%; margin-top: 1px;
+}
+.step-list code { font-family: var(--font-mono); font-size: 15px; background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 3px; color: var(--primary-blue); }
+
+/* === OS CARDS (Win 11 / Win 10) === */
+.os-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+.os-card {
+  background: linear-gradient(180deg, var(--bg-elev), var(--bg)); border: 1px solid var(--line);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  overflow: hidden;
+}
+.os-card-header {
+  display: flex; align-items: center; justify-content: space-between; padding: 12px 20px;
+  background: linear-gradient(90deg, rgba(99,0,176,0.5), rgba(0,125,255,0.2)); border-bottom: 1px solid var(--line-strong);
+}
+.os-card-title { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--text); }
+.os-card-tag { font-family: var(--font-mono); font-size: 15px; color: var(--primary-blue); }
+.os-card-body { padding: 20px 20px 22px; }
+
+/* === CTA / BUTTONS === */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 11px 24px; font-family: var(--font-mono);
+  font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; border: 2px solid currentColor;
+  position: relative; transition: all 0.25s var(--ease);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.btn-primary {
+  color: #fff; background: linear-gradient(180deg, var(--primary-alt) 0%, var(--primary) 100%);
+  border-color: var(--primary-blue); text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo), 0 8px 24px rgba(99,0,176,0.4);
+}
+.btn-primary:hover { background: linear-gradient(180deg, #b020e0, var(--primary-alt)); transform: translateY(-2px); }
+.btn-ghost {
+  color: var(--text); background: rgba(0,0,0,0.3); border-color: var(--line-strong);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.btn-ghost:hover { border-color: var(--primary-blue); color: var(--primary-blue); background: rgba(0,125,255,0.08); }
+.btn-large { padding: 16px 36px; font-size: 24px; }
+
+/* Steam CTA */
+.steam-cta {
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 30px 32px;
+  border: 1px solid var(--primary-blue); background: rgba(0,125,255,0.07);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo), 0 8px 28px rgba(0,125,255,0.15);
+}
+.steam-icon { flex-shrink: 0; width: 56px; height: 56px; color: var(--primary-blue); filter: drop-shadow(0 0 14px rgba(0,125,255,0.5)); }
+.steam-cta-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin-bottom: 8px; color: var(--text); }
+.steam-cta-text { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
+.steam-cta-text strong { color: var(--primary-blue); }
+
+/* bottom CTA back to download */
+.tut-cta { padding: 90px 0 100px; text-align: center; position: relative; background: radial-gradient(ellipse at center, rgba(99,0,176,0.15), transparent 70%); }
+.tut-cta-box {
+  display: inline-block; padding: 48px 60px; border: 1px solid var(--primary-alt);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  background: rgba(13,13,18,0.85);
+  box-shadow: 0 0 0 1px rgba(151,21,206,0.2), 0 0 60px rgba(99,0,176,0.25), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.tut-cta-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 4vw, 40px); margin-bottom: 12px; }
+.tut-cta-text { font-size: 16px; color: var(--text-dim); margin-bottom: 26px; }
+
+/* === FOOTER === */
+.site-footer { background: var(--bg-deep); border-top: 2px solid var(--primary); box-shadow: 0 -2px 0 var(--primary-alt); padding: 32px 0; text-align: center; }
+.footer-tag { font-family: var(--font-mono); font-size: 15px; color: var(--text-mute); letter-spacing: 0.05em; }
+.footer-tag a { color: var(--primary-blue); }
+
+/* === A11Y / RESPONSIVE === */
+:focus-visible { outline: 2px solid var(--primary-alt); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+@media (max-width: 900px) {
+  .row, .row:nth-child(even) { flex-direction: column; gap: 24px; }
+  .steam-cta { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container nav-container">
+    <a href="index.html" class="brand" aria-label="DiceVTT">
+      <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <polygon points="32,4 58,20 58,46 32,62 6,46 6,20" fill="none" stroke="currentColor" stroke-width="3"/>
+        <polygon points="32,16 48,25 48,42 32,52 16,42 16,25" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="32" y="38" text-anchor="middle" font-family="Cinzel,serif" font-weight="900" font-size="14" fill="currentColor">20</text>
+      </svg>
+      <span class="brand-text">Dice<span class="brand-accent">VTT</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Navegação do tutorial">
+      <a href="#admin">Administrador</a>
+      <a href="#smartscreen">Avisos do Windows</a>
+      <a href="#desativar-smartscreen">Desativar Aviso</a>
+      <a href="#atualizacao">Atualização</a>
+      <a href="#steam">Steam</a>
+      <a href="index.html" class="nav-cta">◂ Voltar ao site</a>
+    </nav>
+  </div>
+</header>
+
+<section class="tut-hero">
+  <div class="container">
+    <div class="tut-hero-inner">
+      <p class="tut-eyebrow"><span>▸</span> GUIA_DE_INSTALAÇÃO :: PASSO_A_PASSO</p>
+      <h1 class="tut-title">Instale o DiceVTT<br><span class="tut-title-accent">sem sustos.</span></h1>
+      <p class="tut-lead">
+        Este guia mostra como rodar o instalador corretamente, o que fazer quando o
+        <em>Windows exibir avisos de segurança</em>, como funciona a atualização automática
+        e por que a <em>Steam precisa estar aberta</em> para jogar. Leva menos de 5 minutos.
+      </p>
+      <nav class="toc" aria-label="Sumário do tutorial">
+        <a href="#admin">1 · Executar como Administrador</a>
+        <a href="#smartscreen">2 · Avisos do Windows</a>
+        <a href="#desativar-smartscreen">3 · Desativar o SmartScreen</a>
+        <a href="#atualizacao">4 · Como a Atualização Funciona</a>
+        <a href="#steam">5 · Steam Aberta</a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- 1. ADMINISTRADOR -->
+<section id="admin" class="tut-section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // PASSO_01 ]</span></div>
+    <div class="sec-head">
+      <span class="sec-num">01 · INSTALAÇÃO</span>
+      <h2 class="sec-title">Execute o instalador como <span class="text-glow">Administrador</span></h2>
+      <p class="sec-lead">O instalador precisa de permissão para criar pastas e arquivos no seu sistema. Sempre rode o <code>setup_dicevtt.exe</code> com o botão direito, nunca com duplo clique direto.</p>
+    </div>
+
+    <div class="row">
+      <div class="row-content">
+        <ul class="feature-list">
+          <li>Localize o arquivo <strong>setup_dicevtt.exe</strong> baixado (geralmente na pasta Downloads)</li>
+          <li>Clique com o <strong>botão direito</strong> do mouse sobre o arquivo</li>
+          <li>Selecione a opção <strong>"Executar como administrador"</strong> no menu</li>
+          <li>Confirme na janela de Controle de Conta de Usuário (UAC) clicando em <strong>"Sim"</strong></li>
+          <li>Siga os passos do instalador normalmente até finalizar</li>
+        </ul>
+        <div class="alert-box">
+          <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <div>
+            <p class="alert-title">Por que isso importa</p>
+            <p class="alert-text">Instalar sem permissão de administrador pode fazer o programa <strong>travar, não abrir</strong> ou <strong>falhar ao se atualizar</strong> depois, porque ele não consegue escrever nos próprios arquivos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row-visual">
+        <picture>
+          <source srcset="imagens/tutorial-admin.png" type="image/png">
+          <source srcset="imagens/tutorial-admin.jpg" type="image/jpeg">
+          <img src="imagens/tutorial-admin.png" alt="Menu de contexto do Windows mostrando a opção Executar como administrador sobre o setup_dicevtt.exe">
+        </picture>
+        <p class="row-visual-caption">Botão direito no instalador → "Executar como administrador"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. AVISOS DO WINDOWS -->
+<section id="smartscreen" class="tut-section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label is-warn">[ // PASSO_02 · ATENÇÃO ]</span></div>
+    <div class="sec-head">
+      <span class="sec-num">02 · SEGURANÇA</span>
+      <h2 class="sec-title">O Windows pode exibir um <span class="text-glow">aviso de segurança</span></h2>
+      <p class="sec-lead">Como o DiceVTT ainda é um projeto novo e independente, o instalador ainda não possui um certificado digital pago. Isso faz o <strong>Windows Defender SmartScreen</strong> (o "Controle inteligente de aplicativos e arquivos") exibir uma tela azul de aviso. <em>Isso é normal e não significa que o programa é malicioso.</em></p>
+    </div>
+
+    <div class="row">
+      <div class="row-visual">
+        <picture>
+          <source srcset="imagens/tutorial-smartscreen.png" type="image/png">
+          <source srcset="imagens/tutorial-smartscreen.jpg" type="image/jpeg">
+          <img src="imagens/tutorial-smartscreen.png" alt="Tela do Windows SmartScreen dizendo O Windows protegeu o computador, com o botão Mais informações em destaque">
+        </picture>
+        <p class="row-visual-caption">Tela típica do SmartScreen ao abrir um app novo e sem certificado</p>
+      </div>
+      <div class="row-content">
+        <p class="sec-lead" style="margin-bottom:18px">Quando essa tela aparecer, siga estes passos para continuar a instalação com segurança:</p>
+        <div class="terminal-box">
+          <div class="hero-titlebar">
+            <span class="hero-tb-btn"></span><span class="hero-tb-btn"></span><span class="hero-tb-btn"></span>
+            <span class="hero-tb-title">O WINDOWS PROTEGEU O SEU PC</span>
+          </div>
+          <ol class="step-list">
+            <li><span class="step-num">1</span>Clique no link <code>Mais informações</code>, dentro da própria janela azul</li>
+            <li><span class="step-num">2</span>Confira se o nome do arquivo é <code>setup_dicevtt.exe</code></li>
+            <li><span class="step-num">3</span>Clique no botão <code>Executar assim mesmo</code> que vai aparecer</li>
+            <li><span class="step-num">4</span>Confirme o UAC clicando em <code>Sim</code>, se ele aparecer novamente</li>
+          </ol>
+        </div>
+        <div class="alert-box is-critical">
+          <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <div>
+            <p class="alert-title">Só baixe pelo site oficial</p>
+            <p class="alert-text">Só ignore esse aviso se você baixou o instalador <strong>diretamente deste site</strong> ou do nosso GitHub oficial. Nunca execute arquivos desse tipo vindos de fontes desconhecidas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. DESATIVAR SMARTSCREEN -->
+<section id="desativar-smartscreen" class="tut-section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // PASSO_03 · OPCIONAL ]</span></div>
+    <div class="sec-head">
+      <span class="sec-num">03 · CONFIGURAÇÃO (OPCIONAL)</span>
+      <h2 class="sec-title">Como desativar o <span class="text-glow">Controle Inteligente</span></h2>
+      <p class="sec-lead">Se preferir não ver esse aviso novamente a cada atualização, você pode desativar o "Controle de aplicativos inteligente" nas configurações do Windows. <em>Esse passo é opcional</em> — o passo 2 já é suficiente para instalar e jogar normalmente.</p>
+    </div>
+
+    <div class="os-grid">
+      <article class="os-card">
+        <div class="os-card-header">
+          <span class="os-card-title">Windows 11</span>
+          <span class="os-card-tag">SETTINGS.EXE</span>
+        </div>
+        <div class="os-card-body">
+          <div class="terminal-box">
+            <div class="hero-titlebar">
+              <span class="hero-tb-btn"></span><span class="hero-tb-btn"></span><span class="hero-tb-btn"></span>
+              <span class="hero-tb-title">CONFIGURAÇÕES — WINDOWS 11</span>
+            </div>
+            <ol class="step-list">
+              <li><span class="step-num">1</span>Abra <code>Configurações</code> (tecla <code>Win + I</code>)</li>
+              <li><span class="step-num">2</span>Vá em <code>Privacidade e segurança</code></li>
+              <li><span class="step-num">3</span>Clique em <code>Segurança do Windows</code></li>
+              <li><span class="step-num">4</span>Abra <code>Controle de aplicativos e navegador</code></li>
+              <li><span class="step-num">5</span>Em <code>Controle de aplicativos inteligente</code>, clique em <code>Configurações</code></li>
+              <li><span class="step-num">6</span>Mude a opção para <code>Desativado</code></li>
+              <li><span class="step-num">7</span>Reinicie o computador para aplicar</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+      <article class="os-card">
+        <div class="os-card-header">
+          <span class="os-card-title">Windows 10</span>
+          <span class="os-card-tag">SETTINGS.EXE</span>
+        </div>
+        <div class="os-card-body">
+          <div class="terminal-box">
+            <div class="hero-titlebar">
+              <span class="hero-tb-btn"></span><span class="hero-tb-btn"></span><span class="hero-tb-btn"></span>
+              <span class="hero-tb-title">CONFIGURAÇÕES — WINDOWS 10</span>
+            </div>
+            <ol class="step-list">
+              <li><span class="step-num">1</span>Abra <code>Configurações</code> (tecla <code>Win + I</code>)</li>
+              <li><span class="step-num">2</span>Vá em <code>Atualização e Segurança</code></li>
+              <li><span class="step-num">3</span>Clique em <code>Segurança do Windows</code></li>
+              <li><span class="step-num">4</span>Abra <code>Controle de aplicativos e navegador</code></li>
+              <li><span class="step-num">5</span>Em <code>Configurações de reputação baseada em aplicativos</code>, clique para abrir</li>
+              <li><span class="step-num">6</span>Desative a opção <code>Verificar aplicativos e arquivos</code></li>
+              <li><span class="step-num">7</span>Feche a janela — a alteração já é aplicada na hora</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="alert-box" style="margin-top:26px">
+      <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+      <div>
+        <p class="alert-title">Sobre desativar essa proteção</p>
+        <p class="alert-text">Desativar o Controle de aplicativos inteligente reduz a verificação automática de arquivos baixados da internet. Faça isso apenas se você entende o que está fazendo e continua baixando programas só de fontes confiáveis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ATUALIZAÇÃO -->
+<section id="atualizacao" class="tut-section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // PASSO_04 ]</span></div>
+    <div class="sec-head">
+      <span class="sec-num">04 · ATUALIZAÇÕES</span>
+      <h2 class="sec-title">Como funciona a <span class="text-glow">atualização automática</span></h2>
+      <p class="sec-lead">Toda vez que você abre o DiceVTT, ele verifica se existe uma versão mais nova disponível. Se existir, uma janela aparece perguntando se você quer atualizar agora.</p>
+    </div>
+
+    <div class="row">
+      <div class="row-content">
+        <span class="tool-tag" style="font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;color:var(--primary-alt);display:inline-block;margin-bottom:12px;padding:4px 12px;background:rgba(99,0,176,.15);border:1px solid var(--primary-alt);clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)">O QUE ACONTECE NOS BASTIDORES</span>
+        <ul class="feature-list">
+          <li>O jogo baixa o pacote da nova versão (<code>update.zip</code>) na pasta onde ele está instalado</li>
+          <li>Ao terminar o download, o DiceVTT se fecha automaticamente</li>
+          <li>Uma <strong>janela preta de terminal</strong> abre sozinha por alguns segundos</li>
+          <li>Esse terminal extrai os arquivos novos e substitui os antigos</li>
+          <li>Quando termina, o próprio terminal <strong>reabre o DiceVTT</strong> já atualizado e se fecha sozinho</li>
+        </ul>
+      </div>
+      <div class="row-visual">
+        <picture>
+          <source srcset="imagens/tutorial-atualizacao-1.png" type="image/png">
+          <source srcset="imagens/tutorial-atualizacao-1.jpg" type="image/jpeg">
+          <img src="imagens/tutorial-atualizacao-1.png" alt="Janela do DiceVTT avisando que uma nova versão está disponível, com o botão Ok para iniciar a atualização">
+        </picture>
+        <p class="row-visual-caption">Aviso de nova versão disponível dentro do DiceVTT</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-visual">
+        <picture>
+          <source srcset="imagens/tutorial-atualizacao-2.png" type="image/png">
+          <source srcset="imagens/tutorial-atualizacao-2.jpg" type="image/jpeg">
+          <img src="imagens/tutorial-atualizacao-2.png" alt="Janela de terminal preta do Windows extraindo e aplicando os arquivos da atualização do DiceVTT">
+        </picture>
+        <p class="row-visual-caption">Terminal aplicando a atualização — não feche esta janela</p>
+      </div>
+      <div class="row-content">
+        <div class="alert-box is-critical">
+          <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          <div>
+            <p class="alert-title">Nunca feche essa janela</p>
+            <p class="alert-text">Enquanto o terminal preto estiver aberto, <strong>não feche, não clique no X e não desligue o computador</strong>. Ele está copiando os arquivos novos por cima dos antigos — fechar no meio do processo pode <strong>corromper a instalação</strong> e obrigar você a baixar o instalador de novo.</p>
+          </div>
+        </div>
+        <p class="sec-lead">O processo costuma levar só alguns segundos. Assim que os arquivos forem copiados, a própria janela some e o DiceVTT abre sozinho, já na versão nova — você não precisa fazer mais nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. STEAM -->
+<section id="steam" class="tut-section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // PASSO_05 ]</span></div>
+    <div class="sec-head">
+      <span class="sec-num">05 · REDE</span>
+      <h2 class="sec-title">A <span class="text-glow">Steam</span> precisa estar aberta</h2>
+      <p class="sec-lead">O DiceVTT usa a rede P2P da Steam para conectar mestre e jogadores sem precisar de servidores próprios. Por isso, o cliente da Steam precisa estar aberto e você precisa estar logado nele — mesmo para testar o programa sozinho.</p>
+    </div>
+
+    <div class="steam-cta">
+      <svg class="steam-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.104.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.474 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0Z"/></svg>
+      <div>
+        <p class="steam-cta-title">Sem Steam aberta, sem conexão</p>
+        <p class="steam-cta-text">Deixe a Steam rodando em segundo plano <strong>antes</strong> de abrir o DiceVTT. Se você abrir o jogo sem a Steam ativa, o programa pode não iniciar corretamente ou o mestre e os jogadores não vão conseguir se conectar entre si.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tut-cta">
+  <div class="container">
+    <div class="tut-cta-box">
+      <h2 class="tut-cta-title">Tudo pronto para jogar.</h2>
+      <p class="tut-cta-text">Agora é só voltar para a página inicial e baixar o instalador.</p>
+      <a href="index.html#download" class="btn btn-primary btn-large">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+        Ir para o download
+      </a>
+      <a href="index.html#discord" class="btn btn-ghost btn-large" style="margin-left:12px">Preciso de ajuda</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p class="footer-tag">Dúvidas? Fale com a gente no <a href="index.html#discord">Discord</a> ou volte para o <a href="index.html">site do DiceVTT</a>.</p>
+</footer>
+
+</body>
+</html>
