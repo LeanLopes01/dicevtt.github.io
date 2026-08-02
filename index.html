@@ -1361,7 +1361,7 @@ body {
   <div class="container">
     <div class="status-bar-inner">
       <span class="status-item"><span class="status-dot"></span><span>SYS_STATUS:</span><span class="status-val">ONLINE</span></span>
-      <span class="status-item"><span>VER:</span><span class="status-val">0.1.0.5</span></span>
+      <span class="status-item"><span>VER:</span><span class = "status-val" id="app-version">CARREGANDO...</span></span>
       <span class="status-item"><span>REDE:</span><span class="status-val">Steam P2P</span></span>
       <span class="status-item"><span>ASSINATURA:</span><span class="status-val">$0.00/mês</span></span>
       <span class="status-item"><span>MAPAS:</span><span class="status-val">∞</span></span>
@@ -1403,7 +1403,7 @@ body {
         <div class="hero-inner">
           <p class="hero-badge">
             <span class="badge-dot"></span>
-            VERSÃO 1.0.0 | STEAM P2P | PROTOCOLO_ATIVO
+            VERSÃO <span id="app-version">CARREGANDO...</span> | STEAM P2P | PROTOCOLO_ATIVO
           </p>
           <h1 class="hero-title">
             <span class="hero-title-line">Role os Dados.</span>
@@ -2101,6 +2101,29 @@ document.getElementById("download-modal-overlay").addEventListener("click", e =>
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && !document.getElementById("download-modal-overlay").hidden) closeDownloadModal();
 });
+  
+  const JSON_URL = 'version.json'; 
+
+  async function atualizarVersao() {
+    try {
+      const response = await fetch(JSON_URL);
+      
+      if (!response.ok) {
+        throw new Error('Não foi possível carregar o arquivo JSON');
+      }
+
+      const data = await response.json();
+      
+      // Injeta a versão diretamente na tag HTML
+      document.getElementById('app-version').innerText = data.version;
+    } catch (error) {
+      console.error('Erro ao buscar a versão:', error);
+      document.getElementById('app-version').innerText = '1.0.0'; // Fallback em caso de erro
+    }
+  }
+
+  // Executa a função assim que a página carregar
+  atualizarVersao();
 </script>
 </body>
 </html>
