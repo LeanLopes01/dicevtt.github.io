@@ -6,12 +6,12 @@
 <meta name="description" content="DiceVTT — Virtual Tabletop sem barreiras. P2P via Steam, sem mensalidades." />
 <title>DiceVTT - Virtual Tabletop</title>
 
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ESC6YVRTCP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-ESC6YVRTCP');
 </script>
 
@@ -281,7 +281,7 @@ body {
 }
 @keyframes floatD20 {
   0%, 100% { transform: translateY(-50%) rotate(-5deg); }
-  50%        { transform: translateY(-54%) rotate(4deg); }
+  50%       { transform: translateY(-54%) rotate(4deg); }
 }
 @media (max-width: 900px) { .hero-d20 { opacity: 0.15; right: -25%; } }
 
@@ -492,36 +492,6 @@ body {
   50% { box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.6), inset -1px -1px 0 rgba(0,0,0,0.25), 0 0 0 8px rgba(255,176,32,0.05), 0 8px 40px rgba(255,176,32,0.85); }
 }
 @media (prefers-reduced-motion: reduce) { .btn-tutorial { animation: none; } }
-
-/* === CONTADOR DE DOWNLOADS === */
-.download-counter {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 26px;
-}
-.download-counter a {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
-  border: 1px solid var(--primary-alt);
-  background: rgba(99,0,176,0.15);
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
-  transition: all 0.25s var(--ease);
-}
-.download-counter a:hover {
-  background: rgba(99,0,176,0.32);
-  transform: translateY(-2px);
-  box-shadow: 0 0 18px rgba(151,21,206,0.45), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
-}
-.download-counter img { height: 30px; width: auto; }
-.download-counter-label {
-  font-family: var(--font-mono);
-  font-size: 17px;
-  letter-spacing: 0.12em;
-  color: var(--primary-blue);
-}
 
 /* === VISÃO GERAL / TELA INICIAL (dentro de Ferramentas) === */
 .visao-geral-shot {
@@ -958,6 +928,39 @@ body {
   margin-bottom: 14px;
 }
 .cta-text { font-size: 17px; color: var(--text-dim); margin-bottom: 30px; }
+
+/* === CONTADOR DE DOWNLOADS === */
+.download-counter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.download-counter a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border: 1px solid var(--primary-alt);
+  background: rgba(99,0,176,0.15);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  transition: all 0.25s var(--ease);
+}
+.download-counter a:hover {
+  background: rgba(99,0,176,0.32);
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(151,21,206,0.45), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.download-counter img { height: 30px; width: auto; }
+.download-counter-label {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  color: var(--primary-blue);
+}
+@media (max-width: 480px) {
+  .download-counter a { flex-direction: column; gap: 8px; padding: 12px 18px; }
+}
 
 /* === LINUX INSTALL INSTRUCTIONS === */
 .linux-instructions {
@@ -1400,7 +1403,7 @@ body {
   <div class="container">
     <div class="status-bar-inner">
       <span class="status-item"><span class="status-dot"></span><span>SYS_STATUS:</span><span class="status-val">ONLINE</span></span>
-      <span class="status-item"><span>VER:</span><span class="status-val" id="app-version">CARREGANDO...</span></span>
+      <span class="status-item"><span>VER:</span><span class="status-val app-version" id="app-version">CARREGANDO...</span></span>
       <span class="status-item"><span>REDE:</span><span class="status-val">Steam P2P</span></span>
       <span class="status-item"><span>ASSINATURA:</span><span class="status-val">$0.00/mês</span></span>
       <span class="status-item"><span>MAPAS:</span><span class="status-val">∞</span></span>
@@ -1442,7 +1445,7 @@ body {
         <div class="hero-inner">
           <p class="hero-badge">
             <span class="badge-dot"></span>
-            VERSÃO <span id="app-version">CARREGANDO...</span> | STEAM P2P | PROTOCOLO_ATIVO
+            VERSÃO <span class="app-version">CARREGANDO...</span> | STEAM P2P | PROTOCOLO_ATIVO
           </p>
           <h1 class="hero-title">
             <span class="hero-title-line">Role os Dados.</span>
@@ -1798,7 +1801,6 @@ body {
       <h2 class="cta-title">A próxima sessão começa agora.</h2>
       <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
 
-      <!-- === CONTADOR DE DOWNLOADS === -->
       <div class="download-counter">
         <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/latest" target="_blank" rel="noopener">
           <span class="download-counter-label">// TOTAL_BAIXADO:</span>
@@ -2149,25 +2151,28 @@ document.getElementById("download-modal-overlay").addEventListener("click", e =>
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && !document.getElementById("download-modal-overlay").hidden) closeDownloadModal();
 });
-  
-  const JSON_URL = 'version.json'; 
+
+  const JSON_URL = 'version.json';
+
+  function setVersao(texto) {
+    document.querySelectorAll('.app-version').forEach(el => { el.innerText = texto; });
+  }
 
   async function atualizarVersao() {
     try {
       const response = await fetch(JSON_URL);
-      
+
       if (!response.ok) {
         throw new Error('Não foi possível carregar o arquivo JSON');
       }
 
       const data = await response.json();
-      
-      // Injeta a versão em TODOS os elementos com id "app-version"
-      document.querySelectorAll('#app-version').forEach(el => el.innerText = data.version);
+
+      // Injeta a versão em todos os pontos da página
+      setVersao(data.version);
     } catch (error) {
       console.error('Erro ao buscar a versão:', error);
-      // Fallback em caso de erro
-      document.querySelectorAll('#app-version').forEach(el => el.innerText = '1.0.0'); 
+      setVersao('1.0.0'); // Fallback em caso de erro
     }
   }
 
