@@ -84,3 +84,5 @@ Para garantir a estabilidade do VTT em diferentes máquinas, construímos um exp
 Desenvolvido por Lean Lopes para simplificar a organização de campanhas de RPG e testar os limites arquiteturais de distribuição e customização de dados locais no Unity.
 
 Se você quer contribuir com pacotes de XML traduzidos, relatar ideias de novas funcionalidades ou ajudar no código, sinta-se à vontade para abrir uma **Issue** ou enviar um **Pull Request**. Toda ajuda é bem-vinda!
+
+[![Total de Downloads](https://img.shields.io/github/downloads/LeanLopes01/dicevtt.github.io/total?style=for-the-badge&logo=github&color=blue)](https://github.com/LeanLopes01/dicevtt.github.io/releases/latest)
