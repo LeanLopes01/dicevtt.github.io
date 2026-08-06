@@ -272,7 +272,7 @@ body {
 }
 @keyframes floatD20 {
   0%, 100% { transform: translateY(-50%) rotate(-5deg); }
-  50%       { transform: translateY(-54%) rotate(4deg); }
+  50%        { transform: translateY(-54%) rotate(4deg); }
 }
 @media (max-width: 900px) { .hero-d20 { opacity: 0.15; right: -25%; } }
 
@@ -483,6 +483,36 @@ body {
   50% { box-shadow: 2px 2px 0 rgba(0,0,0,0.6), inset 1px 1px 0 rgba(255,255,255,0.6), inset -1px -1px 0 rgba(0,0,0,0.25), 0 0 0 8px rgba(255,176,32,0.05), 0 8px 40px rgba(255,176,32,0.85); }
 }
 @media (prefers-reduced-motion: reduce) { .btn-tutorial { animation: none; } }
+
+/* === CONTADOR DE DOWNLOADS === */
+.download-counter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.download-counter a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border: 1px solid var(--primary-alt);
+  background: rgba(99,0,176,0.15);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+  transition: all 0.25s var(--ease);
+}
+.download-counter a:hover {
+  background: rgba(99,0,176,0.32);
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(151,21,206,0.45), inset 1px 1px 0 var(--bevel-hi), inset -1px -1px 0 var(--bevel-lo);
+}
+.download-counter img { height: 30px; width: auto; }
+.download-counter-label {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  color: var(--primary-blue);
+}
 
 /* === VISÃO GERAL / TELA INICIAL (dentro de Ferramentas) === */
 .visao-geral-shot {
@@ -1759,6 +1789,15 @@ body {
       <h2 class="cta-title">A próxima sessão começa agora.</h2>
       <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
 
+      <!-- === CONTADOR DE DOWNLOADS === -->
+      <div class="download-counter">
+        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/latest" target="_blank" rel="noopener">
+          <span class="download-counter-label">// TOTAL_BAIXADO:</span>
+          <img src="https://img.shields.io/github/downloads/LeanLopes01/dicevtt.github.io/total?style=for-the-badge&logo=github&label=DOWNLOADS&color=6300B0&labelColor=0d0d12"
+               alt="Total de downloads do DiceVTT" />
+        </a>
+      </div>
+
       <div style="margin-bottom:22px">
         <a href="tutorial.html" class="btn btn-tutorial btn-large">
           <svg class="btn-tutorial-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
@@ -2114,11 +2153,12 @@ document.addEventListener("keydown", e => {
 
       const data = await response.json();
       
-      // Injeta a versão diretamente na tag HTML
-      document.getElementById('app-version').innerText = data.version;
+      // Injeta a versão em TODOS os elementos com id "app-version"
+      document.querySelectorAll('#app-version').forEach(el => el.innerText = data.version);
     } catch (error) {
       console.error('Erro ao buscar a versão:', error);
-      document.getElementById('app-version').innerText = '1.0.0'; // Fallback em caso de erro
+      // Fallback em caso de erro
+      document.querySelectorAll('#app-version').forEach(el => el.innerText = '1.0.0'); 
     }
   }
 
