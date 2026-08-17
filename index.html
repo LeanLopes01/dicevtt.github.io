@@ -13,6 +13,14 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-ESC6YVRTCP');
+
+  /* Helper global de tracking.
+     Nunca quebra a página se o gtag estiver bloqueado por adblock. */
+  window.track = function (eventName, params) {
+    try {
+      if (typeof gtag === 'function') gtag('event', eventName, params || {});
+    } catch (e) { /* silencioso de propósito */ }
+  };
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1393,7 +1401,7 @@ body {
       <a href="#pesquisa">Pesquisa</a>
       <a href="#srds">SRDs</a>
       <a href="#sobre">Sobre</a>
-      <a href="tutorial.html">Tutorial</a>
+      <a href="tutorial.html" data-tutorial-source="menu">Tutorial</a>
       <a href="#download" class="nav-cta">Baixar</a>
     </nav>
   </div>
@@ -1457,10 +1465,15 @@ body {
             <em>sem barreiras técnicas.</em>
           </p>
           <div class="hero-actions">
-            <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.5/dicevtt-0.1.0.5.exe" class="btn btn-primary" download>
+            <button type="button" class="btn btn-primary"
+                    data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.5/dicevtt-0.1.0.5.exe"
+                    data-download-name="dicevtt-0.1.0.5.exe"
+                    data-download-platform="windows"
+                    data-download-source="hero"
+                    onclick="openDownloadModal(this)">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
               Baixar
-            </a>
+            </button>
             <a href="#pilares" class="btn btn-ghost">Explorar Filosofia</a>
           </div>
           <div class="hero-stats" aria-label="Estatísticas rápidas">
@@ -1561,9 +1574,9 @@ body {
 
     <div class="tools-list">
       
-      <div class="tool-row">
+      <div class="tool-row" data-tool="fichas-automatizadas">
         <div class="tool-content">
-          <span class="tool-tag">01 · REGRAS & ESTATÍSTICAS</span>
+          <span class="tool-tag">01 · REGRAS &amp; ESTATÍSTICAS</span>
           <h3 class="tool-title">Fichas Automatizadas</h3>
           <p class="tool-desc">Diga adeus ao papel amassado e contas matemáticas esquecidas. Nossas fichas calculam automaticamente os modificadores de atributos, bônus de proficiência, classe de armadura e vida. Um simples clique em uma perícia ou arma já rola os dados virtuais e envia o resultado direto para a mesa de todos os jogadores.</p>
           <ul class="tool-features">
@@ -1583,7 +1596,7 @@ body {
         </div>
       </div>
 
-      <div class="tool-row">
+      <div class="tool-row" data-tool="ficha-em-jogo">
         <div class="tool-content">
           <span class="tool-tag">02 · EM JOGO</span>
           <h3 class="tool-title">Visualização da Ficha em Jogo</h3>
@@ -1605,7 +1618,7 @@ body {
         </div>
       </div>
 
-      <div class="tool-row">
+      <div class="tool-row" data-tool="mapas">
         <div class="tool-content">
           <span class="tool-tag">03 · EXPLORAÇÃO TÁTICA</span>
           <h3 class="tool-title">Mapas</h3>
@@ -1627,13 +1640,13 @@ body {
         </div>
       </div>
 
-      <div class="tool-row">
+      <div class="tool-row" data-tool="gerenciador-de-sistemas">
         <div class="tool-content">
           <span class="tool-tag">04 · COMPATIBILIDADE</span>
           <h3 class="tool-title">Gerenciador de Sistemas</h3>
           <p class="tool-desc">Não seja refém de uma única edição ou franquia. O DiceVTT é um ambiente multi-sistemas onde o mestre define as regras da sala e os jogadores automaticamente sincronizam com elas, carregando os dados, fichas e compêndios adequados ao estilo de jogo em andamento.</p>
           <ul class="tool-features">
-            <li>Sistemas embutidos (D&D 5e e outros por vir)</li>
+            <li>Sistemas embutidos (D&amp;D 5e e outros por vir)</li>
             <li>Poderosa ferramenta de importação e exportação de JSON</li>
             <li>Defina fórmulas complexas e dependências lógicas na ficha</li>
             <li>Alternância rápida entre mesas com sistemas diferentes</li>
@@ -1651,7 +1664,7 @@ body {
 
     </div>
 
-    <div class="tool-row tool-row-video">
+    <div class="tool-row tool-row-video" data-tool="video-demo">
       <div class="tool-content">
         <span class="tool-tag">05 · DEMONSTRAÇÃO</span>
         <h3 class="tool-title">Veja o DiceVTT em Ação</h3>
@@ -1668,7 +1681,8 @@ body {
       <div class="tool-visual tool-visual-video">
         <div class="video-embed">
           <iframe
-            src="https://www.youtube.com/embed/SEU_VIDEO_ID"
+            id="dicevtt-video"
+            src="https://www.youtube.com/embed/SEU_VIDEO_ID?enablejsapi=1&rel=0"
             title="Vídeo demonstrativo do DiceVTT"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1711,7 +1725,7 @@ body {
             <li>Tracker de iniciativa e condições</li>
             <li>Rolagens com vantagem/desvantagem nativas</li>
           </ul>
-          <a href="#download" class="btn btn-tab">Jogar Quinta Edição →</a>
+          <a href="#download" class="btn btn-tab" data-cta="painel-sistema" data-cta-label="jogar-quinta-edicao">Jogar Quinta Edição →</a>
         </div>
         <aside class="panel-art" aria-hidden="true">
           <svg viewBox="0 0 200 200">
@@ -1733,7 +1747,7 @@ body {
             <li>Compartilhamento de sistemas entre mesas</li>
             <li>Compatível com homebrew e indies</li>
           </ul>
-          <a href="#download" class="btn btn-tab">Criar meu sistema →</a>
+          <a href="#download" class="btn btn-tab" data-cta="painel-sistema" data-cta-label="criar-meu-sistema">Criar meu sistema →</a>
         </div>
         <aside class="panel-art" aria-hidden="true">
           <svg viewBox="0 0 200 200">
@@ -1764,7 +1778,7 @@ body {
         <li>Reporte bugs e dê feedback que molda o desenvolvimento</li>
         <li>Faça parte da comunidade que está construindo o VTT junto com a gente</li>
       </ul>
-      <a href="https://discord.gg/Egb8PQzPN8" target="_blank" rel="noopener" class="btn btn-discord btn-large">
+      <a href="https://discord.gg/Egb8PQzPN8" target="_blank" rel="noopener" class="btn btn-discord btn-large" data-cta="discord" data-cta-label="secao-comunidade">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.211.375-.444.87-.608 1.262a18.27 18.27 0 0 0-5.902 0A12.64 12.64 0 0 0 9.44 3a19.736 19.736 0 0 0-3.76 1.369C2.633 8.086 1.803 11.69 2.218 15.24a19.9 19.9 0 0 0 5.993 3.03c.483-.657.914-1.354 1.285-2.087a12.9 12.9 0 0 1-2.023-.968c.17-.123.336-.252.497-.384a14.19 14.19 0 0 0 12.06 0c.163.132.33.261.497.384-.641.38-1.317.702-2.023.968.371.733.802 1.43 1.285 2.087a19.83 19.83 0 0 0 6.002-3.03c.487-4.117-.545-7.685-2.474-10.871ZM9.677 13.021c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.556.797 1.542 1.763 0 .973-.678 1.762-1.542 1.762Zm5.335 0c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.557.797 1.542 1.763 0 .973-.671 1.762-1.542 1.762Z"/></svg>
         Entrar no Discord
       </a>
@@ -1787,7 +1801,7 @@ body {
         <li>Ajuda a definir quais sistemas e ferramentas entram primeiro</li>
         <li>Respostas usadas só para orientar o desenvolvimento do DiceVTT</li>
       </ul>
-      <a href="https://forms.gle/qNxmzAc98fkydkba8" target="_blank" rel="noopener" class="btn btn-primary btn-large">
+      <a href="https://forms.gle/qNxmzAc98fkydkba8" target="_blank" rel="noopener" class="btn btn-primary btn-large" data-cta="pesquisa" data-cta-label="google-forms">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         Responder a pesquisa
       </a>
@@ -1802,7 +1816,7 @@ body {
       <p class="cta-text">Junte sua party e desça pelo dungeon. Sem barreiras técnicas.</p>
 
       <div class="download-counter">
-        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/latest" target="_blank" rel="noopener">
+        <a href="https://github.com/LeanLopes01/dicevtt.github.io/releases/latest" target="_blank" rel="noopener" data-cta="github-releases" data-cta-label="contador-downloads">
           <span class="download-counter-label">// TOTAL_BAIXADO:</span>
           <img src="https://img.shields.io/github/downloads/LeanLopes01/dicevtt.github.io/total?style=for-the-badge&logo=github&label=DOWNLOADS&color=6300B0&labelColor=0d0d12"
                alt="Total de downloads do DiceVTT" />
@@ -1810,7 +1824,7 @@ body {
       </div>
 
       <div style="margin-bottom:22px">
-        <a href="tutorial.html" class="btn btn-tutorial btn-large">
+        <a href="tutorial.html" class="btn btn-tutorial btn-large" data-tutorial-source="secao-download">
           <svg class="btn-tutorial-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><circle cx="12" cy="8" r="0.5" fill="currentColor" stroke-width="1.5"/>
           </svg>
@@ -1819,11 +1833,21 @@ body {
       </div>
 
       <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
-        <button type="button" class="btn btn-primary btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.5/dicevtt-0.1.0.5.exe" data-download-name="dicevtt-0.1.0.5.exe" onclick="openDownloadModal(this)">
+        <button type="button" class="btn btn-primary btn-large"
+                data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.1.0.5/dicevtt-0.1.0.5.exe"
+                data-download-name="dicevtt-0.1.0.5.exe"
+                data-download-platform="windows"
+                data-download-source="secao-download"
+                onclick="openDownloadModal(this)">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Windows
         </button>
-        <button type="button" class="btn btn-ghost btn-large" data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh" data-download-name="installer.sh" onclick="openDownloadModal(this)">
+        <button type="button" class="btn btn-ghost btn-large"
+                data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/setup-diceVTT-linux/installer.sh"
+                data-download-name="installer.sh"
+                data-download-platform="linux"
+                data-download-source="secao-download"
+                onclick="openDownloadModal(this)">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
           Baixar para Linux
         </button>
@@ -1886,11 +1910,12 @@ body {
           <span class="srds-badge"><span class="srds-badge-dot" style="background:#00A896"></span>Pathfinder 2e SRD</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
-          <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues" target="_blank" rel="noopener" class="btn btn-github">
+          <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues" target="_blank" rel="noopener" class="btn btn-github" data-cta="github-srds" data-cta-label="ver-no-github">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.907-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.641.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
             Ver no GitHub
           </a>
-          <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues/archive/refs/heads/main.zip" class="btn btn-ghost">
+          <a href="https://github.com/LeanLopes01/Vers-o-SRDs-em-portugues/archive/refs/heads/main.zip" class="btn btn-ghost"
+             data-direct-download="srds-pt-br.zip" data-download-source="secao-srds">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
             Baixar tudo (.zip)
           </a>
@@ -2012,13 +2037,13 @@ body {
         </div>
         <div class="footer-col">
           <h4>Comunidade</h4>
-          <a href="https://discord.gg/SfqRAX52" target="_blank" rel="noopener">Discord</a>
-          <a href="https://www.instagram.com/dicevtt/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://discord.gg/SfqRAX52" target="_blank" rel="noopener" data-cta="discord" data-cta-label="rodape">Discord</a>
+          <a href="https://www.instagram.com/dicevtt/" target="_blank" rel="noopener" data-cta="instagram" data-cta-label="rodape">Instagram</a>
           <a href="#">Twitter / X</a>
         </div>
         <div class="footer-col">
           <h4>Contato</h4>
-          <a href="mailto:dicevtt@gmail.com">dicevtt@gmail.com</a>
+          <a href="mailto:dicevtt@gmail.com" data-cta="email" data-cta-label="rodape">dicevtt@gmail.com</a>
           <a href="#sobre">Sobre Nós</a>
         </div>
       </nav>
@@ -2075,6 +2100,9 @@ body {
   if (!systemsSection || !tabs.length) return;
 
   function activateTab(targetId) {
+    /* GA4: qual sistema desperta mais interesse */
+    track("system_tab_select", { system: targetId });
+
     systemsSection.setAttribute("data-system", targetId);
     tabs.forEach(t => {
       const active = t.dataset.target === targetId;
@@ -2117,7 +2145,20 @@ body {
 let pendingDownload = null;
 
 function openDownloadModal(btn) {
-  pendingDownload = { url: btn.dataset.downloadUrl, name: btn.dataset.downloadName };
+  pendingDownload = {
+    url: btn.dataset.downloadUrl,
+    name: btn.dataset.downloadName,
+    platform: btn.dataset.downloadPlatform || "desconhecido",
+    source: btn.dataset.downloadSource || "desconhecido"
+  };
+
+  /* GA4: intenção de download (topo do funil) */
+  track("download_intent", {
+    file_name: pendingDownload.name,
+    platform: pendingDownload.platform,
+    download_source: pendingDownload.source
+  });
+
   const checkbox = document.getElementById("download-terms-checkbox");
   checkbox.checked = false;
   toggleDownloadConfirm();
@@ -2125,6 +2166,14 @@ function openDownloadModal(btn) {
 }
 
 function closeDownloadModal() {
+  /* GA4: abandono no aviso de privacidade */
+  if (pendingDownload) {
+    track("download_abandon", {
+      file_name: pendingDownload.name,
+      platform: pendingDownload.platform,
+      download_source: pendingDownload.source
+    });
+  }
   pendingDownload = null;
   document.getElementById("download-modal-overlay").hidden = true;
 }
@@ -2132,17 +2181,40 @@ function closeDownloadModal() {
 function toggleDownloadConfirm() {
   const checkbox = document.getElementById("download-terms-checkbox");
   document.getElementById("download-confirm-btn").disabled = !checkbox.checked;
+
+  /* GA4: aceite explícito do aviso de coleta */
+  if (checkbox.checked && pendingDownload) {
+    track("privacy_terms_accept", {
+      file_name: pendingDownload.name,
+      platform: pendingDownload.platform
+    });
+  }
 }
 
 function confirmDownload() {
   if (!pendingDownload) return;
+  const dl = pendingDownload;
+
+  /* GA4: conversão principal do site */
+  track("file_download", {
+    file_name: dl.name,
+    file_extension: dl.name.split(".").pop(),
+    platform: dl.platform,
+    download_source: dl.source,
+    link_url: dl.url
+  });
+
+  /* Limpa antes de fechar para não disparar download_abandon */
+  pendingDownload = null;
+
   const link = document.createElement("a");
-  link.href = pendingDownload.url;
-  link.download = pendingDownload.name;
+  link.href = dl.url;
+  link.download = dl.name;
   document.body.appendChild(link);
   link.click();
   link.remove();
-  closeDownloadModal();
+
+  document.getElementById("download-modal-overlay").hidden = true;
 }
 
 document.getElementById("download-modal-overlay").addEventListener("click", e => {
@@ -2170,14 +2242,181 @@ document.addEventListener("keydown", e => {
 
       // Injeta a versão em todos os pontos da página
       setVersao(data.version);
+
+      /* GA4: permite segmentar relatórios por versão publicada */
+      if (typeof gtag === 'function') {
+        gtag('set', 'user_properties', { app_version: data.version });
+      }
     } catch (error) {
       console.error('Erro ao buscar a versão:', error);
       setVersao('1.0.0'); // Fallback em caso de erro
+      track('version_load_error', { error_message: String(error && error.message || error) });
     }
   }
 
   // Executa a função assim que a página carregar
   atualizarVersao();
+</script>
+
+<!-- ===========================================================
+     GOOGLE ANALYTICS 4 — CAMADA DE EVENTOS
+     Tudo aqui é opcional para o funcionamento do site: se o
+     gtag estiver bloqueado, nada quebra (ver helper window.track).
+     =========================================================== -->
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- 1. LINKS EXTERNOS (Discord, GitHub, Instagram, Forms) ---------- */
+  document.querySelectorAll('a[href^="http"]').forEach(function (link) {
+    if (link.hostname === window.location.hostname) return;      // link interno
+    if (link.hasAttribute('data-direct-download')) return;        // tratado abaixo
+
+    link.addEventListener('click', function () {
+      track('click_outbound', {
+        link_url: link.href,
+        link_domain: link.hostname,
+        link_text: (link.textContent || '').trim().slice(0, 100),
+        cta_name: link.dataset.cta || 'sem-rotulo',
+        cta_location: link.dataset.ctaLabel || 'sem-rotulo',
+        outbound: true
+      });
+    });
+  });
+
+  /* ---------- 2. DOWNLOADS DIRETOS (sem passar pelo modal) ---------- */
+  document.querySelectorAll('[data-direct-download]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var name = el.dataset.directDownload;
+      track('file_download', {
+        file_name: name,
+        file_extension: name.split('.').pop(),
+        download_source: el.dataset.downloadSource || 'direto',
+        link_url: el.href || ''
+      });
+    });
+  });
+
+  /* ---------- 3. CLIQUES NO TUTORIAL ---------- */
+  document.querySelectorAll('[data-tutorial-source]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      track('tutorial_click', { tutorial_source: el.dataset.tutorialSource });
+    });
+  });
+
+  /* ---------- 4. NAVEGAÇÃO INTERNA (menu do topo) ---------- */
+  document.querySelectorAll('.site-nav a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      track('nav_click', {
+        nav_target: link.getAttribute('href').replace('#', ''),
+        nav_text: (link.textContent || '').trim()
+      });
+    });
+  });
+
+  /* ---------- 5. CTAs INTERNOS COM data-cta (botões dos painéis) ---------- */
+  document.querySelectorAll('a[data-cta][href^="#"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      track('cta_click', {
+        cta_name: el.dataset.cta,
+        cta_location: el.dataset.ctaLabel || 'sem-rotulo'
+      });
+    });
+  });
+
+  /* ---------- 6. SEÇÕES VISUALIZADAS (uma vez por sessão de página) ---------- */
+  if ('IntersectionObserver' in window) {
+    var jaVista = {};
+    var sectionObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.id;
+        if (!id || jaVista[id]) return;
+        jaVista[id] = true;
+        track('section_view', { section_id: id });
+      });
+    }, { threshold: 0.25 });
+
+    document.querySelectorAll('section[id]').forEach(function (s) { sectionObs.observe(s); });
+  }
+
+  /* ---------- 7. PROFUNDIDADE DE ROLAGEM ---------- */
+  (function () {
+    var marcos = [25, 50, 75, 90];
+    var disparados = {};
+    var esperando = false;
+
+    function medir() {
+      var doc = document.documentElement;
+      var altura = doc.scrollHeight - window.innerHeight;
+      if (altura <= 0) return;
+      var pct = Math.round((window.scrollY / altura) * 100);
+
+      marcos.forEach(function (m) {
+        if (pct >= m && !disparados[m]) {
+          disparados[m] = true;
+          track('scroll_depth', { percent_scrolled: m });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', function () {
+      if (esperando) return;
+      esperando = true;
+      window.requestAnimationFrame(function () { medir(); esperando = false; });
+    }, { passive: true });
+  })();
+
+  /* ---------- 8. VÍDEO DO YOUTUBE ----------
+     Só ativa quando o ID real do vídeo estiver no iframe.
+     Enquanto for SEU_VIDEO_ID, este bloco não faz nada. */
+  (function () {
+    var iframe = document.getElementById('dicevtt-video');
+    if (!iframe || iframe.src.indexOf('SEU_VIDEO_ID') !== -1) return;
+
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function () {
+      var marcos = [10, 25, 50, 75, 100];
+      var disparados = {};
+      var timer = null;
+
+      var player = new YT.Player('dicevtt-video', {
+        events: {
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.PLAYING) {
+              track('video_start', { video_title: 'Demo DiceVTT' });
+
+              clearInterval(timer);
+              timer = setInterval(function () {
+                var dur = player.getDuration();
+                if (!dur) return;
+                var pct = Math.round((player.getCurrentTime() / dur) * 100);
+
+                marcos.forEach(function (m) {
+                  if (pct >= m && !disparados[m]) {
+                    disparados[m] = true;
+                    track('video_progress', { video_title: 'Demo DiceVTT', video_percent: m });
+                  }
+                });
+              }, 1000);
+            }
+
+            if (e.data === YT.PlayerState.PAUSED) clearInterval(timer);
+
+            if (e.data === YT.PlayerState.ENDED) {
+              clearInterval(timer);
+              track('video_complete', { video_title: 'Demo DiceVTT' });
+            }
+          }
+        }
+      });
+    };
+  })();
+
+})();
 </script>
 </body>
 </html>
