@@ -1545,8 +1545,8 @@ body {
           </p>
           <div class="hero-actions">
             <button type="button" class="btn btn-primary"
-                    data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.4.3.12/dicevtt-0.4.3.12.exe"
-                    data-download-name="dicevtt-0.4.3.12.exe"
+                    data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.4.5.14/dicevtt-0.4.5.14.exe"
+                    data-download-name="dicevtt-0.4.5.14.exe"
                     data-download-platform="windows"
                     data-download-source="hero"
                     onclick="openDownloadModal(this)">
@@ -1953,8 +1953,8 @@ body {
 
       <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
         <button type="button" class="btn btn-primary btn-large"
-                data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.4.3.12/dicevtt-0.4.3.12.exe"
-                data-download-name="dicevtt-0.4.3.12.exe"
+                data-download-url="https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.4.5.14/dicevtt-0.4.5.14.exe"
+                data-download-name="dicevtt-0.4.5.14.exe"
                 data-download-platform="windows"
                 data-download-source="secao-download"
                 onclick="openDownloadModal(this)">
@@ -2358,11 +2358,13 @@ document.addEventListener("keydown", e => {
     document.querySelectorAll('.app-version').forEach(el => { el.innerText = texto; });
   }
 
-  // Mantém os botões de download do Windows apontando pro instalador da
-  // versão atual (release do GitHub é criada com tag = versão, asset
-  // "dicevtt-{versao}.exe" — ver novaVersao.py). Só roda com uma versão
-  // real vinda do version.json: em caso de erro os data-attributes fixos
-  // no HTML continuam valendo como último fallback.
+  // Mantém os botões de download do Windows apontando pro instalador do
+  // setup desktop (release do GitHub criada com tag = versionSetup, asset
+  // "dicevtt-{versionSetup}.exe"). IMPORTANTE: "version" no version.json é
+  // a versão do auto-update do app (bem mais frequente), não a do setup —
+  // por isso usamos o campo separado "versionSetup" aqui. Só roda com uma
+  // versão real vinda do version.json: em caso de erro ou campo ausente os
+  // data-attributes fixos no HTML continuam valendo como último fallback.
   function setVersaoDownloadsWindows(texto) {
     document.querySelectorAll('[data-download-platform="windows"]').forEach(el => {
       const nome = `dicevtt-${texto}.exe`;
@@ -2383,7 +2385,9 @@ document.addEventListener("keydown", e => {
 
       // Injeta a versão em todos os pontos da página
       setVersao(data.version);
-      setVersaoDownloadsWindows(data.version);
+      if (data.versionSetup) {
+        setVersaoDownloadsWindows(data.versionSetup);
+      }
 
       /* GA4: permite segmentar relatórios por versão publicada */
       if (typeof gtag === 'function') {
