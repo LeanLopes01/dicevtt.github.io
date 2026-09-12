@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="O que vem por aí no DiceVTT: fichas, salas, sistemas, marketplace, campanhas e comunidade." />
+<title>Futuro do DiceVTT — o que está sendo construído</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / Futuro</p>
+    <p class="page-kicker">// ROADMAP_ABERTO</p>
+    <h1 class="page-title">O que vem por aí</h1>
+    <p class="page-desc">
+      Esta é a lista viva do que o DiceVTT quer ser. Nada aqui tem data marcada: a ordem muda conforme
+      o que a comunidade pede e conforme o que dá para construir bem. Se falta algo nessa lista,
+      o formulário de sugestões existe exatamente para isso.
+    </p>
+    <div class="cta-actions" style="justify-content:flex-start;margin-top:22px">
+      <a class="btn btn-primary" data-href="links.formSugestoes" data-cta="sugestoes" data-cta-label="topo-futuro"
+         data-vazio-texto="Formulário em breve">Enviar uma sugestão</a>
+      <a class="btn btn-discord btn-small" data-href="links.discord" data-cta="discord" data-cta-label="futuro">Discutir no Discord</a>
+    </div>
+  </div>
+</section>
+
+<nav class="roadmap-nav" aria-label="Áreas do roadmap">
+  <a href="#fichas">Fichas</a>
+  <a href="#salas">Salas e mapas</a>
+  <a href="#sistemas">Sistemas</a>
+  <a href="#campanhas">Campanhas</a>
+  <a href="#marketplace">Marketplace</a>
+  <a href="#comunidade">Comunidade</a>
+  <a href="#plataforma">Plataforma</a>
+  <a href="#acessibilidade">Acessibilidade</a>
+</nav>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+
+    <p class="legenda">
+      <span class="fase-desenvolvimento"><i></i> Em desenvolvimento</span>
+      <span class="fase-proxima"><i></i> Próxima da fila</span>
+      <span class="fase-planejada"><i></i> Planejada</span>
+      <span class="fase-estudo"><i></i> Em estudo</span>
+    </p>
+
+    <!-- ================= FICHAS ================= -->
+    <div class="bloco-futuro" id="fichas" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Fichas de personagem</h2>
+        <p>Menos conta na mão, mais tempo jogando.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Condições automáticas</h4><p>Aplicar envenenado, caído ou atordoado e a ficha já ajusta as rolagens afetadas.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Histórico de rolagens por personagem</h4><p>Consultar o que cada um rolou na sessão, com o detalhamento de dado e modificador.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Nível e evolução guiados</h4><p>Subir de nível dentro do programa, com as escolhas da classe aparecendo no momento certo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Macros de ataque e magia</h4><p>Montar sequências próprias: rolagem, dano, gasto de recurso e mensagem na mesa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ficha impressa em PDF</h4><p>Exportar a ficha preenchida num layout limpo para levar para a mesa física.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Fichas de grupo</h4><p>Recursos compartilhados da party: dinheiro, itens comuns e montarias.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Anexos na ficha</h4><p>Retrato do personagem, mapa de anotações e arquivos soltos ligados àquele herói.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Importar ficha de outros VTTs</h4><p>Ler arquivos exportados de outras plataformas e converter para o formato do DiceVTT.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= SALAS E MAPAS ================= -->
+    <div class="bloco-futuro" id="salas" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Salas e mapas</h2>
+        <p>O tabuleiro onde o combate acontece.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Iluminação dinâmica com paredes automáticas</h4><p>Sombra e visão calculadas a partir do mapa, sem desenhar parede por parede.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Camadas de mapa</h4><p>Separar piso, objetos, efeitos e a camada só do mestre.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Áreas de efeito visuais</h4><p>Cone, linha, cubo e esfera desenhados no grid com o alcance certo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Tokens animados</h4><p>Suporte a tokens em vídeo curto e sprites com estados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Clima e efeitos de ambiente</h4><p>Chuva, névoa, fumaça e escuridão mágica aplicados na cena inteira.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mapas em múltiplos andares</h4><p>Trocar de andar dentro da mesma cena sem carregar outro mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Trilha sonora na sala</h4><p>Playlists e efeitos sonoros sincronizados para todos os jogadores.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Gerador de masmorras</h4><p>Criar uma planta jogável a partir de alguns parâmetros de tamanho e estilo.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= SISTEMAS ================= -->
+    <div class="bloco-futuro" id="sistemas" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Sistemas de regras</h2>
+        <p>Do SRD ao homebrew feito na sua casa.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Pathfinder 2e completo</h4><p>Ficha, compêndio e automação de rolagem no mesmo padrão do 5e.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Editor visual de sistema</h4><p>Montar atributos, perícias e fórmulas por formulário, sem escrever JSON na mão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Validador de sistema</h4><p>Apontar erro de fórmula e campo faltando antes de a mesa começar.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Sistemas nacionais</h4><p>Suporte a títulos brasileiros, feito em conversa com quem publica.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Versionamento de sistema</h4><p>Atualizar um sistema sem quebrar as fichas já criadas com a versão anterior.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Compêndios personalizados</h4><p>Criar seu próprio livro de magias, itens e monstros dentro do programa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Sistemas sem grid</h4><p>Modo narrativo para jogos que não usam mapa tático.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= CAMPANHAS ================= -->
+    <div class="bloco-futuro" id="campanhas" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Campanhas e narrativa</h2>
+        <p>O que o mestre prepara antes de todo mundo entrar.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Organização de cenas</h4><p>Encadear cenas da aventura e pular entre elas durante a sessão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Diário da campanha</h4><p>Registro do que aconteceu em cada sessão, visível para a party.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Gerenciador de NPCs</h4><p>Biblioteca de NPCs com stat block pronto, reaproveitável entre campanhas.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Handouts e pistas</h4><p>Entregar carta, mapa ou imagem para um jogador específico no meio da cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Tabelas aleatórias</h4><p>Encontros, saques e rumores sorteados com um clique.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Linha do tempo e calendário</h4><p>Controlar dias, viagens e eventos marcados no mundo da campanha.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Módulos de aventura prontos</h4><p>Aventuras completas para abrir e jogar, vindas de parcerias com editoras.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= MARKETPLACE ================= -->
+    <div class="bloco-futuro" id="marketplace" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Marketplace</h2>
+        <p>Uma loja aberta, no espírito das comunidades de impressão 3D.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Publicação pela comunidade</h4><p>Qualquer pessoa sobe sistemas, mapas e tokens direto do programa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gratuito e pago lado a lado</h4><p>O criador escolhe se distribui de graça ou com apoio pago.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Instalação com um clique</h4><p>Baixar um pacote da loja e ele já aparece dentro da sua mesa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Página de criador</h4><p>Perfil com tudo que a pessoa publicou e o link do trabalho dela fora do DiceVTT.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Curadoria e avaliações</h4><p>Comentário, nota e sinalização de conteúdo quebrado ou indevido.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Conteúdo licenciado de editoras</h4><p>Livros e suplementos oficiais vendidos dentro da loja, com acerto direto com quem publica.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= COMUNIDADE ================= -->
+    <div class="bloco-futuro" id="comunidade" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Comunidade</h2>
+        <p>O que acontece em volta da mesa.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Canal de bugs no Discord</h4><p>Reportar um problema com print e log anexados sem sair do programa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Cargos para apoiadores</h4><p>Quem apoia no apoia.se ganha um cargo de reconhecimento no servidor.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mural de mesas abertas</h4><p>Anunciar uma mesa procurando jogador e encontrar grupo pelo próprio DiceVTT.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Programa de parceria</h4><p>Espaço fixo para servidores, editoras e criadores que andam junto com o projeto.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Votação pública de prioridades</h4><p>A comunidade vota no que sobe na fila da próxima versão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Tradução colaborativa</h4><p>Levar o programa e os SRDs para outros idiomas com ajuda da comunidade.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= PLATAFORMA ================= -->
+    <div class="bloco-futuro" id="plataforma" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Plataforma</h2>
+        <p>Onde e como o DiceVTT roda.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Companheiro mobile</h4><p>Celular na mesma rede como ficha de bolso, rolando dados para a mesa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Backup e sincronização de mesas</h4><p>Guardar e restaurar uma campanha inteira, inclusive em outro computador.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Reconexão sem perder a sessão</h4><p>Caiu a internet, voltou e a mesa continua de onde parou.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Modo espectador</h4><p>Entrar para assistir a mesa sem ocupar lugar de jogador.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Conexão fora da Steam</h4><p>Alternativa de rede para quem não usa a plataforma.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Voz integrada</h4><p>Chat de voz dentro da mesa, para grupos que não querem um app separado.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= ACESSIBILIDADE ================= -->
+    <div class="bloco-futuro" id="acessibilidade" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Acessibilidade e conforto</h2>
+        <p>Mesa boa é mesa que todo mundo consegue usar.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Tamanho de fonte ajustável</h4><p>Aumentar o texto da interface e da ficha sem quebrar o layout.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paletas para daltonismo</h4><p>Cores de token, estado e medição legíveis em diferentes tipos de daltonismo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Atalhos de teclado configuráveis</h4><p>Refazer o mapa de teclas do jeito que a sua mão pede.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Modo de baixo desempenho</h4><p>Desligar efeitos pesados para rodar bem em computador mais simples.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Leitor de tela na ficha</h4><p>Navegação por teclado e rótulos falados nos campos principais.</p></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2 class="cta-title">Falta alguma coisa aqui?</h2>
+      <p class="cta-text">A lista acima cresce com o que chega da comunidade. Conte o que você precisa na sua mesa — leva menos de dois minutos.</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary btn-large" data-href="links.formSugestoes" data-cta="sugestoes" data-cta-label="rodape-futuro"
+           data-vazio-texto="Formulário em breve">Enviar uma sugestão</a>
+        <a class="btn btn-discord btn-large" data-href="links.discord" data-cta="discord" data-cta-label="rodape-futuro">Falar no Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+/* Destaca a área visível no menu lateral do roadmap */
+document.addEventListener("dicevtt:pronto", function () {
+  var links = document.querySelectorAll(".roadmap-nav a");
+  var blocos = Array.from(links).map(function (a) { return document.querySelector(a.getAttribute("href")); }).filter(Boolean);
+  if (!("IntersectionObserver" in window) || !blocos.length) return;
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) {
+        a.classList.toggle("is-active", a.getAttribute("href") === "#" + e.target.id);
+      });
+    });
+  }, { rootMargin: "-25% 0px -65% 0px" });
+  blocos.forEach(function (b) { obs.observe(b); });
+});
+</script>
+</body>
+</html>

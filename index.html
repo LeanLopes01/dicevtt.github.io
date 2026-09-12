@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="DiceVTT — Virtual Tabletop sem barreiras. P2P via Steam, pagamento único, sem mensalidades." />
+<title>DiceVTT — Virtual Tabletop sem barreiras</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<div class="status-bar">
+  <div class="container">
+    <div class="status-bar-inner">
+      <span class="status-item"><span class="status-dot"></span><span>SISTEMA:</span><span class="status-val">ONLINE</span></span>
+      <span class="status-item"><span>VERSÃO:</span><span class="status-val app-version">carregando…</span></span>
+      <span class="status-item"><span>REDE:</span><span class="status-val">Steam P2P</span></span>
+      <span class="status-item"><span>MENSALIDADE:</span><span class="status-val">R$ 0,00</span></span>
+      <span class="status-item"><span>ATALHO:</span><span class="status-val">Ctrl + K</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero" class="hero">
+  <div class="hero-glow hero-glow-purple" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow-blue" aria-hidden="true"></div>
+
+  <svg class="hero-d20" viewBox="0 0 200 200" aria-hidden="true">
+    <defs>
+      <linearGradient id="d20grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#9715CE"/><stop offset="100%" stop-color="#007DFF"/>
+      </linearGradient>
+    </defs>
+    <polygon points="100,10 185,55 185,145 100,190 15,145 15,55" fill="none" stroke="url(#d20grad)" stroke-width="2"/>
+    <polygon points="100,40 160,70 160,130 100,160 40,130 40,70" fill="none" stroke="url(#d20grad)" stroke-width="1.5"/>
+    <line x1="100" y1="10" x2="100" y2="40" stroke="url(#d20grad)" stroke-width="1"/>
+    <line x1="185" y1="55" x2="160" y2="70" stroke="url(#d20grad)" stroke-width="1"/>
+    <line x1="185" y1="145" x2="160" y2="130" stroke="url(#d20grad)" stroke-width="1"/>
+    <line x1="100" y1="190" x2="100" y2="160" stroke="url(#d20grad)" stroke-width="1"/>
+    <line x1="15" y1="145" x2="40" y2="130" stroke="url(#d20grad)" stroke-width="1"/>
+    <line x1="15" y1="55" x2="40" y2="70" stroke="url(#d20grad)" stroke-width="1"/>
+    <text x="100" y="115" text-anchor="middle" font-family="Cinzel,serif" font-weight="900" font-size="48" fill="url(#d20grad)">20</text>
+  </svg>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-frame">
+        <div class="titlebar">
+          <span class="tb-btn"></span><span class="tb-btn"></span><span class="tb-btn"></span>
+          <span class="tb-title">DICEVTT.EXE — SISTEMA_INICIADO</span>
+        </div>
+        <div class="hero-inner">
+          <p class="hero-badge">
+            <span class="badge-dot"></span>
+            Versão <span class="app-version">carregando…</span> · Steam P2P · pagamento único
+          </p>
+          <h1 class="hero-title">
+            <span>Role os dados.</span>
+            <span class="accent">Conte sua lenda.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Mesa virtual completa para mestres e jogadores, <em>sem servidor, sem assinatura
+            e sem meia hora de configuração</em> antes da primeira rolagem.
+          </p>
+
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary"
+                    data-download-platform="windows" data-download-source="hero">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+              Baixar
+            </button>
+            <a class="btn btn-discord" data-href="links.discord" data-cta="discord" data-cta-label="hero"
+               data-vazio-texto="Discord em breve">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369A19.79 19.79 0 0 0 16.558 3c-.211.375-.444.87-.608 1.262a18.27 18.27 0 0 0-5.902 0A12.64 12.64 0 0 0 9.44 3a19.74 19.74 0 0 0-3.76 1.369C2.633 8.086 1.803 11.69 2.218 15.24a19.9 19.9 0 0 0 5.993 3.03c.483-.657.914-1.354 1.285-2.087a12.9 12.9 0 0 1-2.023-.968c.17-.123.336-.252.497-.384a14.19 14.19 0 0 0 12.06 0c.163.132.33.261.497.384-.641.38-1.317.702-2.023.968.371.733.802 1.43 1.285 2.087a19.83 19.83 0 0 0 6.002-3.03c.487-4.117-.545-7.685-2.474-10.871ZM9.677 13.021c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.556.797 1.542 1.763 0 .973-.678 1.762-1.542 1.762Zm5.335 0c-.85 0-1.542-.79-1.542-1.762 0-.973.678-1.763 1.542-1.763.87 0 1.557.797 1.542 1.763 0 .973-.671 1.762-1.542 1.762Z"/></svg>
+              Discord
+            </a>
+            <a class="btn btn-instagram" data-href="links.instagram" data-cta="instagram" data-cta-label="hero"
+               data-vazio-texto="Instagram em breve">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+
+          <div class="hero-stats" aria-label="Resumo do produto">
+            <div class="hero-stat"><strong>P2P</strong>conexão via Steam</div>
+            <div class="hero-stat"><strong>R$0</strong>por mês, para sempre</div>
+            <div class="hero-stat"><strong>∞</strong>mapas e mesas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HUB / MAPA DO SITE ===================== -->
+<section id="mapa" class="section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // MAPA_DO_SITE ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">Por onde você quer começar</h2>
+      <p class="section-lead">Cada área do projeto tem sua própria página. Aqui vai o resumo de cada uma — e o atalho <kbd>Ctrl</kbd> + <kbd>K</kbd> abre a busca de qualquer lugar do site.</p>
+    </header>
+
+    <div class="hub-grid">
+
+      <a class="hub-card" data-pagina="futuro" data-reveal="0">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><circle cx="12" cy="12" r="4.5"/></svg>
+          <span class="hub-state">roadmap</span>
+        </div>
+        <h3>Futuro do DiceVTT</h3>
+        <p>Tudo que está sendo construído: fichas, salas, sistemas, marketplace, campanhas e comunidade — com a fase de cada item e um formulário aberto para sugestões.</p>
+        <span class="hub-go">Ver o roadmap →</span>
+      </a>
+
+      <a class="hub-card" data-pagina="tutoriais" data-reveal="60">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>
+          <span class="hub-state">vídeos</span>
+        </div>
+        <h3>Tutoriais em vídeo</h3>
+        <p>Da instalação à criação de um sistema próprio. Cada vídeo vem com uma explicação curta do que ele cobre, para você achar direto o que precisa.</p>
+        <span class="hub-go">Assistir →</span>
+      </a>
+
+      <a class="hub-card" data-pagina="notas" data-reveal="120">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h11l3 3v15H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+          <span class="hub-state">changelog</span>
+        </div>
+        <h3>Notas de atualização</h3>
+        <p>O histórico completo, versão por versão, em blocos que você abre e fecha. Correções, ajustes e o que entrou de novo em cada build.</p>
+        <span class="hub-go">Ler as notas →</span>
+      </a>
+
+      <a class="hub-card" data-pagina="srds" data-reveal="0">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="hub-state">grátis</span>
+        </div>
+        <h3>SRDs e sistemas abertos</h3>
+        <p>Documentos de referência em português, em XML e JSON, prontos para importar. Também explica como criar e compartilhar o seu próprio sistema.</p>
+        <span class="hub-go">Ver os SRDs →</span>
+      </a>
+
+      <a class="hub-card" data-pagina="apoie" data-reveal="60">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.35-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 4.65-7 9-7 9z"/></svg>
+          <span class="hub-state">doação</span>
+        </div>
+        <h3>Apoie o projeto</h3>
+        <p>Apoio no apoia.se, sem metas e sem recompensa prometida. É doação mesmo: ajuda a manter o desenvolvimento de pé, e talvez renda um cargo no Discord.</p>
+        <span class="hub-go">Como funciona →</span>
+      </a>
+
+      <a class="hub-card" data-pagina="parceiros" data-reveal="120">
+        <div class="hub-card-top">
+          <svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2.5 19c.8-3 3-4.5 5.5-4.5S12.7 16 13.5 19M10.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/></svg>
+          <span class="hub-state">aberto</span>
+        </div>
+        <h3>Parceiros</h3>
+        <p>Servidores de Discord, editoras e criadores que caminham com o DiceVTT. A lista ainda está vazia — e é aqui que a sua proposta entra.</p>
+        <span class="hub-go">Ver parcerias →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MISSÃO ===================== -->
+<section id="pilares" class="section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // NOSSA_MISSÃO ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">A missão do <span class="text-glow">DiceVTT</span></h2>
+      <p class="section-lead">Quatro decisões que guiam tudo que entra no programa.</p>
+    </header>
+
+    <div class="grid grid-2">
+      <article class="card" data-reveal="0">
+        <div class="card-header">
+          <h3>Software nativo, não um site</h3>
+          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="8" y="10" width="32" height="22" rx="2"/><path d="M16 38h16M24 32v6"/></svg>
+        </div>
+        <div class="card-body"><p>Um programa de PC dedicado: estabilidade, processamento para mapas pesados e a base para a versão mobile conectada na mesma rede.</p></div>
+      </article>
+
+      <article class="card" data-reveal="60">
+        <div class="card-header">
+          <h3>Pagamento único</h3>
+          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="24" cy="24" r="18"/><line x1="8" y1="40" x2="40" y2="8" stroke-width="3"/></svg>
+        </div>
+        <div class="card-body"><p>Você é dono da sua mesa. Compra uma vez e joga para sempre, sem taxa mensal por armazenamento de mapa nem função trancada em plano.</p></div>
+      </article>
+
+      <article class="card" data-reveal="120">
+        <div class="card-header">
+          <h3>Marketplace aberto</h3>
+          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M24 8l16 9-16 9-16-9 16-9z"/><path d="M8 26l16 9 16-9M8 35l16 9 16-9"/></svg>
+        </div>
+        <div class="card-body"><p>Uma loja integrada, no espírito das comunidades de impressão 3D: qualquer pessoa publica sistemas, mapas e tokens, de graça ou com apoio pago ao criador.</p></div>
+      </article>
+
+      <article class="card" data-reveal="180">
+        <div class="card-header">
+          <h3>Parcerias e crescimento</h3>
+          <svg class="card-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 12v24c0 2.2 1.8 4 4 4h20V12c0-2.2-1.8-4-4-4H16c-2.2 0-4 1.8-4 4z"/><line x1="20" y1="8" x2="20" y2="40"/></svg>
+        </div>
+        <div class="card-body"><p>Trazer módulos de aventura e livros oficiais de mais sistemas para dentro do programa, junto com ferramentas melhores de construção de mapa.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FERRAMENTAS ===================== -->
+<section id="ferramentas" class="section">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // ARSENAL_INTEGRADO ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">Ferramentas <span class="text-glow">em foco</span></h2>
+      <p class="section-lead">O que já está funcionando dentro do motor do DiceVTT hoje.</p>
+    </header>
+
+    <div class="shot" data-reveal="0">
+      <img data-src="imagens.inicio" alt="Tela inicial do DiceVTT com as mesas, sistemas e personagens do usuário" loading="lazy">
+    </div>
+    <p class="shot-caption">É assim que o programa recebe você: <strong>mesas, sistemas e personagens já organizados</strong> numa tela só, sem configuração antes de jogar.</p>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Regras e estatísticas</span>
+        <h3 class="tool-title">Fichas automatizadas</h3>
+        <p class="tool-desc">A ficha calcula sozinha modificadores, proficiência, classe de armadura e vida. Um clique numa perícia ou arma rola os dados e manda o resultado para a mesa inteira.</p>
+        <ul class="tick-list">
+          <li>Rolagem automática com um clique</li>
+          <li>Inventário com controle de peso</li>
+          <li>Espaço para magias, habilidades e anotações</li>
+          <li>O mestre vê as mudanças ao vivo</li>
+        </ul>
+      </div>
+      <div class="tool-visual"><img data-src="imagens.ficha" alt="Ficha de personagem automatizada do DiceVTT" loading="lazy"></div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Durante a sessão</span>
+        <h3 class="tool-title">A ficha em jogo</h3>
+        <p class="tool-desc">Cada rolagem mostra o dado, o modificador e o total — ninguém precisa adivinhar de onde saiu o número. Vida, recursos e usos diários ficam visíveis e se atualizam sozinhos.</p>
+        <ul class="tick-list">
+          <li>Detalhe completo de cada rolagem</li>
+          <li>Valores sempre à vista, sem menu escondido</li>
+          <li>Recursos e usos diários atualizados na hora</li>
+          <li>Histórico das rolagens da mesa</li>
+        </ul>
+      </div>
+      <div class="tool-visual"><img data-src="imagens.fichaEmJogo" alt="Ficha durante a sessão, mostrando o detalhamento das rolagens" loading="lazy"></div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Exploração tática</span>
+        <h3 class="tool-title">Mapas de batalha</h3>
+        <p class="tool-desc">Arraste a imagem para o tabuleiro, alinhe o grid e comece. O necessário para montar um encontro está à mão, sem configuração longa no caminho.</p>
+        <ul class="tick-list">
+          <li>Arrastar e soltar mapas e tokens</li>
+          <li>Alinhamento de grid e régua de movimento</li>
+          <li>Desenho, pings e marcações</li>
+          <li>Névoa de guerra para esconder o que vem depois</li>
+        </ul>
+      </div>
+      <div class="tool-visual"><img data-src="imagens.mapas" alt="Mapa de batalha aberto no DiceVTT" loading="lazy"></div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Compatibilidade</span>
+        <h3 class="tool-title">Gerenciador de sistemas</h3>
+        <p class="tool-desc">O mestre define as regras da sala e os jogadores sincronizam automaticamente, carregando dados, fichas e compêndios do sistema em uso.</p>
+        <ul class="tick-list">
+          <li>Sistemas embutidos, começando por D&amp;D 5e</li>
+          <li>Importação e exportação em JSON</li>
+          <li>Fórmulas e dependências lógicas na ficha</li>
+          <li>Troca rápida entre mesas de sistemas diferentes</li>
+        </ul>
+      </div>
+      <div class="tool-visual"><img data-src="imagens.sistema" alt="Gerenciador de sistemas do DiceVTT" loading="lazy"></div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Demonstração</span>
+        <h3 class="tool-title">Veja funcionando</h3>
+        <p class="tool-desc">Fichas, mapas e o gerenciador de sistemas trabalhando juntos numa sessão real. Para os passos detalhados, a página de tutoriais tem um vídeo por assunto.</p>
+        <a class="btn btn-ghost btn-small" data-pagina="tutoriais">Ver todos os tutoriais</a>
+      </div>
+      <div class="tool-visual" style="padding:14px">
+        <div style="width:100%" data-video="videos.demo" data-video-titulo="Demonstração do DiceVTT"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SISTEMAS ===================== -->
+<section id="sistemas" class="systems" data-system="dnd5e">
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // SISTEMAS_NATIVOS ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">Suporte que vem de fábrica</h2>
+      <p class="section-lead">Escolha um sistema para ver como ele se comporta dentro do programa.</p>
+    </header>
+
+    <div class="tab-strip" role="tablist" aria-label="Sistemas suportados">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="panel-dnd5e" id="tab-dnd5e" data-target="dnd5e">
+        <span class="tab-num">I</span><span>Quinta edição</span>
+      </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-mod" id="tab-mod" data-target="mod">
+        <span class="tab-num">II</span><span>Modulares</span>
+      </button>
+    </div>
+
+    <div class="tab-panels">
+      <article class="tab-panel is-active" role="tabpanel" id="panel-dnd5e" aria-labelledby="tab-dnd5e">
+        <div>
+          <p class="panel-tag">D&amp;D 5e · SRD 5.1</p>
+          <h3 class="panel-title">Quinta edição</h3>
+          <p class="panel-desc">Ficha reativa, ataque calculado, magia gastando slot, vantagem e desvantagem em um clique, e um tracker que organiza os turnos de cada rodada.</p>
+          <ul class="panel-features">
+            <li>Ficha de personagem interativa</li>
+            <li>Compêndio de magias e itens do SRD</li>
+            <li>Tracker de iniciativa e condições</li>
+            <li>Rolagem com vantagem e desvantagem nativa</li>
+          </ul>
+          <a href="#download" class="btn btn-tab" data-cta="painel-sistema" data-cta-label="quinta-edicao">Jogar quinta edição</a>
+        </div>
+        <aside class="panel-art" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <polygon points="100,10 185,55 185,145 100,190 15,145 15,55" fill="none" stroke="currentColor" stroke-width="2"/>
+            <polygon points="100,40 160,70 160,130 100,160 40,130 40,70" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <text x="100" y="115" text-anchor="middle" font-family="Cinzel,serif" font-weight="900" font-size="48" fill="currentColor">20</text>
+          </svg>
+        </aside>
+      </article>
+
+      <article class="tab-panel" role="tabpanel" id="panel-mod" aria-labelledby="tab-mod">
+        <div>
+          <p class="panel-tag">Motor JSON · procedural</p>
+          <h3 class="panel-title">Sistemas modulares</h3>
+          <p class="panel-desc">Você responde a um formulário visual e o programa <em>gera regras, rolagens e o layout da ficha</em> do seu sistema — homebrew ou indie, tanto faz.</p>
+          <ul class="panel-features">
+            <li>Gerador visual de fichas por arrastar e soltar</li>
+            <li>Atributos, perícias e fórmulas definidos por você</li>
+            <li>Compartilhamento do sistema entre mesas</li>
+            <li>Importação e exportação em JSON e XML</li>
+          </ul>
+          <a class="btn btn-tab" data-pagina="srds" data-cta="painel-sistema" data-cta-label="criar-sistema">Como criar o meu</a>
+        </div>
+        <aside class="panel-art" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <rect x="40" y="40" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+            <rect x="110" y="40" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+            <rect x="40" y="110" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+            <rect x="110" y="110" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="90" y1="65" x2="110" y2="65" stroke="currentColor" stroke-width="2"/>
+            <line x1="65" y1="90" x2="65" y2="110" stroke="currentColor" stroke-width="2"/>
+            <line x1="135" y1="90" x2="135" y2="110" stroke="currentColor" stroke-width="2"/>
+            <line x1="90" y1="135" x2="110" y2="135" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </aside>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESUMO DAS NOTAS ===================== -->
+<section id="notas-resumo" class="section-tight">
+  <div class="container container-narrow">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // ÚLTIMAS_VERSÕES ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">O que mudou por último</h2>
+      <p class="section-lead">O histórico completo, versão por versão, mora na página de notas.</p>
+    </header>
+    <div id="notas-resumo-lista" class="notas-lista"></div>
+    <div style="text-align:center;margin-top:26px">
+      <a class="btn btn-ghost" data-pagina="notas">Ver todas as notas de atualização</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOWNLOAD ===================== -->
+<section id="download" class="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2 class="cta-title">A próxima sessão começa agora</h2>
+      <p class="cta-text">Junte a party e desça o dungeon. Sem barreira técnica no caminho.</p>
+
+      <div class="download-counter">
+        <a data-href="links.githubReleases" data-cta="github-releases" data-cta-label="contador">
+          <span class="download-counter-label">// TOTAL_BAIXADO:</span>
+          <img data-src="links.badgeDownloads" alt="Total de downloads do DiceVTT">
+        </a>
+      </div>
+
+      <div class="cta-actions" style="margin-bottom:18px">
+        <button type="button" class="btn btn-primary btn-large" data-download-platform="windows" data-download-source="secao-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Baixar para Windows
+        </button>
+        <button type="button" class="btn btn-ghost btn-large" data-download-platform="linux" data-download-source="secao-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Baixar para Linux
+        </button>
+      </div>
+
+      <div class="cta-actions" style="margin-bottom:22px">
+        <a class="btn btn-gold btn-small" data-pagina="tutorial">Guia de instalação</a>
+        <a class="btn btn-ghost btn-small" data-pagina="tutoriais">Tutoriais em vídeo</a>
+      </div>
+
+      <p class="aviso-box"><strong>⚠ Atenção:</strong> a Steam precisa estar aberta para o DiceVTT conectar sua mesa.</p>
+
+      <div style="text-align:left;margin-top:26px">
+        <h3 style="font-family:var(--font-display);font-size:20px;margin-bottom:8px">Instalando no Linux</h3>
+        <p style="font-size:15px;color:var(--text-dim);line-height:1.7">
+          O download é o script <code>installer.sh</code>. Ele abre uma janela de confirmação e, se você aceitar,
+          cria a pasta <code>~/DiceVTT</code>, baixa o pacote do GitHub e extrai tudo sozinho.
+        </p>
+        <div class="terminal-box">
+          <div class="titlebar">
+            <span class="tb-btn"></span><span class="tb-btn"></span><span class="tb-btn"></span>
+            <span class="tb-title">TERMINAL — EXECUTAR_INSTALADOR</span>
+          </div>
+          <ol class="terminal-steps">
+            <li><span class="terminal-step-num">1</span><code>cd ~/Downloads</code></li>
+            <li><span class="terminal-step-num">2</span><code>chmod +x installer.sh</code></li>
+            <li><span class="terminal-step-num">3</span><code>./installer.sh</code></li>
+          </ol>
+        </div>
+        <p style="font-size:13px;color:var(--text-mute);line-height:1.6">
+          Pré-requisitos: <code>zenity</code>, <code>wget</code> e <code>unzip</code>. Se faltar algum,
+          instale com <code>sudo apt install zenity wget unzip</code> ou o gerenciador da sua distro.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COMUNIDADE ===================== -->
+<section id="comunidade" class="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2 class="cta-title">Construa o DiceVTT com a gente</h2>
+      <p class="cta-text">O Discord é onde saem as builds de teste antes de todo mundo, e a pesquisa é onde você diz o que deve entrar primeiro.</p>
+      <ul class="modal-list" style="max-width:460px;margin:0 auto 26px;text-align:left">
+        <li>Acesso antecipado às versões de teste</li>
+        <li>Conversa direta com quem desenvolve</li>
+        <li>Bugs e sugestões que mudam o rumo do projeto</li>
+      </ul>
+      <div class="cta-actions">
+        <a class="btn btn-discord btn-large" data-href="links.discord" data-cta="discord" data-cta-label="secao-comunidade" data-vazio-texto="Discord em breve">Entrar no Discord</a>
+        <a class="btn btn-ghost btn-large" data-href="links.formPesquisa" data-cta="pesquisa" data-cta-label="secao-comunidade" data-vazio-texto="Pesquisa em breve">Responder a pesquisa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE ===================== -->
+<section id="sobre" class="section">
+  <div class="container container-narrow">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // QUEM_SOMOS ]</span></div>
+    <header class="section-header">
+      <h2 class="section-title">Sobre <span class="text-glow">nós</span></h2>
+    </header>
+    <div class="prose" style="max-width:70ch;margin:0 auto">
+      <p>O <strong>DiceVTT</strong> nasceu dentro da <em>USP</em>, num grupo de estudantes que joga RPG de mesa e sentia na pele as barreiras dos VTTs existentes: servidor caro, mensalidade e configuração longa demais antes da primeira rolagem.</p>
+      <p>A escolha foi construir outra coisa: um tabletop virtual <em>leve, de pagamento único e direto ao ponto</em>, usando conexão P2P via Steam para colocar a mesa no ar em segundos.</p>
+      <p>A missão é curta: <em>tirar o que está entre você e a sua próxima sessão</em>, deixando no centro a história, os dados e a party.</p>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="site.js"></script>
+<script>
+/* ---- Abas de sistemas ---- */
+(function () {
+  "use strict";
+  var secao = document.querySelector(".systems");
+  var tabs = document.querySelectorAll(".tab");
+  var panels = document.querySelectorAll(".tab-panel");
+  if (!secao || !tabs.length) return;
+
+  function ativar(alvo) {
+    if (typeof track === "function") track("system_tab_select", { system: alvo });
+    secao.setAttribute("data-system", alvo);
+    tabs.forEach(function (t) {
+      var ativo = t.dataset.target === alvo;
+      t.setAttribute("aria-selected", String(ativo));
+      t.tabIndex = ativo ? 0 : -1;
+    });
+    panels.forEach(function (p) { p.classList.toggle("is-active", p.id === "panel-" + alvo); });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () { ativar(tab.dataset.target); });
+    tab.addEventListener("keydown", function (e) {
+      var arr = Array.from(tabs), i = arr.indexOf(tab), prox = null;
+      if (e.key === "ArrowRight") prox = (i + 1) % arr.length;
+      else if (e.key === "ArrowLeft") prox = (i - 1 + arr.length) % arr.length;
+      if (prox !== null) { e.preventDefault(); arr[prox].focus(); ativar(arr[prox].dataset.target); }
+    });
+  });
+})();
+
+/* ---- Resumo das últimas notas ---- */
+document.addEventListener("dicevtt:pronto", function () {
+  var alvo = document.getElementById("notas-resumo-lista");
+  if (!alvo || typeof dvListarNotas !== "function") return;
+
+  alvo.innerHTML = '<p class="status-msg">Carregando versões…</p>';
+
+  dvListarNotas().then(function (lista) {
+    if (!lista.length) {
+      alvo.innerHTML = '<p class="status-msg">Nenhuma nota publicada ainda.</p>';
+      return;
+    }
+    var ultimas = lista.slice(0, 3);
+    alvo.innerHTML = ultimas.map(function (n, i) {
+      return '<div class="nota-item"><div class="nota-head" style="cursor:default">' +
+        (i === 0 ? '<span class="nota-badge">ATUAL</span>' : '') +
+        '<span class="nota-versao">' + n.versao + '</span>' +
+        '<span class="nota-titulo">' + (n.titulo || "Notas da versão " + n.versao) + '</span>' +
+        (n.data ? '<span class="nota-data">' + n.data + '</span>' : '') +
+        '</div></div>';
+    }).join("");
+  });
+});
+</script>
+</body>
+</html>

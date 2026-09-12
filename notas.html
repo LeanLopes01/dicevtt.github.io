@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Histórico completo de atualizações do DiceVTT, versão por versão." />
+<title>Notas de atualização — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / Notas</p>
+    <p class="page-kicker">// CHANGELOG</p>
+    <h1 class="page-title">Notas de atualização</h1>
+    <p class="page-desc">
+      Cada versão publicada do DiceVTT, da mais recente para a mais antiga. Clique numa versão para
+      abrir o que mudou. A versão mais nova já vem aberta.
+    </p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:20px">
+  <div class="container container-narrow">
+    <div class="notas-toolbar">
+      <button type="button" class="mini-btn" id="btn-expandir">Abrir todas</button>
+      <button type="button" class="mini-btn" id="btn-colapsar">Fechar todas</button>
+      <a class="mini-btn" data-href="links.githubReleases" data-cta="github-releases" data-cta-label="notas">Releases no GitHub</a>
+    </div>
+
+    <div class="notas-lista" id="notas-lista">
+      <p class="status-msg">Carregando versões…</p>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+document.addEventListener("dicevtt:pronto", function () {
+  var alvo = document.getElementById("notas-lista");
+  var chevron = '<svg class="nota-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M9 5l7 7-7 7"/></svg>';
+
+  function ordenar(lista) {
+    return lista.slice().sort(function (a, b) {
+      var pa = String(a.versao).split(".").map(Number);
+      var pb = String(b.versao).split(".").map(Number);
+      for (var i = 0; i < Math.max(pa.length, pb.length); i++) {
+        var x = pa[i] || 0, y = pb[i] || 0;
+        if (x !== y) return y - x;
+      }
+      return 0;
+    });
+  }
+
+  dvListarNotas().then(function (lista) {
+    if (!lista.length) {
+      alvo.innerHTML = '<div class="empty-state"><h3>Nenhuma nota publicada ainda</h3>' +
+        '<p>Assim que a primeira versão for documentada, ela aparece aqui automaticamente.</p></div>';
+      return;
+    }
+
+    lista = ordenar(lista);
+
+    alvo.innerHTML = lista.map(function (n, i) {
+      return '<article class="nota-item' + (i === 0 ? " is-open" : "") + '" data-versao="' + n.versao + '">' +
+        '<button type="button" class="nota-head" aria-expanded="' + (i === 0) + '">' +
+          chevron +
+          '<span class="nota-versao">' + n.versao + '</span>' +
+          (i === 0 ? '<span class="nota-badge">ATUAL</span>' : '') +
+          '<span class="nota-titulo">' + (n.titulo || "") + '</span>' +
+          (n.data ? '<span class="nota-data">' + n.data + '</span>' : '') +
+        '</button>' +
+        '<div class="nota-corpo"><div class="md-body"><p class="status-msg">Carregando…</p></div></div>' +
+      '</article>';
+    }).join("");
+
+    var itens = {};
+    lista.forEach(function (n) { itens[n.versao] = n; });
+
+    function carregar(artigo) {
+      if (artigo.dataset.carregado) return;
+      artigo.dataset.carregado = "1";
+      var corpo = artigo.querySelector(".md-body");
+      dvCarregarNota(itens[artigo.dataset.versao])
+        .then(function (md) {
+          var html = dvMarkdown(md);
+          corpo.innerHTML = html || '<p class="status-msg">Essa nota está vazia.</p>';
+        })
+        .catch(function (erro) {
+          corpo.innerHTML = '<p class="status-msg is-error">Não foi possível carregar a nota da versão ' +
+            artigo.dataset.versao + '. Verifique se o arquivo existe na pasta <code>notas/</code>.</p>';
+          track("nota_load_error", { versao: artigo.dataset.versao, error_message: String(erro && erro.message || erro) });
+        });
+    }
+
+    alvo.addEventListener("click", function (e) {
+      var head = e.target.closest(".nota-head");
+      if (!head) return;
+      var artigo = head.closest(".nota-item");
+      var aberto = artigo.classList.toggle("is-open");
+      head.setAttribute("aria-expanded", String(aberto));
+      if (aberto) { carregar(artigo); track("nota_expand", { versao: artigo.dataset.versao }); }
+    });
+
+    /* A versão mais recente já abre carregada */
+    carregar(alvo.querySelector(".nota-item"));
+
+    document.getElementById("btn-expandir").addEventListener("click", function () {
+      alvo.querySelectorAll(".nota-item").forEach(function (a) {
+        a.classList.add("is-open");
+        a.querySelector(".nota-head").setAttribute("aria-expanded", "true");
+        carregar(a);
+      });
+    });
+    document.getElementById("btn-colapsar").addEventListener("click", function () {
+      alvo.querySelectorAll(".nota-item").forEach(function (a) {
+        a.classList.remove("is-open");
+        a.querySelector(".nota-head").setAttribute("aria-expanded", "false");
+      });
+    });
+
+    /* Abre direto numa versão pelo link: notas.html#0.4.5.14 */
+    var alvoHash = decodeURIComponent(window.location.hash.replace("#", ""));
+    if (alvoHash) {
+      var artigo = alvo.querySelector('[data-versao="' + alvoHash + '"]');
+      if (artigo) {
+        artigo.classList.add("is-open");
+        carregar(artigo);
+        artigo.scrollIntoView({ block: "center" });
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
