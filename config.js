@@ -173,7 +173,7 @@ window.DICEVTT = {
   versao: {
     json: "version.json",
     fallback: "1.0.0",
-    padraoInstalador: "https://github.com/LeanLopes01/dicevtt.github.io/releases/download/{versionSetup}/dicevtt-{versionSetup}.exe"
+    padraoInstalador: "https://github.com/LeanLopes01/dicevtt.github.io/releases/download/{v}/dicevtt-{v}.exe"
   },
 
   /* ---------------------------------------------------------------------
