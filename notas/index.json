@@ -1,6 +1,6 @@
 {
   "versoes": [
-    { "versao": "0.4.5.14", "data": "2025-10-7", "titulo": "Ajustes de ficha e iluminação" },
-    { "versao": "0.5.8.17", "data": "2025-11-8", "titulo": "Ajustes de salas e campanhas" }
+    { "versao": "0.5.8.17", "data": "2025-11-8", "titulo": "Ajustes de salas e campanhas" },
+    { "versao": "0.4.5.14", "data": "2025-10-7", "titulo": "Ajustes de ficha e iluminação" }
   ]
 }
