@@ -24,7 +24,7 @@ window.DICEVTT = {
     discord:        "https://discord.gg/Egb8PQzPN8",
     instagram:      "https://www.instagram.com/dicevtt/",
     twitter:        "",                       // ainda não temos
-    youtube:        "",                       // canal oficial, quando existir
+    youtube:        "https://www.youtube.com/@DiceVTT",                       // canal oficial, quando existir
     emailContato:   "dicevtt@gmail.com",
 
     // GitHub
@@ -39,7 +39,7 @@ window.DICEVTT = {
     formSugestoes:  "",                       // <- COLE AQUI o forms de sugestões
 
     // Apoio
-    apoiase:        "",                       // <- COLE AQUI o link do apoia.se
+    apoiase:        "https://apoia.se/dice_vtt",                       // <- COLE AQUI o link do apoia.se
 
     // Downloads (o de Windows é reescrito pelo version.json, veja "versao")
     downloadWindows: "https://github.com/LeanLopes01/dicevtt.github.io/releases/download/0.4.5.14/dicevtt-0.4.5.14.exe",
