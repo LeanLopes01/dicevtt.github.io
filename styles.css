@@ -549,6 +549,25 @@ body {
 }
 .aviso-box strong { color: #FFD23D; }
 
+/* Destaque de apoio (apoia.se) no topo da home */
+.cta-gold { background: radial-gradient(ellipse at center, rgba(255,176,32,.16), transparent 70%); }
+.cta-box-gold {
+  border-color: var(--gold);
+  box-shadow: 0 0 70px rgba(255,176,32,.28), inset 1px 1px 0 var(--bevel-hi);
+}
+.cta-box-xl { max-width: 900px; padding: 52px clamp(26px, 6vw, 76px); }
+.cta-title-xl { font-size: clamp(30px, 5.4vw, 54px); }
+.apoio-pills {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 9px 14px;
+  margin: 8px 0 30px;
+}
+.apoio-pills span {
+  font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em;
+  color: var(--gold); border: 1px solid rgba(255,176,32,.4); background: rgba(255,176,32,.08);
+  padding: 5px 12px; clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+}
+.btn-xl { padding: 19px 40px; font-size: 27px; }
+
 /* Contador de downloads */
 .download-counter { display: flex; justify-content: center; margin-bottom: 24px; }
 .download-counter a {
