@@ -1,6 +1,11 @@
 {
   "versoes": [
     {
+      "versao": "0.7.10.19",
+      "data": "2026-9-18",
+      "titulo": "Ajuster de campanhas"
+    },
+    {
       "versao": "0.6.9.18",
       "data": "2026-9-14",
       "titulo": "Ajuster de salas, campanhas e fichas"
