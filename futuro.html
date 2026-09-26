@@ -3,12 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="O que vem por aí no DiceVTT: fichas, salas, sistemas, marketplace, campanhas e comunidade." />
+<meta name="description" content="O que vem por aí no DiceVTT: tokens, movimento, mapas, visão, efeitos, combate, fichas e campanhas." />
 <title>Futuro do DiceVTT — o que está sendo construído</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+<style>
+  /* Fase "Concluído" (não existia no styles.css) */
+  .fase.fase-concluida { color: #7ccf8a; border-color: #7ccf8a; background: rgba(124, 207, 138, .12); }
+  .legenda .fase-concluida i { background: #7ccf8a; }
+</style>
 <script src="config.js"></script>
 </head>
 <body>
@@ -35,25 +40,173 @@
 </section>
 
 <nav class="roadmap-nav" aria-label="Áreas do roadmap">
+  <a href="#tokens">Tokens</a>
+  <a href="#movimento">Movimento</a>
+  <a href="#mapas">Mapas e grid</a>
+  <a href="#visao">Visão e paredes</a>
+  <a href="#efeitos">Efeitos e som</a>
+  <a href="#combate">Combate</a>
   <a href="#fichas">Fichas</a>
-  <a href="#salas">Salas e mapas</a>
-  <a href="#sistemas">Sistemas</a>
-  <a href="#campanhas">Campanhas</a>
-  <a href="#marketplace">Marketplace</a>
-  <a href="#comunidade">Comunidade</a>
-  <a href="#plataforma">Plataforma</a>
-  <a href="#acessibilidade">Acessibilidade</a>
+  <a href="#mesa">Mesa e campanhas</a>
 </nav>
 
 <section class="section" style="padding-top:0">
   <div class="container">
 
     <p class="legenda">
+      <span class="fase-concluida"><i></i> Concluído</span>
       <span class="fase-desenvolvimento"><i></i> Em desenvolvimento</span>
       <span class="fase-proxima"><i></i> Próxima da fila</span>
       <span class="fase-planejada"><i></i> Planejada</span>
       <span class="fase-estudo"><i></i> Em estudo</span>
     </p>
+
+    <!-- ================= TOKENS ================= -->
+    <div class="bloco-futuro" id="tokens" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Tokens</h2>
+        <p>As peças que andam pelo tabuleiro.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-concluida">FEITO</span><div><h4>Agrupamento de tokens</h4><p>Juntar montaria e cavaleiro, ou um veículo e seus ocupantes, e mover tudo como uma peça só.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Rotação de tokens</h4><p>Girar o token livremente para mostrar para onde o personagem está virado.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Indicação de direção</h4><p>Marcador de frente no token, útil para flanco e cone de visão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Animações de tokens</h4><p>Ataque, magia, cura e morte com animação própria no tabuleiro.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Auras personalizáveis</h4><p>Aura em volta do token com cor e raio definidos por você.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Anel de alvo</h4><p>Destacar quem está sendo mirado antes da rolagem.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Cores e bordas por jogador</h4><p>Cada jogador com sua cor, para saber de quem é cada token de relance.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Placas de nome dinâmicas</h4><p>Nome acima do token que aparece ou some conforme quem está olhando e o que ele pode ver.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ícones de condição e status</h4><p>Envenenado, caído, atordoado e afins marcados direto no token, com aplicação rápida.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Barras de recursos vinculáveis</h4><p>HP, mana ou qualquer recurso da ficha ligado a uma barra visível no token.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Rolagem rápida pelo token</h4><p>Passar o mouse no token e rolar ataque, perícia ou magia sem abrir a ficha.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ficha resumida em pop-up</h4><p>Uma janelinha com o essencial do personagem ao clicar no token.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Modo furtivo e invisibilidade</h4><p>Esconder um token dos jogadores enquanto ele estiver oculto ou invisível.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Física entre tokens</h4><p>Escolher se tokens se atravessam (colisão suave) ou bloqueiam um ao outro (colisão rígida).</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= MOVIMENTO ================= -->
+    <div class="bloco-futuro" id="movimento" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Movimento e medição</h2>
+        <p>Cada quadrado contado do jeito certo.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Distância Manhattan</h4><p>O cálculo já existe e está sendo ajustado para medir certo em todos os casos.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Regras de diagonal alternáveis</h4><p>5-5-5, 5-10-5 ou distância real, escolhida por mesa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Contador de distância dinâmico</h4><p>Metros ou quadrados percorridos aparecendo enquanto o token é arrastado.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Trapézio na régua</h4><p>Nova forma de medição na régua, em trapézio.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Alcance por cores</h4><p>Faixas coloridas mostrando alcance curto, longo e fora de alcance.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Piscina de movimento</h4><p>O deslocamento do turno é descontado a cada passo, sem conta na mão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Prévia de destino</h4><p>Ver um "fantasma" do token no destino e o caminho antes de confirmar.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Waypoints</h4><p>Traçar a rota por pontos intermediários, contornando obstáculos.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Desfazer movimento</h4><p>Ctrl+Z para voltar o token à posição anterior.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Movimento forçado</h4><p>Empurrar e puxar tokens pela quantidade certa de quadrados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Teletransporte</h4><p>Levar um token de um ponto a outro na hora, sem percorrer o caminho.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Pulo e salto</h4><p>Saltos em distância e altura respeitando as regras de movimento.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Escalada e natação</h4><p>Custo de movimento próprio para paredões, cordas e água.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Voo</h4><p>Tokens voando, com altitude marcada e movimento em três dimensões.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Escavação e subterrâneo</h4><p>Movimento por baixo da terra para criaturas que cavam.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Marcadores de elevação</h4><p>Número de altura no token para voo, desníveis e criaturas submersas.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= MAPAS E GRID ================= -->
+    <div class="bloco-futuro" id="mapas" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Mapas e grid</h2>
+        <p>O tabuleiro onde tudo acontece.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ajustes de grid</h4><p>Tamanho, cor, espessura e alinhamento do grid com a imagem do mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Localização do grid no mapa</h4><p>Definir em que partes do mapa o grid aparece.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ajuste de proporção</h4><p>Colocar o mapa na escala certa sem distorcer a imagem.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Configurações de mapas</h4><p>Um painel único com as opções de cada cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Grid isométrico</h4><p>Mapas em perspectiva isométrica com grid próprio.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Topografia em grids</h4><p>Relevo marcado célula por célula.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Elevação do terreno</h4><p>Partes mais altas e mais baixas do mapa influenciando visão e movimento.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Desnível e escadas</h4><p>Transições de altura com efeito de paralaxe.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Prévia de intersecção de terreno</h4><p>Ver antes de mover onde o caminho cruza desnível, obstáculo ou terreno difícil.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mapas multicamadas</h4><p>Trocar de andar dentro da mesma cena sem carregar outro mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mapas animados</h4><p>GIF ou vídeo curto como fundo da cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Textura de água e rios</h4><p>Água com aparência viva para lagos, rios e alagados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Textura de folhagem</h4><p>Mato, arbustos e copas de árvore pintados direto no mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Textura de buracos</h4><p>Fossos, crateras e abismos com profundidade visual.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Desenhar no mapa</h4><p>Traço livre e formas para marcar o que for preciso durante a sessão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Escrever no mapa</h4><p>Texto estilizado sobre a cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Alfinetes do mestre</h4><p>Lembretes presos no mapa que só o mestre vê.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ping</h4><p>Chamar a atenção da mesa para um ponto do mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Galeria de prefabs</h4><p>Salas, móveis e pontos de luz prontos para arrastar para a cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Design de salas</h4><p>Montar ambientes internos peça por peça.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gerador procedural de masmorras</h4><p>Criar uma planta jogável a partir de alguns parâmetros de tamanho e estilo.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= VISÃO E PAREDES ================= -->
+    <div class="bloco-futuro" id="visao" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Visão, luz e paredes</h2>
+        <p>O que cada personagem enxerga e por onde pode passar.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Linha de visão</h4><p>Cada token só vê o que não está bloqueado por parede ou obstáculo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Visão padrão e no escuro</h4><p>Alcance de visão por personagem, incluindo visão no escuro.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Iluminação melhorada</h4><p>Luz e sombra mais bonitas e mais fiéis às fontes de luz da cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Névoa de guerra avançada</h4><p>O mapa se revela conforme a exploração e lembra o que já foi visto.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Colisão com paredes</h4><p>Detecção de colisão para o token parar ao encontrar parede ou objeto.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paredes intransponíveis</h4><p>Bloqueiam visão e movimento, sem exceção.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paredes invisíveis</h4><p>Deixam ver através, mas não deixam passar.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paredes etéreas</h4><p>Barreiras que certas criaturas e efeitos conseguem atravessar.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paredes destrutíveis</h4><p>Paredes que podem ser quebradas e abrem passagem e visão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paredes que bloqueiam som</h4><p>Barreiras que abafam o áudio localizado da cena.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Portas e janelas interativas</h4><p>Abrir, fechar e trancar direto no mapa.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= EFEITOS E SOM ================= -->
+    <div class="bloco-futuro" id="efeitos" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Efeitos, gatilhos e som</h2>
+        <p>O cenário que reage a quem passa por ele.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Áreas de efeito (AoE)</h4><p>Cone, linha, cubo e esfera desenhados no grid com o alcance certo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Efeitos de terreno</h4><p>Terreno difícil, escorregadio ou perigoso marcado no mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Zonas de efeito contínuo</h4><p>Áreas que aplicam buff, debuff ou condição em quem pisa nelas.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gatilho de proximidade</h4><p>Algo acontece quando um token se aproxima de um ponto do mapa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gatilhos de colisão</h4><p>Algo acontece quando um token encosta em outro token ou objeto.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gatilho de efeitos sonoros</h4><p>Tocar um som quando um gatilho do mapa é ativado.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Objetos clicáveis com macro</h4><p>Alavancas, baús e altares que disparam uma macro ao serem clicados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Clima de neblina e cinzas</h4><p>Neblina e cinzas caindo sobre a cena inteira.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Filtros visuais de câmera</h4><p>Filtros de cor e atmosfera aplicados à visão da mesa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Tremor de tela</h4><p>A câmera treme em explosões, desmoronamentos e golpes pesados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Áudio localizado</h4><p>Sons presos a pontos do mapa, com volume que muda conforme a distância.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Áudio direcional</h4><p>Som da mesa vindo do lado certo, de onde a fonte está.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ================= COMBATE ================= -->
+    <div class="bloco-futuro" id="combate" data-reveal="0">
+      <div class="bloco-head">
+        <h2>Combate e loot</h2>
+        <p>Da iniciativa ao baú no fim da sala.</p>
+      </div>
+      <div class="futuro-lista">
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Iniciar combate</h4><p>Um clique rola a iniciativa e monta a ordem de turnos.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Tela de combate</h4><p>Painel com ordem de turnos, vida e condições de todos na luta.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Passagem de turno</h4><p>Avançar para o próximo da iniciativa e avisar quem joga agora.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Trava de turno</h4><p>Só quem está no turno consegue mover seu token.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Emboscada</h4><p>Rodada surpresa para quem pegou o outro lado desprevenido.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Temporizador de condições</h4><p>Condições que expiram sozinhas depois de alguns turnos.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Rolagens secretas do mestre</h4><p>Rolar escondido dos jogadores.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Dados em 3D</h4><p>Dados físicos rolando na tela.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Texturas de dados 3D</h4><p>Personalizar a aparência dos seus dados.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Barra de atalhos</h4><p>Hotbar com ataques, magias e ações mais usados sempre à mão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>"IA" tática para combate</h4><p>Apoio ao mestre para conduzir as ações dos inimigos.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Drops aleatórios e loot</h4><p>Saque sorteado ao derrotar inimigos ou abrir recompensas.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Contêineres de loot</h4><p>Baús, corpos e sacos no mapa com inventário próprio.</p></div></div>
+      </div>
+    </div>
 
     <!-- ================= FICHAS ================= -->
     <div class="bloco-futuro" id="fichas" data-reveal="0">
@@ -62,129 +215,31 @@
         <p>Menos conta na mão, mais tempo jogando.</p>
       </div>
       <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Condições automáticas</h4><p>Aplicar envenenado, caído ou atordoado e a ficha já ajusta as rolagens afetadas.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Histórico de rolagens por personagem</h4><p>Consultar o que cada um rolou na sessão, com o detalhamento de dado e modificador.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Nível e evolução guiados</h4><p>Subir de nível dentro do programa, com as escolhas da classe aparecendo no momento certo.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Macros de ataque e magia</h4><p>Montar sequências próprias: rolagem, dano, gasto de recurso e mensagem na mesa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ficha impressa em PDF</h4><p>Exportar a ficha preenchida num layout limpo para levar para a mesa física.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Fichas de grupo</h4><p>Recursos compartilhados da party: dinheiro, itens comuns e montarias.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Anexos na ficha</h4><p>Retrato do personagem, mapa de anotações e arquivos soltos ligados àquele herói.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Importar ficha de outros VTTs</h4><p>Ler arquivos exportados de outras plataformas e converter para o formato do DiceVTT.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Criação de fichas D&amp;D</h4><p>Montar um personagem de D&amp;D do zero dentro do programa.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Visualização da ficha D&amp;D</h4><p>Consultar a ficha completa de forma clara durante a sessão.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Novo design da ficha D&amp;D</h4><p>Um visual novo para a ficha, mais bonito e mais fácil de ler.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Fichas modulares</h4><p>Editor de arrastar e soltar para montar a ficha com os blocos que você quiser.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Ficha flutuante destacável</h4><p>Soltar a ficha numa janela à parte, inclusive em outro monitor.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Exportar ficha em PDF</h4><p>Levar a ficha preenchida num layout limpo para a mesa física.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Importador de fichas</h4><p>Trazer fichas a partir de imagem, JSON ou XML.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Calculadora de carga</h4><p>Peso do inventário somado sozinho, com aviso de sobrecarga.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Rastreador de munição e cargas</h4><p>Flechas, balas e cargas de item descontadas a cada uso.</p></div></div>
       </div>
     </div>
 
-    <!-- ================= SALAS E MAPAS ================= -->
-    <div class="bloco-futuro" id="salas" data-reveal="0">
+    <!-- ================= MESA E CAMPANHAS ================= -->
+    <div class="bloco-futuro" id="mesa" data-reveal="0">
       <div class="bloco-head">
-        <h2>Salas e mapas</h2>
-        <p>O tabuleiro onde o combate acontece.</p>
+        <h2>Mesa e campanhas</h2>
+        <p>O que o mestre prepara e o que a party compartilha.</p>
       </div>
       <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Iluminação dinâmica com paredes automáticas</h4><p>Sombra e visão calculadas a partir do mapa, sem desenhar parede por parede.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Camadas de mapa</h4><p>Separar piso, objetos, efeitos e a camada só do mestre.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Áreas de efeito visuais</h4><p>Cone, linha, cubo e esfera desenhados no grid com o alcance certo.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Tokens animados</h4><p>Suporte a tokens em vídeo curto e sprites com estados.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Clima e efeitos de ambiente</h4><p>Chuva, névoa, fumaça e escuridão mágica aplicados na cena inteira.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mapas em múltiplos andares</h4><p>Trocar de andar dentro da mesma cena sem carregar outro mapa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Trilha sonora na sala</h4><p>Playlists e efeitos sonoros sincronizados para todos os jogadores.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Gerador de masmorras</h4><p>Criar uma planta jogável a partir de alguns parâmetros de tamanho e estilo.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= SISTEMAS ================= -->
-    <div class="bloco-futuro" id="sistemas" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Sistemas de regras</h2>
-        <p>Do SRD ao homebrew feito na sua casa.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Pathfinder 2e completo</h4><p>Ficha, compêndio e automação de rolagem no mesmo padrão do 5e.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Editor visual de sistema</h4><p>Montar atributos, perícias e fórmulas por formulário, sem escrever JSON na mão.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Validador de sistema</h4><p>Apontar erro de fórmula e campo faltando antes de a mesa começar.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Sistemas nacionais</h4><p>Suporte a títulos brasileiros, feito em conversa com quem publica.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Versionamento de sistema</h4><p>Atualizar um sistema sem quebrar as fichas já criadas com a versão anterior.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Compêndios personalizados</h4><p>Criar seu próprio livro de magias, itens e monstros dentro do programa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Sistemas sem grid</h4><p>Modo narrativo para jogos que não usam mapa tático.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= CAMPANHAS ================= -->
-    <div class="bloco-futuro" id="campanhas" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Campanhas e narrativa</h2>
-        <p>O que o mestre prepara antes de todo mundo entrar.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Organização de cenas</h4><p>Encadear cenas da aventura e pular entre elas durante a sessão.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Diário da campanha</h4><p>Registro do que aconteceu em cada sessão, visível para a party.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Gerenciador de NPCs</h4><p>Biblioteca de NPCs com stat block pronto, reaproveitável entre campanhas.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Handouts e pistas</h4><p>Entregar carta, mapa ou imagem para um jogador específico no meio da cena.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Tabelas aleatórias</h4><p>Encontros, saques e rumores sorteados com um clique.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Linha do tempo e calendário</h4><p>Controlar dias, viagens e eventos marcados no mundo da campanha.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Módulos de aventura prontos</h4><p>Aventuras completas para abrir e jogar, vindas de parcerias com editoras.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= MARKETPLACE ================= -->
-    <div class="bloco-futuro" id="marketplace" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Marketplace</h2>
-        <p>Uma loja aberta, no espírito das comunidades de impressão 3D.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Publicação pela comunidade</h4><p>Qualquer pessoa sobe sistemas, mapas e tokens direto do programa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Gratuito e pago lado a lado</h4><p>O criador escolhe se distribui de graça ou com apoio pago.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Instalação com um clique</h4><p>Baixar um pacote da loja e ele já aparece dentro da sua mesa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Página de criador</h4><p>Perfil com tudo que a pessoa publicou e o link do trabalho dela fora do DiceVTT.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Curadoria e avaliações</h4><p>Comentário, nota e sinalização de conteúdo quebrado ou indevido.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Conteúdo licenciado de editoras</h4><p>Livros e suplementos oficiais vendidos dentro da loja, com acerto direto com quem publica.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= COMUNIDADE ================= -->
-    <div class="bloco-futuro" id="comunidade" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Comunidade</h2>
-        <p>O que acontece em volta da mesa.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-desenvolvimento">DEV</span><div><h4>Canal de bugs no Discord</h4><p>Reportar um problema com print e log anexados sem sair do programa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Cargos para apoiadores</h4><p>Quem apoia no apoia.se ganha um cargo de reconhecimento no servidor.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Mural de mesas abertas</h4><p>Anunciar uma mesa procurando jogador e encontrar grupo pelo próprio DiceVTT.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Programa de parceria</h4><p>Espaço fixo para servidores, editoras e criadores que andam junto com o projeto.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Votação pública de prioridades</h4><p>A comunidade vota no que sobe na fila da próxima versão.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Tradução colaborativa</h4><p>Levar o programa e os SRDs para outros idiomas com ajuda da comunidade.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= PLATAFORMA ================= -->
-    <div class="bloco-futuro" id="plataforma" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Plataforma</h2>
-        <p>Onde e como o DiceVTT roda.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Companheiro mobile</h4><p>Celular na mesma rede como ficha de bolso, rolando dados para a mesa.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Backup e sincronização de mesas</h4><p>Guardar e restaurar uma campanha inteira, inclusive em outro computador.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Reconexão sem perder a sessão</h4><p>Caiu a internet, voltou e a mesa continua de onde parou.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Modo espectador</h4><p>Entrar para assistir a mesa sem ocupar lugar de jogador.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Conexão fora da Steam</h4><p>Alternativa de rede para quem não usa a plataforma.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Voz integrada</h4><p>Chat de voz dentro da mesa, para grupos que não querem um app separado.</p></div></div>
-      </div>
-    </div>
-
-    <!-- ================= ACESSIBILIDADE ================= -->
-    <div class="bloco-futuro" id="acessibilidade" data-reveal="0">
-      <div class="bloco-head">
-        <h2>Acessibilidade e conforto</h2>
-        <p>Mesa boa é mesa que todo mundo consegue usar.</p>
-      </div>
-      <div class="futuro-lista">
-        <div class="futuro-item"><span class="fase fase-proxima">FILA</span><div><h4>Tamanho de fonte ajustável</h4><p>Aumentar o texto da interface e da ficha sem quebrar o layout.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Paletas para daltonismo</h4><p>Cores de token, estado e medição legíveis em diferentes tipos de daltonismo.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Atalhos de teclado configuráveis</h4><p>Refazer o mapa de teclas do jeito que a sua mão pede.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Modo de baixo desempenho</h4><p>Desligar efeitos pesados para rodar bem em computador mais simples.</p></div></div>
-        <div class="futuro-item"><span class="fase fase-estudo">ESTUDO</span><div><h4>Leitor de tela na ficha</h4><p>Navegação por teclado e rótulos falados nos campos principais.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Tela inicial</h4><p>Nova porta de entrada do programa, com mesas e campanhas à vista.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Salas</h4><p>Criar, entrar e gerenciar salas de jogo.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Campanhas</h4><p>Agrupar mapas, fichas e sessões de uma mesma história.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Sistemas modulares</h4><p>Montar e trocar sistemas de regras como módulos, do SRD ao homebrew.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Sussurros</h4><p>Mensagens privadas entre mestre e jogador.</p></div></div>
+        <div class="futuro-item"><span class="fase fase-planejada">PLAN</span><div><h4>Bloco de notas</h4><p>Anotações organizadas da mesa e da campanha.</p></div></div>
       </div>
     </div>
 
