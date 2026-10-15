@@ -1,0 +1,12 @@
+# Configuração do Jekyll (GitHub Pages).
+# Tudo que está na pasta do site é publicado, EXCETO o que estiver aqui.
+# Documentos internos e qualquer credencial nunca devem ir para o ar.
+exclude:
+  - "Especificacao_Tecnica_Firebase_Steam_Editoras_Guilda(1).md"
+  - "Especificacao_Tecnica*.md"
+  - "*firebase-adminsdk*.json"
+  - "*.env"
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock

@@ -101,6 +101,15 @@
   </div>
 </section>
 
+<!-- ===================== SUA CONTA (visão geral) ===================== -->
+<!-- Fica escondida até o login estar disponível (veja "conta" no config.js) -->
+<section id="conta" class="section-tight" hidden>
+  <div class="container">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // SUA_CONTA ]</span></div>
+    <div id="conta-painel"></div>
+  </div>
+</section>
+
 <!-- ===================== APOIE (destaque) ===================== -->
 <section id="apoio" class="cta cta-gold">
   <div class="container">
@@ -540,6 +549,91 @@
       else if (e.key === "ArrowLeft") prox = (i - 1 + arr.length) % arr.length;
       if (prox !== null) { e.preventDefault(); arr[prox].focus(); ativar(arr[prox].dataset.target); }
     });
+  });
+})();
+
+/* ---- Painel "Sua conta" ---- */
+(function () {
+  "use strict";
+  var secao = document.getElementById("conta");
+  var alvo = document.getElementById("conta-painel");
+  var E = dvEsc;
+  var ultimoUid;
+
+  var ICONES = {
+    biblioteca: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    loja: '<path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/>',
+    lojas: '<circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2.5 19c.8-3 3-4.5 5.5-4.5S12.7 16 13.5 19M10.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/>',
+    perfil: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/>'
+  };
+
+  function card(url, icone, estadoTxt, titulo, numero, texto, acao) {
+    return '<a class="hub-card" href="' + url + '">' +
+      '<div class="hub-card-top"><svg class="hub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' + ICONES[icone] + '</svg>' +
+      '<span class="hub-state">' + estadoTxt + '</span></div>' +
+      '<h3>' + titulo + '</h3>' +
+      (numero !== null ? '<p class="hub-num">' + numero + '</p>' : '') +
+      '<p>' + texto + '</p><span class="hub-go">' + acao + ' →</span></a>';
+  }
+
+  function visitante() {
+    alvo.innerHTML =
+      '<header class="section-header">' +
+        '<h2 class="section-title">Sua biblioteca de <span class="text-glow">sistemas</span></h2>' +
+        '<p class="section-lead">Entre com o Google para guardar seus sistemas, comprar novos e acompanhar a assinatura da guilda — tudo na mesma conta.</p>' +
+        '<div class="cta-actions" style="margin-top:22px"><button type="button" class="btn btn-primary js-entrar">Entrar com Google</button></div>' +
+      '</header>' +
+      '<div class="hub-grid">' +
+        card("loja.html", "loja", "loja", "Loja de sistemas", null, "Sistemas grátis, à venda aqui e nas lojas das editoras parceiras.", "Ver a loja") +
+        card("lojas-parceiras.html", "lojas", "editoras", "Lojas parceiras", null, "Editoras cujos sistemas funcionam dentro do DiceVTT.", "Conhecer") +
+        card("meus-sistemas.html", "biblioteca", "entre", "Meus sistemas", null, "Tudo que está ligado à sua conta, com o histórico de compras.", "Abrir") +
+      '</div>';
+    alvo.querySelector(".js-entrar").addEventListener("click", function () { dvConta.entrar(); });
+  }
+
+  async function logado(u) {
+    var foto = dvUrlSegura(u.foto);
+    var avatar = foto ? '<img src="' + E(foto) + '" alt="" referrerpolicy="no-referrer">' : E((u.nome || "?").charAt(0).toUpperCase());
+    alvo.innerHTML =
+      '<div class="painel-saudacao"><div class="perfil-avatar">' + avatar + '</div>' +
+        '<div><h3>Olá, <span class="js-nome">' + E((u.nome || "aventureiro").split(" ")[0]) + '</span></h3><p>// BEM-VINDO DE VOLTA À MESA</p></div></div>' +
+      '<div class="hub-grid js-cards"><p class="status-msg" style="grid-column:1/-1">Carregando sua conta…</p></div>';
+
+    var r = await Promise.allSettled([
+      dvConta.me(),
+      dvConta.api("/v1/catalog"),
+      dvConta.api("/v1/partner-stores", { auth: false })
+    ]);
+    if (dvConta.estado().usuario?.uid !== u.uid) return; // trocou de conta no meio
+    if (r[0].status === "rejected") return dvErroNaTela(alvo.querySelector(".js-cards"), r[0].reason);
+
+    var me = r[0].value;
+    var sistemas = r[1].status === "fulfilled" ? r[1].value.sistemas || [] : null;
+    var lojas = r[2].status === "fulfilled" ? r[2].value.lojas || [] : null;
+    var disponiveis = sistemas ? sistemas.filter(function (s) { return !s.possui && s.sale_mode !== "unavailable"; }).length : "—";
+    var nSistemas = me.totais ? me.totais.sistemas : 0;
+    var g = me.guilda || {};
+
+    if (me.perfil && me.perfil.display_name) alvo.querySelector(".js-nome").textContent = me.perfil.display_name.split(" ")[0];
+    alvo.querySelector(".js-cards").innerHTML =
+      card("meus-sistemas.html", "biblioteca", "biblioteca", "Meus sistemas", nSistemas,
+        nSistemas === 1 ? "sistema ligado à sua conta." : "sistemas ligados à sua conta.", "Abrir biblioteca") +
+      card("loja.html", "loja", "loja", "Loja de sistemas", disponiveis,
+        "disponíveis para você adicionar ou comprar.", "Ver a loja") +
+      card("lojas-parceiras.html", "lojas", "editoras", "Lojas parceiras", lojas ? lojas.length : "—",
+        "editoras com sistemas compatíveis.", "Conhecer") +
+      card("perfil.html", "perfil", g.ativa ? "guilda ativa" : "perfil", "Meu perfil", null,
+        (g.ativa ? "Membro da guilda até " + dvData(g.validaAte) + ". " : "") + "Dados, preferências, conexões e assinatura.", "Configurar");
+  }
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) { secao.hidden = true; return; }
+    var uid = estado.usuario ? estado.usuario.uid : null;
+    if (uid === ultimoUid && !secao.hidden) return;
+    ultimoUid = uid;
+    secao.hidden = false;
+    if (estado.usuario) logado(estado.usuario); else visitante();
+    if (location.hash === "#conta") secao.scrollIntoView();
   });
 })();
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Sua biblioteca de sistemas no DiceVTT e o histórico de compras." />
+<meta name="robots" content="noindex" />
+<title>Meus sistemas — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="index.html#conta">Minha conta</a> / Meus sistemas</p>
+    <p class="page-kicker">// BIBLIOTECA_DE_SISTEMAS</p>
+    <h1 class="page-title">Meus sistemas</h1>
+    <p class="page-desc">Os sistemas ligados à sua conta — comprados aqui, obtidos de graça ou, em breve, confirmados pelas lojas parceiras.</p>
+    <div id="conta-nav"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container">
+    <div id="biblioteca-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("biblioteca-area");
+  var E = dvEsc;
+  var uidAtual = null;
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) { uidAtual = null; return dvBlocoIndisponivel(area); }
+    if (!estado.usuario) {
+      uidAtual = null;
+      return dvBlocoLogin(area, "Entre para ver seus sistemas", "Sua biblioteca fica guardada na sua conta Google do DiceVTT.");
+    }
+    if (estado.usuario.uid === uidAtual) return;
+    uidAtual = estado.usuario.uid;
+    carregar();
+  });
+
+  async function carregar() {
+    area.innerHTML = '<p class="status-msg">Abrindo a biblioteca…</p>';
+    try {
+      var r = await Promise.all([
+        dvConta.api("/v1/me/systems", { auth: true }),
+        dvConta.api("/v1/me/orders", { auth: true })
+      ]);
+      desenhar(r[0].sistemas || [], r[1].pedidos || []);
+    } catch (e) {
+      dvErroNaTela(area, e);
+    }
+  }
+
+  function licenca(s) {
+    if (s.licenca === "free") return '<span class="selo selo-ok">GRÁTIS</span>';
+    if (s.licenca === "permanent") return '<span class="selo selo-info">PERMANENTE</span>';
+    return '<span class="selo selo-mudo">' + E(String(s.licenca).toUpperCase()) + '</span>';
+  }
+
+  function cartao(s) {
+    return '<article class="sis-card">' +
+      dvCapaSistema(s, '<span class="selo selo-ok">NA BIBLIOTECA</span>') +
+      '<div class="sis-corpo">' +
+        '<span class="sis-editora">' + E(s.loja ? s.loja.name : "DiceVTT") + '</span>' +
+        '<h3>' + E(s.name) + '</h3>' +
+        '<p>' + E(s.description || "") + '</p>' +
+        '<div class="sis-rodape">' + licenca(s) +
+          '<span class="sis-meta">desde ' + dvData(s.obtidoEm) + '</span></div>' +
+      '</div></article>';
+  }
+
+  function desenhar(sistemas, pedidos) {
+    var html =
+      '<div class="nota-resumo"><span aria-hidden="true">ℹ</span><span>Esta é a <strong>última situação conhecida</strong> da sua biblioteca. ' +
+      'O programa confirma as licenças de novo toda vez que abre — inclusive as das lojas parceiras.</span></div>';
+
+    if (!sistemas.length) {
+      html += '<div class="empty-state">' +
+        '<h3>Sua biblioteca está vazia</h3>' +
+        '<p>Pegue um sistema grátis ou compre um na loja. Sistemas comprados em lojas parceiras aparecem aqui depois que a conta da editora for vinculada.</p>' +
+        '<div class="cta-actions"><a class="btn btn-primary btn-small" href="loja.html">Ver a loja</a>' +
+        '<a class="btn btn-ghost btn-small" href="lojas-parceiras.html">Lojas parceiras</a></div>' +
+      '</div>';
+    } else {
+      html += '<div class="sis-grid">' + sistemas.map(cartao).join("") + '</div>';
+    }
+
+    html += '<div class="y2k-divider" style="margin-top:64px"><span class="y2k-divider-label">[ // HISTÓRICO_DE_COMPRAS ]</span></div>';
+    if (!pedidos.length) {
+      html += '<p class="status-msg">Nenhuma compra paga até agora.</p>';
+    } else {
+      html += '<div class="tabela-wrap"><table class="tabela-simples">' +
+        '<thead><tr><th>Sistema</th><th>Data</th><th>Valor</th><th>Situação</th><th></th></tr></thead><tbody>' +
+        pedidos.map(function (p) {
+          var nome = p.sistema && p.sistema.name ? p.sistema.name : p.system_id;
+          var verificar = p.status === "pending"
+            ? '<a class="mini-btn" href="pagamento.html?pedido=' + encodeURIComponent(p.id) + '">verificar</a>' : '';
+          return '<tr><td>' + E(nome) + '</td><td>' + dvData(p.created_at, true) + '</td>' +
+            '<td>' + dvPreco(p.amount_cents, p.currency) + '</td><td>' + dvSeloPedido(p.status) + '</td><td>' + verificar + '</td></tr>';
+        }).join("") +
+        '</tbody></table></div>';
+    }
+    area.innerHTML = html;
+  }
+})();
+</script>
+</body>
+</html>

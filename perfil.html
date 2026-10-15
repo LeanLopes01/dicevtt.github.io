@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Seu perfil no DiceVTT: dados, preferências, conexões e assinatura da guilda." />
+<meta name="robots" content="noindex" />
+<title>Meu perfil — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="index.html#conta">Minha conta</a> / Perfil</p>
+    <p class="page-kicker">// FICHA_DO_JOGADOR</p>
+    <h1 class="page-title">Meu perfil</h1>
+    <p class="page-desc">Como você aparece nas mesas, suas preferências, as contas conectadas e a assinatura da guilda.</p>
+    <div id="conta-nav"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container">
+    <div id="perfil-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("perfil-area");
+  var E = dvEsc;
+  var uidAtual = null;
+  var planos = [];
+
+  var ICONE_GOOGLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.5 14.6 2.5 12 2.5 6.8 2.5 2.6 6.7 2.6 12s4.2 9.5 9.4 9.5c5.4 0 9-3.8 9-9.2 0-.6-.1-1.1-.2-1.6H12z"/></svg>';
+  var ICONE_STEAM = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-9.96 9.2l5.35 2.2a2.8 2.8 0 0 1 1.6-.5h.16l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.13a2.83 2.83 0 0 1-5.6.56L2.4 14.8A10 10 0 1 0 12 2zm-4.28 15.2-1.22-.5a2.12 2.12 0 1 0 1.16-2.9l1.27.52a1.56 1.56 0 1 1-1.2 2.88zm9.83-7.7a2.5 2.5 0 1 0-2.5 2.51 2.51 2.51 0 0 0 2.5-2.51zm-4.38 0a1.88 1.88 0 1 1 1.88 1.88 1.88 1.88 0 0 1-1.88-1.88z"/></svg>';
+  var ICONE_LOJA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></svg>';
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) { uidAtual = null; return dvBlocoIndisponivel(area); }
+    if (!estado.usuario) {
+      uidAtual = null;
+      return dvBlocoLogin(area, "Entre para ver seu perfil", "Use sua conta Google. O primeiro acesso já cria o seu perfil no DiceVTT.");
+    }
+    if (estado.usuario.uid === uidAtual) return;
+    uidAtual = estado.usuario.uid;
+    carregar();
+  });
+
+  async function carregar() {
+    area.innerHTML = '<p class="status-msg">Carregando seu perfil…</p>';
+    try {
+      var r = await Promise.all([
+        dvConta.me(true),
+        dvConta.api("/v1/guild/plans", { auth: false }).catch(function () { return { planos: [] }; })
+      ]);
+      planos = r[1].planos || [];
+      desenhar(r[0]);
+    } catch (e) {
+      dvErroNaTela(area, e);
+    }
+  }
+
+  function iniciais(nome) {
+    return String(nome || "?").trim().split(/\s+/).slice(0, 2).map(function (p) { return p[0] || ""; }).join("").toUpperCase() || "?";
+  }
+  function dado(rotulo, valor) {
+    return '<div class="perfil-dado"><span>' + rotulo + '</span><span>' + valor + '</span></div>';
+  }
+  function opcao(nome, marcado, titulo, texto) {
+    return '<label class="opcao"><input type="checkbox" name="' + nome + '"' + (marcado ? " checked" : "") + '>' +
+      '<span><strong>' + titulo + '</strong><small>' + texto + '</small></span></label>';
+  }
+
+  /* ------------------------------------------------------------------ */
+  function desenhar(me) {
+    var p = me.perfil || {};
+    var foto = dvUrlSegura(p.avatar_url);
+
+    area.innerHTML =
+      '<div class="perfil-layout">' +
+        '<aside class="card perfil-lado"><div class="card-body">' +
+          '<div class="perfil-avatar">' + (foto ? '<img src="' + E(foto) + '" alt="" referrerpolicy="no-referrer">' : E(iniciais(p.display_name))) + '</div>' +
+          '<p class="perfil-nome js-lado-nome">' + E(p.display_name || "Sem nome") + '</p>' +
+          '<p class="perfil-user js-lado-user">' + (p.username ? "@" + E(p.username) : "") + '</p>' +
+          '<p class="perfil-email">' + E(me.email) + '</p>' +
+          '<div class="perfil-selos js-lado-selos">' + selosGuilda(me.guilda) + '</div>' +
+          '<div class="perfil-dados">' +
+            dado("Membro desde", dvData(p.created_at)) +
+            dado("Sistemas", '<a href="meus-sistemas.html" style="color:var(--primary-blue)">' + Number(me.totais && me.totais.sistemas || 0) + '</a>') +
+            '<div class="perfil-id"><span>ID de suporte</span><div><code title="' + E(me.uid) + '">' + E(me.uid) + '</code>' +
+              '<button type="button" class="mini-btn js-copiar">copiar</button></div></div>' +
+          '</div>' +
+          '<button type="button" class="btn btn-ghost btn-small js-sair">Sair da conta</button>' +
+        '</div></aside>' +
+
+        '<div class="perfil-secoes">' +
+          formulario(p) +
+          '<section class="card" id="guilda"><div class="card-header"><h3>Assinatura da guilda</h3><span class="card-tag">mercado pago</span></div>' +
+            '<div class="card-body" id="guilda-corpo"></div></section>' +
+          conexoes(me) +
+          '<section class="card zona-perigo"><div class="card-header"><h3>Excluir conta</h3><span class="card-tag" style="color:#ff8a8a">irreversível</span></div>' +
+            '<div class="card-body">' +
+              '<p>Apaga seu perfil, sua biblioteca de sistemas e o seu login no DiceVTT. As compras continuam registradas para fins fiscais, mas os sistemas deixam de estar ligados a você. Não dá para desfazer.</p>' +
+              '<div class="form-acoes" style="margin-top:16px"><button type="button" class="btn btn-perigo btn-small js-excluir">Excluir minha conta</button></div>' +
+            '</div></section>' +
+        '</div>' +
+      '</div>';
+
+    desenharGuilda(me.guilda);
+    ligarFormulario(p);
+
+    area.querySelector(".js-sair").addEventListener("click", function () { dvConta.sair(); });
+    area.querySelector(".js-copiar").addEventListener("click", function () {
+      navigator.clipboard.writeText(me.uid).then(function () { dvToast("ID copiado. Envie para o suporte se precisar de ajuda.", "ok"); });
+    });
+    area.querySelector(".js-excluir").addEventListener("click", excluirConta);
+
+    if (location.hash === "#guilda") document.getElementById("guilda").scrollIntoView();
+  }
+
+  function selosGuilda(g) {
+    if (g && g.ativa) return '<span class="selo selo-ok">MEMBRO DA GUILDA</span>';
+    return '<span class="selo selo-mudo">JOGADOR</span>';
+  }
+
+  /* ---------------- Formulário de perfil ---------------- */
+  function formulario(p) {
+    var idiomas = [["pt-BR", "Português (Brasil)"], ["en", "English"], ["es", "Español"]];
+    return '<form class="card" id="form-perfil" novalidate>' +
+      '<div class="card-header"><h3>Dados do perfil</h3><span class="card-tag">editável</span></div>' +
+      '<div class="card-body form-grid">' +
+        '<div class="form-grid form-grid-2">' +
+          '<label class="campo" data-campo="display_name"><span class="campo-rotulo">Nome de exibição</span>' +
+            '<input name="display_name" maxlength="40" required value="' + E(p.display_name) + '">' +
+            '<small>Como você aparece para a mesa.</small></label>' +
+          '<label class="campo" data-campo="username"><span class="campo-rotulo">Nome de usuário</span>' +
+            '<span class="campo-prefixo"><b>@</b><input name="username" maxlength="20" autocomplete="off" spellcheck="false" value="' + E(p.username || "") + '"></span>' +
+            '<small>3 a 20 letras minúsculas, números ou _. Único no DiceVTT.</small></label>' +
+        '</div>' +
+        '<label class="campo" data-campo="bio"><span class="campo-rotulo">Bio</span>' +
+          '<textarea name="bio" maxlength="280" placeholder="Mestre de fim de semana, fã de horror cósmico…">' + E(p.bio || "") + '</textarea>' +
+          '<small><span class="js-bio-cont">0</span>/280</small></label>' +
+        '<div class="form-grid form-grid-2">' +
+          '<label class="campo" data-campo="locale"><span class="campo-rotulo">Idioma</span><select name="locale">' +
+            idiomas.map(function (i) { return '<option value="' + i[0] + '"' + (p.locale === i[0] ? " selected" : "") + '>' + i[1] + '</option>'; }).join("") +
+          '</select><small>Idioma dos e-mails e, futuramente, do programa.</small></label>' +
+          '<label class="campo" data-campo="billing_email"><span class="campo-rotulo">E-mail do Mercado Pago</span>' +
+            '<input type="email" name="billing_email" maxlength="254" value="' + E(p.billing_email || "") + '">' +
+            '<small>Usado nas compras e na assinatura. Use o e-mail da conta Mercado Pago que vai pagar.</small></label>' +
+        '</div>' +
+        '<p class="subtitulo-form">PREFERÊNCIAS</p>' +
+        '<div class="opcoes">' +
+          opcao("notify_news", p.notify_news, "Novidades do DiceVTT", "Versões novas, eventos e lançamentos por e-mail.") +
+          opcao("notify_updates", p.notify_updates, "Atualizações dos meus sistemas", "Aviso quando um sistema da sua biblioteca ganhar versão nova.") +
+          opcao("public_profile", p.public_profile, "Perfil público", "Outros jogadores podem ver seu nome, @ e bio.") +
+        '</div>' +
+        '<div class="form-acoes"><span class="form-msg js-form-msg" role="status"></span>' +
+          '<button type="submit" class="btn btn-primary btn-small">Salvar alterações</button></div>' +
+      '</div></form>';
+  }
+
+  function ligarFormulario(original) {
+    var form = document.getElementById("form-perfil");
+    var bio = form.elements.bio;
+    var cont = form.querySelector(".js-bio-cont");
+    var msg = form.querySelector(".js-form-msg");
+    var botao = form.querySelector("button[type=submit]");
+    function contar() { cont.textContent = bio.value.length; }
+    bio.addEventListener("input", contar); contar();
+    form.elements.username.addEventListener("input", function () { this.value = this.value.toLowerCase(); });
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      form.querySelectorAll(".campo.is-erro").forEach(function (c) { c.classList.remove("is-erro"); });
+      msg.className = "form-msg js-form-msg"; msg.textContent = "Salvando…";
+      botao.disabled = true;
+
+      var corpo = {
+        display_name: form.elements.display_name.value,
+        username: form.elements.username.value,
+        bio: bio.value,
+        locale: form.elements.locale.value,
+        billing_email: form.elements.billing_email.value,
+        notify_news: form.elements.notify_news.checked,
+        notify_updates: form.elements.notify_updates.checked,
+        public_profile: form.elements.public_profile.checked
+      };
+      try {
+        var r = await dvConta.api("/v1/me/profile", { metodo: "PATCH", corpo: corpo, auth: true });
+        var p = r.perfil;
+        area.querySelector(".js-lado-nome").textContent = p.display_name;
+        area.querySelector(".js-lado-user").textContent = p.username ? "@" + p.username : "";
+        form.elements.username.value = p.username || "";
+        msg.className = "form-msg js-form-msg is-ok"; msg.textContent = "Perfil salvo.";
+        dvConta.me(true).catch(function () {});
+        if (typeof track === "function") track("profile_update", {});
+      } catch (e) {
+        msg.className = "form-msg js-form-msg is-erro"; msg.textContent = e.message;
+        if (e.field) {
+          var c = form.querySelector('[data-campo="' + e.field + '"]');
+          if (c) { c.classList.add("is-erro"); var i = c.querySelector("input,textarea,select"); if (i) i.focus(); }
+        }
+      } finally {
+        botao.disabled = false;
+      }
+    });
+  }
+
+  /* ---------------- Guilda ---------------- */
+  function desenharGuilda(g) {
+    var alvo = document.getElementById("guilda-corpo");
+    var a = g && g.assinatura;
+    var status = "";
+    var acoes = [];
+
+    if (g && g.ativa) {
+      status = '<span class="selo selo-ok">ATIVA</span><p>Acesso até <strong>' + dvData(g.validaAte) + '</strong>' +
+        (a && a.plano ? ' · ' + E(a.plano.name) : '') + '</p>';
+      if (a && a.status === "cancelled") status += '<p style="flex-basis:100%">Assinatura cancelada: os benefícios continuam até o fim do período pago.</p>';
+      if (a && a.status === "paused") status += '<p style="flex-basis:100%">A cobrança está pausada no Mercado Pago.</p>';
+    } else if (a && a.status === "pending") {
+      status = '<span class="selo selo-alerta">PAGAMENTO PENDENTE</span><p>O Mercado Pago ainda não confirmou a primeira cobrança.</p>';
+    } else if (a && a.status === "paused") {
+      status = '<span class="selo selo-alerta">PAUSADA</span><p>A cobrança está pausada. Regularize no Mercado Pago para voltar a ter acesso.</p>';
+    } else {
+      status = '<span class="selo selo-mudo">SEM ASSINATURA</span><p>Assine para apoiar o desenvolvimento e liberar os recursos da guilda.</p>';
+    }
+
+    if (a && a.status === "pending" && a.checkoutUrl) acoes.push('<a class="btn btn-primary btn-small" href="' + E(dvUrlSegura(a.checkoutUrl)) + '">Concluir pagamento</a>');
+    if (a && (a.status === "authorized" || a.status === "paused")) acoes.push('<button type="button" class="btn btn-ghost btn-small js-cancelar">Cancelar assinatura</button>');
+    if (a) acoes.push('<button type="button" class="mini-btn js-sync">Atualizar status</button>');
+
+    var podeAssinar = !(a && (a.status === "authorized" || a.status === "paused"));
+    var listaPlanos = "";
+    if (podeAssinar) {
+      listaPlanos = planos.length ? planos.map(function (pl) {
+        var feats = Array.isArray(pl.features) ? pl.features : [];
+        var periodo = pl.frequency_months === 1 ? "/mês" : "/" + pl.frequency_months + " meses";
+        return '<div class="plano"><div style="flex:1;min-width:220px">' +
+            '<h4>' + E(pl.name) + '</h4>' + (pl.description ? '<p>' + E(pl.description) + '</p>' : '') +
+            (feats.length ? '<ul class="tick-list">' + feats.map(function (f) { return '<li>' + E(f) + '</li>'; }).join("") + '</ul>' : '') +
+          '</div><div style="text-align:right">' +
+            '<p class="plano-preco">' + dvPreco(pl.price_cents, pl.currency) + '<small>' + periodo + '</small></p>' +
+            '<button type="button" class="btn btn-gold btn-small js-assinar" data-plano="' + E(pl.id) + '" style="margin-top:12px">' +
+              (g && g.ativa ? "Assinar de novo" : "Assinar") + '</button>' +
+          '</div></div>';
+      }).join("") : '<p class="status-msg" style="padding:8px 0">Nenhum plano disponível no momento.</p>';
+    }
+
+    alvo.innerHTML =
+      '<div class="guilda-status">' + status + '</div>' +
+      (acoes.length ? '<div class="form-acoes" style="justify-content:flex-start;margin-bottom:18px">' + acoes.join("") + '</div>' : '') +
+      listaPlanos +
+      '<p style="font-size:13px;color:var(--text-mute);margin-top:14px">Pagamento recorrente processado pelo Mercado Pago. Você pode cancelar quando quiser; o acesso segue até o fim do período pago.</p>';
+
+    alvo.querySelectorAll(".js-assinar").forEach(function (b) {
+      b.addEventListener("click", function () { assinar(b); });
+    });
+    var c = alvo.querySelector(".js-cancelar");
+    if (c) c.addEventListener("click", cancelar);
+    var s = alvo.querySelector(".js-sync");
+    if (s) s.addEventListener("click", function () { sincronizar(s); });
+  }
+
+  function atualizarGuilda(g) {
+    desenharGuilda(g);
+    area.querySelector(".js-lado-selos").innerHTML = selosGuilda(g);
+  }
+
+  async function assinar(botao) {
+    botao.disabled = true; botao.textContent = "Abrindo…";
+    try {
+      var r = await dvConta.api("/v1/guild/subscribe", { metodo: "POST", corpo: { planoId: botao.dataset.plano }, auth: true });
+      if (typeof track === "function") track("begin_checkout", { item_id: botao.dataset.plano, item_category: "guilda" });
+      location.href = r.checkoutUrl;
+    } catch (e) {
+      dvToast(e.message, "erro");
+      botao.disabled = false; botao.textContent = "Assinar";
+      if (e.field === "billing_email") document.querySelector('[name="billing_email"]').focus();
+    }
+  }
+
+  async function sincronizar(botao) {
+    botao.disabled = true; botao.textContent = "Consultando…";
+    try {
+      var r = await dvConta.api("/v1/guild/sync", { metodo: "POST", auth: true });
+      atualizarGuilda(r.guilda);
+      dvToast("Status atualizado.", "ok");
+    } catch (e) {
+      dvToast(e.message, "erro");
+      botao.disabled = false; botao.textContent = "Atualizar status";
+    }
+  }
+
+  function cancelar() {
+    confirmar({
+      titulo: "Cancelar a assinatura?",
+      texto: "Não haverá novas cobranças. Os benefícios da guilda continuam até o fim do período que já foi pago.",
+      botao: "Cancelar assinatura",
+      perigo: true,
+      acao: async function () {
+        var r = await dvConta.api("/v1/guild/cancel", { metodo: "POST", auth: true });
+        atualizarGuilda(r.guilda);
+        dvToast("Assinatura cancelada.", "ok");
+      }
+    });
+  }
+
+  /* ---------------- Conexões ---------------- */
+  function conexoes(me) {
+    function linha(icone, nome, texto, selo) {
+      return '<div class="conexao"><div class="conexao-icone">' + icone + '</div>' +
+        '<div class="conexao-info"><strong>' + nome + '</strong><span>' + texto + '</span></div>' + selo + '</div>';
+    }
+    return '<section class="card"><div class="card-header"><h3>Conexões</h3><span class="card-tag">contas vinculadas</span></div>' +
+      '<div class="card-body">' +
+        linha(ICONE_GOOGLE, "Google", E(me.email) + " · usado para entrar no site", '<span class="selo selo-ok">CONECTADA</span>') +
+        linha(ICONE_STEAM, "Steam", "Vai permitir entrar no programa com esta mesma conta e liberar seus sistemas.", '<span class="selo selo-mudo">EM BREVE</span>') +
+        linha(ICONE_LOJA, "Lojas parceiras", "Vincule a conta da editora para confirmar sistemas comprados no site dela.", '<span class="selo selo-mudo">EM BREVE</span>') +
+      '</div></section>';
+  }
+
+  /* ---------------- Excluir conta ---------------- */
+  function excluirConta() {
+    confirmar({
+      titulo: "Excluir sua conta?",
+      texto: "Seu perfil, sua biblioteca e seu login serão apagados. Se você tiver uma assinatura da guilda ativa, cancele antes. O Google vai pedir para você confirmar a conta.",
+      botao: "Excluir definitivamente",
+      perigo: true,
+      digitar: "EXCLUIR",
+      acao: async function () {
+        var ok = await dvConta.reautenticar();
+        if (!ok) throw new Error("Confirmação com o Google cancelada.");
+        await dvConta.api("/v1/me", { metodo: "DELETE", corpo: { confirmacao: "EXCLUIR" }, auth: true });
+        if (typeof track === "function") track("account_delete", {});
+        await dvConta.sair();
+        location.href = "index.html";
+      }
+    });
+  }
+
+  /* ---------------- Modal de confirmação ---------------- */
+  function confirmar(op) {
+    var ov = document.createElement("div");
+    ov.className = "modal-overlay";
+    ov.innerHTML =
+      '<div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="confirmar-titulo">' +
+        '<div class="titlebar"><span class="tb-btn"></span><span class="tb-btn"></span><span class="tb-btn"></span>' +
+          '<span class="tb-title">CONFIRMAR_ACAO</span></div>' +
+        '<div class="modal-content">' +
+          '<h3 class="modal-title" id="confirmar-titulo">' + E(op.titulo) + '</h3>' +
+          '<p class="modal-text">' + E(op.texto) + '</p>' +
+          (op.digitar ? '<label class="campo" style="margin-bottom:16px"><span class="campo-rotulo">Digite ' + E(op.digitar) + ' para confirmar</span>' +
+            '<input type="text" class="js-digitar" autocomplete="off" spellcheck="false"></label>' : '') +
+          '<p class="form-msg is-erro js-erro" style="margin-bottom:12px"></p>' +
+          '<div class="modal-actions">' +
+            '<button type="button" class="btn btn-ghost btn-small js-voltar">Voltar</button>' +
+            '<button type="button" class="btn ' + (op.perigo ? "btn-perigo" : "btn-primary") + ' btn-small js-ok"' + (op.digitar ? " disabled" : "") + '>' + E(op.botao) + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    var ok = ov.querySelector(".js-ok");
+    var erro = ov.querySelector(".js-erro");
+    var campo = ov.querySelector(".js-digitar");
+    function fechar() { ov.remove(); }
+
+    if (campo) {
+      campo.addEventListener("input", function () { ok.disabled = campo.value.trim() !== op.digitar; });
+      campo.focus();
+    } else ok.focus();
+
+    ov.querySelector(".js-voltar").addEventListener("click", fechar);
+    ov.addEventListener("click", function (e) { if (e.target === ov) fechar(); });
+    ov.addEventListener("keydown", function (e) { if (e.key === "Escape") fechar(); });
+    ok.addEventListener("click", async function () {
+      ok.disabled = true; erro.textContent = "";
+      try {
+        await op.acao();
+        fechar();
+      } catch (e) {
+        erro.textContent = e.message || "Não foi possível concluir.";
+        ok.disabled = false;
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

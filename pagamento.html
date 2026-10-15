@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Pagamento — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container container-narrow">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="index.html#conta">Minha conta</a> / Pagamento</p>
+    <p class="page-kicker">// CONFIRMACAO_DE_PAGAMENTO</p>
+    <h1 class="page-title">Pagamento</h1>
+    <p class="page-desc">A confirmação vem direto do Mercado Pago. Esta página consulta sozinha até o pagamento ser aprovado.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container container-narrow">
+    <div id="pagamento-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("pagamento-area");
+  var E = dvEsc;
+  var q = new URLSearchParams(location.search);
+  var pedidoId = q.get("pedido");
+  var guildaId = q.get("guilda");
+  var TENTATIVAS = 12, INTERVALO = 5000;
+  var tentativa = 0, timer = null, uidAtual = null, registrado = false;
+
+  dvAoMudarConta(function (estado) {
+    clearTimeout(timer);
+    if (!estado.disponivel) return dvBlocoIndisponivel(area);
+    if (!pedidoId && !guildaId) {
+      area.innerHTML = '<div class="empty-state"><h3>Nada para verificar</h3>' +
+        '<p>Esta página mostra o resultado de uma compra ou assinatura. Seus pedidos ficam no histórico da biblioteca.</p>' +
+        '<a class="btn btn-primary btn-small" href="meus-sistemas.html">Meus sistemas</a></div>';
+      return;
+    }
+    if (!estado.usuario) {
+      uidAtual = null;
+      return dvBlocoLogin(area, "Entre para ver seu pagamento", "Use a mesma conta Google com que você fez a compra.");
+    }
+    if (estado.usuario.uid === uidAtual) return;
+    uidAtual = estado.usuario.uid;
+    tentativa = 0;
+    area.innerHTML = '<p class="status-msg">Consultando o Mercado Pago…</p>';
+    verificar();
+  });
+
+  async function verificar() {
+    clearTimeout(timer);
+    try {
+      if (pedidoId) {
+        var r = await dvConta.api("/v1/orders/" + encodeURIComponent(pedidoId) + "/sync", { metodo: "POST", auth: true });
+        mostrarPedido(r.pedido);
+      } else {
+        var g = await dvConta.api("/v1/guild/sync", { metodo: "POST", auth: true });
+        mostrarGuilda(g.guilda);
+      }
+    } catch (e) {
+      if (e.code === "NOT_FOUND") {
+        area.innerHTML = '<div class="empty-state"><h3>Pedido não encontrado</h3>' +
+          '<p>Confira se você entrou com a mesma conta Google usada na compra.</p>' +
+          '<a class="btn btn-ghost btn-small" href="meus-sistemas.html">Ver meu histórico</a></div>';
+      } else dvErroNaTela(area, e);
+    }
+  }
+
+  /* Volta a consultar sozinho enquanto estiver pendente */
+  function agendar() {
+    if (tentativa >= TENTATIVAS) return false;
+    tentativa++;
+    timer = setTimeout(verificar, INTERVALO);
+    return true;
+  }
+
+  function caixa(seloHtml, titulo, texto, botoes, rodape) {
+    area.innerHTML = '<div class="empty-state">' +
+      '<div style="margin-bottom:14px">' + seloHtml + '</div>' +
+      '<h3>' + titulo + '</h3><p>' + texto + '</p>' +
+      '<div class="cta-actions">' + (botoes || "") + '</div>' +
+      (rodape ? '<p style="margin:22px auto 0;font-size:13px;color:var(--text-mute)">' + rodape + '</p>' : '') +
+    '</div>';
+    var b = area.querySelector(".js-verificar");
+    if (b) b.addEventListener("click", function () { tentativa = 0; b.disabled = true; b.textContent = "Consultando…"; verificar(); });
+  }
+
+  var BOTAO_VERIFICAR = '<button type="button" class="btn btn-ghost btn-small js-verificar">Verificar agora</button>';
+
+  function mostrarPedido(p) {
+    var nome = E(p.sistema && p.sistema.name || "o sistema");
+    var detalhe = nome + ' · ' + dvPreco(p.valor_cents, p.moeda) + ' · pedido ' + E(String(p.id).slice(0, 8));
+    var checkout = dvUrlSegura(p.checkoutUrl);
+
+    switch (p.status) {
+      case "approved":
+        if (!registrado && typeof track === "function") {
+          registrado = true;
+          track("purchase", { transaction_id: p.id, value: p.valor_cents / 100, currency: p.moeda, items: [{ item_id: p.sistema && p.sistema.id }] });
+        }
+        return caixa(dvSeloPedido("approved"), "Pagamento aprovado!",
+          "<strong>" + nome + "</strong> já está na sua biblioteca.",
+          '<a class="btn btn-primary btn-small" href="meus-sistemas.html">Ver meus sistemas</a>' +
+          '<a class="btn btn-ghost btn-small" href="loja.html">Continuar na loja</a>', detalhe);
+      case "pending":
+        var seguindo = agendar();
+        return caixa(dvSeloPedido("pending"), "Pagamento em processamento",
+          "Pix costuma confirmar em segundos; boleto pode levar até 3 dias úteis. " +
+          (seguindo ? "Esta página está consultando sozinha." : "Você pode fechar esta página: o sistema entra na biblioteca assim que o Mercado Pago aprovar."),
+          BOTAO_VERIFICAR + (checkout ? '<a class="btn btn-ghost btn-small" href="' + E(checkout) + '">Voltar ao pagamento</a>' : ''), detalhe);
+      case "rejected":
+        return caixa(dvSeloPedido("rejected"), "Pagamento recusado",
+          "O Mercado Pago não aprovou o pagamento. Você pode tentar de novo com outro meio de pagamento.",
+          (checkout ? '<a class="btn btn-primary btn-small" href="' + E(checkout) + '">Tentar de novo</a>' : '') +
+          '<a class="btn btn-ghost btn-small" href="loja.html">Voltar à loja</a>', detalhe);
+      case "refunded":
+      case "charged_back":
+        return caixa(dvSeloPedido(p.status), "Pagamento devolvido",
+          "O valor foi devolvido e o sistema saiu da sua biblioteca.",
+          '<a class="btn btn-ghost btn-small" href="loja.html">Voltar à loja</a>', detalhe);
+      default:
+        return caixa(dvSeloPedido(p.status), "Pedido encerrado",
+          "Este pedido foi cancelado ou expirou. Se quiser o sistema, é só comprar de novo na loja.",
+          '<a class="btn btn-primary btn-small" href="loja.html">Voltar à loja</a>', detalhe);
+    }
+  }
+
+  function mostrarGuilda(g) {
+    var a = g.assinatura;
+    if (g.ativa) {
+      return caixa('<span class="selo selo-ok">GUILDA ATIVA</span>', "Bem-vindo à guilda!",
+        "Sua assinatura está ativa até <strong>" + dvData(g.validaAte) + "</strong>. Obrigado por apoiar o DiceVTT!",
+        '<a class="btn btn-primary btn-small" href="perfil.html#guilda">Ver minha assinatura</a>');
+    }
+    if (a && a.status === "pending") {
+      var seguindo = agendar();
+      var checkout = dvUrlSegura(a.checkoutUrl);
+      return caixa('<span class="selo selo-alerta">AGUARDANDO</span>', "Assinatura em processamento",
+        "O Mercado Pago ainda está confirmando a primeira cobrança. " +
+        (seguindo ? "Esta página está consultando sozinha." : "Isso pode levar alguns minutos; o acesso libera sozinho."),
+        BOTAO_VERIFICAR + (checkout ? '<a class="btn btn-ghost btn-small" href="' + E(checkout) + '">Voltar ao pagamento</a>' : ''));
+    }
+    return caixa('<span class="selo selo-mudo">NÃO CONCLUÍDA</span>', "Assinatura não concluída",
+      "Não encontramos uma cobrança aprovada. Se você desistiu no meio do caminho, é só tentar de novo pelo perfil.",
+      '<a class="btn btn-primary btn-small" href="perfil.html#guilda">Ir para a guilda</a>');
+  }
+})();
+</script>
+</body>
+</html>

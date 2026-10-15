@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Loja de sistemas do DiceVTT: sistemas grátis, à venda e de lojas parceiras." />
+<title>Loja de sistemas — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="index.html#conta">Minha conta</a> / Loja</p>
+    <p class="page-kicker">// LOJA_DE_SISTEMAS</p>
+    <h1 class="page-title">Loja de sistemas</h1>
+    <p class="page-desc">Sistemas que você pode adicionar à sua conta: grátis, à venda aqui (pagamento pelo Mercado Pago) ou nas lojas das editoras parceiras.</p>
+    <div id="conta-nav"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container">
+    <div class="filtros" id="loja-filtros" role="group" aria-label="Filtrar sistemas">
+      <button type="button" class="filtro is-active" data-filtro="disponiveis" aria-pressed="true">Disponíveis</button>
+      <button type="button" class="filtro" data-filtro="venda" aria-pressed="false">À venda</button>
+      <button type="button" class="filtro" data-filtro="gratis" aria-pressed="false">Grátis</button>
+      <button type="button" class="filtro" data-filtro="parceiras" aria-pressed="false">Lojas parceiras</button>
+      <button type="button" class="filtro" data-filtro="todos" aria-pressed="false">Todos</button>
+    </div>
+    <div id="filtro-loja"></div>
+    <div id="loja-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("loja-area");
+  var E = dvEsc;
+  var catalogo = null;
+  var filtro = "disponiveis";
+  var lojaId = new URLSearchParams(location.search).get("loja") || "";
+  var ultimoUid;
+
+  var FILTROS = {
+    disponiveis: function (s) { return !s.possui && s.sale_mode !== "unavailable"; },
+    venda:       function (s) { return !s.possui && s.sale_mode === "store"; },
+    gratis:      function (s) { return !s.possui && s.sale_mode === "free"; },
+    parceiras:   function (s) { return s.sale_mode === "partner"; },
+    todos:       function () { return true; }
+  };
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) {
+      document.getElementById("loja-filtros").hidden = true;
+      return dvBlocoIndisponivel(area);
+    }
+    var uid = estado.usuario ? estado.usuario.uid : null;
+    if (uid === ultimoUid) return;
+    ultimoUid = uid;
+    carregar();
+  });
+
+  async function carregar() {
+    if (!catalogo) area.innerHTML = '<p class="status-msg">Abrindo a loja…</p>';
+    try {
+      catalogo = (await dvConta.api("/v1/catalog")).sistemas || [];
+      desenhar();
+    } catch (e) {
+      dvErroNaTela(area, e);
+    }
+  }
+
+  function selo(s) {
+    if (s.possui) return '<span class="selo selo-ok">NA BIBLIOTECA</span>';
+    if (s.sale_mode === "unavailable") return '<span class="selo selo-mudo">EM BREVE</span>';
+    if (s.sale_mode === "partner") return '<span class="selo selo-info">LOJA PARCEIRA</span>';
+    if (s.sale_mode === "free") return '<span class="selo selo-ok">GRÁTIS</span>';
+    return "";
+  }
+
+  function preco(s) {
+    if (s.sale_mode === "free") return '<span class="sis-preco is-gratis">Grátis</span>';
+    if (s.sale_mode === "unavailable") return '<span class="sis-meta">em produção</span>';
+    if (s.sale_mode === "partner") return s.price_cents ? '<span class="sis-preco">' + dvPreco(s.price_cents, s.currency) + '</span>' : '<span class="sis-meta">preço na loja</span>';
+    return '<span class="sis-preco">' + dvPreco(s.price_cents, s.currency) + '</span>';
+  }
+
+  function acao(s) {
+    if (s.possui) return '<a class="btn btn-ghost btn-small" href="meus-sistemas.html">Abrir biblioteca</a>';
+    if (s.sale_mode === "free") return '<button type="button" class="btn btn-primary btn-small js-obter" data-id="' + E(s.id) + '">Adicionar</button>';
+    if (s.sale_mode === "store") return '<button type="button" class="btn btn-primary btn-small js-obter" data-id="' + E(s.id) + '">Comprar</button>';
+    if (s.sale_mode === "partner") {
+      var url = dvUrlSegura(s.partner_url);
+      return url ? '<a class="btn btn-gold btn-small" href="' + E(url) + '" target="_blank" rel="noopener" data-cta="loja-parceira" data-cta-label="' + E(s.id) + '">Ver na loja</a>' : '';
+    }
+    return '<button type="button" class="btn btn-ghost btn-small" disabled>Em breve</button>';
+  }
+
+  function cartao(s) {
+    var tags = (s.tags || []).slice(0, 4).map(function (t) { return '<span>' + E(t) + '</span>'; }).join("");
+    return '<article class="sis-card">' +
+      dvCapaSistema(s, selo(s)) +
+      '<div class="sis-corpo">' +
+        '<span class="sis-editora">' + E(s.loja ? s.loja.name : "DiceVTT") + '</span>' +
+        '<h3>' + E(s.name) + '</h3>' +
+        '<p>' + E(s.description || "") + '</p>' +
+        (tags ? '<div class="sis-tags">' + tags + '</div>' : '') +
+        '<div class="sis-rodape">' + preco(s) + acao(s) + '</div>' +
+      '</div></article>';
+  }
+
+  function desenhar() {
+    var loja = null;
+    var lista = catalogo.filter(FILTROS[filtro]);
+    if (lojaId) {
+      lista = lista.filter(function (s) { return s.publisher_id === lojaId; });
+      var algum = catalogo.find(function (s) { return s.publisher_id === lojaId && s.loja; });
+      loja = algum ? algum.loja.name : lojaId;
+    }
+
+    document.getElementById("filtro-loja").innerHTML = loja
+      ? '<div class="filtro-loja">Mostrando só <strong style="color:var(--text)">' + E(loja) + '</strong>' +
+        '<a class="mini-btn" href="loja.html">ver todas</a></div>'
+      : "";
+
+    if (!lista.length) {
+      var vazio = catalogo.length && filtro === "disponiveis" && !lojaId
+        ? ["Você já tem tudo que está disponível", "Novos sistemas entram aqui assim que forem publicados. Veja também os das lojas parceiras."]
+        : ["Nada por aqui ainda", "Não há sistemas nesta categoria no momento. Volte em breve ou tente outro filtro."];
+      area.innerHTML = '<div class="empty-state"><h3>' + vazio[0] + '</h3><p>' + vazio[1] + '</p>' +
+        '<a class="btn btn-ghost btn-small" href="lojas-parceiras.html">Lojas parceiras</a></div>';
+      return;
+    }
+    area.innerHTML = '<div class="sis-grid">' + lista.map(cartao).join("") + '</div>';
+  }
+
+  /* Filtros */
+  document.getElementById("loja-filtros").addEventListener("click", function (e) {
+    var b = e.target.closest(".filtro");
+    if (!b || !catalogo) return;
+    filtro = b.dataset.filtro;
+    this.querySelectorAll(".filtro").forEach(function (f) {
+      f.classList.toggle("is-active", f === b);
+      f.setAttribute("aria-pressed", String(f === b));
+    });
+    desenhar();
+  });
+
+  /* Comprar / adicionar */
+  area.addEventListener("click", async function (e) {
+    var b = e.target.closest(".js-obter");
+    if (!b) return;
+    var id = b.dataset.id;
+    var texto = b.textContent;
+
+    if (!dvConta.estado().usuario) {
+      var u = await dvConta.entrar();
+      if (!u) return;
+    }
+    b.disabled = true; b.textContent = "Aguarde…";
+    try {
+      var r = await dvConta.api("/v1/checkout/systems/" + encodeURIComponent(id), { metodo: "POST", auth: true });
+      if (r.concedido) {
+        dvToast("Sistema adicionado à sua biblioteca!", "ok");
+        if (typeof track === "function") track("add_to_library", { item_id: id });
+        return carregar();
+      }
+      if (typeof track === "function") track("begin_checkout", { item_id: id });
+      location.href = r.checkoutUrl;
+    } catch (err) {
+      if (err.code === "ALREADY_OWNED") { dvToast(err.message, "ok"); return carregar(); }
+      if (err.code === "BUY_AT_PARTNER" && dvUrlSegura(err.url)) window.open(dvUrlSegura(err.url), "_blank", "noopener");
+      dvToast(err.message, "erro");
+      b.disabled = false; b.textContent = texto;
+    }
+  });
+})();
+</script>
+</body>
+</html>

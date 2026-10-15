@@ -1,0 +1,6 @@
+# Credenciais nunca entram no repositório do site (ele é público).
+# A chave do Firebase e o .env ficam na pasta da API, fora daqui.
+*firebase-adminsdk*.json
+.env
+.env.*
+node_modules/

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Lojas parceiras do DiceVTT: editoras cujos sistemas funcionam dentro do programa." />
+<title>Lojas parceiras — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="index.html#conta">Minha conta</a> / Lojas parceiras</p>
+    <p class="page-kicker">// LOJAS_PARCEIRAS</p>
+    <h1 class="page-title">Lojas parceiras</h1>
+    <p class="page-desc">Editoras que vendem sistemas compatíveis com o DiceVTT no próprio site. Você compra lá, e a licença é confirmada pela editora quando o programa abre.</p>
+    <div id="conta-nav"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container">
+    <div id="lojas-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container container-narrow">
+    <div class="y2k-divider"><span class="y2k-divider-label">[ // COMO_FUNCIONA ]</span></div>
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="card-header"><h3>1. Compre na editora</h3><span class="card-tag">loja dela</span></div>
+        <div class="card-body"><p>O pagamento e a nota fiscal ficam com a editora, do jeito que ela já vende hoje.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-header"><h3>2. Vincule a conta</h3><span class="card-tag">em breve</span></div>
+        <div class="card-body"><p>No seu perfil, você conecta a conta da editora. Compras antigas também contam.</p></div>
+      </article>
+      <article class="card">
+        <div class="card-header"><h3>3. Jogue</h3><span class="card-tag">no programa</span></div>
+        <div class="card-body"><p>Ao abrir o DiceVTT, a editora confirma suas licenças e os sistemas aparecem liberados.</p></div>
+      </article>
+    </div>
+    <p style="text-align:center;margin-top:30px;font-size:15px;color:var(--text-dim)">
+      É editora e quer vender por aqui? <a href="parceiros.html" style="color:var(--primary-blue)">Veja como virar parceira</a>.
+    </p>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("lojas-area");
+  var E = dvEsc;
+  var carregado = false;
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) return dvBlocoIndisponivel(area);
+    if (carregado) return;
+    carregado = true;
+    carregar();
+  });
+
+  async function carregar() {
+    try {
+      desenhar((await dvConta.api("/v1/partner-stores", { auth: false })).lojas || []);
+    } catch (e) {
+      carregado = false;
+      dvErroNaTela(area, e);
+    }
+  }
+
+  function desenhar(lojas) {
+    if (!lojas.length) {
+      area.innerHTML = '<div class="empty-state">' +
+        '<h3>Nenhuma loja parceira ainda</h3>' +
+        '<p>As primeiras editoras estão sendo integradas. Assim que uma entrar, os sistemas dela aparecem aqui e na loja.</p>' +
+        '<a class="btn btn-primary btn-small" href="parceiros.html">Quero ser parceiro</a></div>';
+      return;
+    }
+    area.innerHTML = '<div class="grid grid-3">' + lojas.map(function (l) {
+      var logo = dvUrlSegura(l.logo_url);
+      var url = dvUrlSegura(l.url);
+      return '<article class="card loja-card">' +
+        '<div class="card-header"><h3>' + E(l.name) + '</h3><span class="card-tag">' +
+          (l.sistemas === 1 ? "1 sistema" : Number(l.sistemas || 0) + " sistemas") + '</span></div>' +
+        '<div class="card-body">' +
+          (logo ? '<div class="loja-logo"><img src="' + E(logo) + '" alt="Logo de ' + E(l.name) + '" loading="lazy"></div>' : '') +
+          '<p>' + E(l.description || "") + '</p>' +
+          '<div class="loja-acoes">' +
+            (l.sistemas ? '<a class="btn btn-ghost btn-small" href="loja.html?loja=' + encodeURIComponent(l.id) + '">Ver sistemas</a>' : '') +
+            (url ? '<a class="btn btn-gold btn-small" href="' + E(url) + '" target="_blank" rel="noopener" data-cta="loja-parceira" data-cta-label="' + E(l.id) + '">Visitar loja</a>' : '') +
+          '</div>' +
+        '</div></article>';
+    }).join("") + '</div>';
+  }
+})();
+</script>
+</body>
+</html>

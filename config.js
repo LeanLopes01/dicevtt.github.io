@@ -145,6 +145,24 @@ window.DICEVTT = {
                   aviso: "" },
 
     tutorial:   { ativo: true,  menu: false, url: "tutorial.html",  nome: "Guia de instalação",
+                  aviso: "" },
+
+    /* Área da conta (grupo "conta" = aparece no menu do avatar e na barra
+       de navegação das páginas de conta). Troque menu: true para mostrar
+       alguma delas também no menu do topo. */
+    perfil:     { ativo: true,  menu: false, grupo: "conta", url: "perfil.html",          nome: "Meu perfil",
+                  aviso: "" },
+
+    biblioteca: { ativo: true,  menu: false, grupo: "conta", url: "meus-sistemas.html",   nome: "Meus sistemas",
+                  aviso: "" },
+
+    loja:       { ativo: true,  menu: false, grupo: "conta", url: "loja.html",            nome: "Loja de sistemas",
+                  aviso: "" },
+
+    lojas:      { ativo: true,  menu: false, grupo: "conta", url: "lojas-parceiras.html", nome: "Lojas parceiras",
+                  aviso: "" },
+
+    pagamento:  { ativo: true,  menu: false, busca: false,   url: "pagamento.html",       nome: "Pagamento",
                   aviso: "" }
   },
 
@@ -185,5 +203,33 @@ window.DICEVTT = {
   parceiros: [
   { nome: "Nome do servidor", tipo: "Servidor",
     descricao: "Uma frase sobre eles.", link: "https://...", logo: "imagens/parceiro.png" }
-  ]
+  ],
+
+  /* ---------------------------------------------------------------------
+     9. CONTA (login com Google) E API
+     A configuração "firebase" é PÚBLICA por natureza (vai para o navegador
+     de qualquer forma) — não é segredo. Segredos ficam só na API.
+
+     apiKey/appId: Console do Firebase -> Configurações do projeto ->
+     "Seus apps" -> app Web (</>) -> copie os dois valores.
+
+     api: endereço da Edge Function "api" no Supabase.
+       api.local    -> usado quando o site roda em localhost
+       api.producao -> usado no site publicado (dicevtt.com.br)
+     Os dois podem ser o mesmo endereço. Deixar um deles vazio esconde
+     login, perfil e loja naquele ambiente ("em breve").
+     --------------------------------------------------------------------- */
+  conta: {
+    ativo: true,
+    firebase: {
+      apiKey:     "AIzaSyBYiTEbpRWfjpOrn8fmBoybHe2YEtb3KyI",
+      authDomain: "dicevtt-6e87e.firebaseapp.com",
+      projectId:  "dicevtt-6e87e",
+      appId:      "1:734507695472:web:84d331ecd85ab3c71d23b5"
+    },
+    api: {
+      local:    "https://ihlybxsiufniszcnscmg.supabase.co/functions/v1/api",
+      producao: "https://ihlybxsiufniszcnscmg.supabase.co/functions/v1/api"
+    }
+  }
 };

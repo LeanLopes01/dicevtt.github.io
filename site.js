@@ -156,6 +156,7 @@
             '<a class="icon-link" data-href="links.discord" aria-label="Discord do DiceVTT" data-cta="discord" data-cta-label="header">' + ICONES.discord + '</a>' +
             '<a class="icon-link" data-href="links.instagram" aria-label="Instagram do DiceVTT" data-cta="instagram" data-cta-label="header">' + ICONES.instagram + '</a>' +
             '<a href="index.html#download" class="nav-cta">Baixar</a>' +
+            '<span id="nav-conta" class="nav-conta"></span>' +
             '<button type="button" class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">' + ICONES.menu + '</button>' +
           '</div>' +
         '</div>' +
@@ -281,6 +282,8 @@
     var destinos = [];
     Object.keys(CFG.paginas || {}).forEach(function (k) {
       var p = CFG.paginas[k];
+      if (p.busca === false) return;
+      if (p.grupo === "conta" && !contaConfigurada()) return;
       destinos.push({ nome: p.nome, tipo: p.ativo === false ? "manutenção" : "página", url: p.url, chave: k, ativo: p.ativo !== false });
     });
     destinos.push({ nome: "Baixar o DiceVTT", tipo: "ação", url: "index.html#download", ativo: true });
@@ -656,10 +659,144 @@
   }
 
   /* =====================================================================
+     10. CONTA — login Google, perfil, loja (o módulo conta.js faz o resto)
+     ---------------------------------------------------------------------
+     Páginas usam dvAoMudarConta(function (estado) { ... }) para reagir ao
+     login. "estado" = { carregado, disponivel, usuario }.
+     ===================================================================== */
+  function contaConfigurada() {
+    var c = CFG.conta || {};
+    if (c.ativo === false || !c.firebase || !c.firebase.apiKey || !c.firebase.appId) return false;
+    var local = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+    return Boolean(local ? (c.api || {}).local : (c.api || {}).producao);
+  }
+  window.dvContaConfigurada = contaConfigurada;
+
+  /* Fila até o módulo carregar; o conta.js substitui esta função */
+  var filaConta = window.__dvContaFila = [];
+  window.dvAoMudarConta = function (cb) { filaConta.push(cb); };
+
+  function carregarConta() {
+    var desligada = { carregado: true, disponivel: false, usuario: null };
+    function semConta() {
+      window.dvAoMudarConta = function (cb) { cb(desligada); };
+      filaConta.splice(0).forEach(function (cb) { try { cb(desligada); } catch (e) { console.error(e); } });
+    }
+    if (!contaConfigurada()) { semConta(); return; }
+    var s = el("script", { type: "module", src: "conta.js" });
+    s.onerror = semConta; // CDN do Firebase bloqueado ou fora do ar
+    document.head.appendChild(s);
+  }
+
+  /* Barra de navegação das páginas de conta: <div id="conta-nav"></div> */
+  function montarNavConta() {
+    var alvo = document.getElementById("conta-nav");
+    if (!alvo) return;
+    var links = ['<a href="index.html#conta">Visão geral</a>'];
+    Object.keys(CFG.paginas || {}).forEach(function (k) {
+      var p = CFG.paginas[k];
+      if (p.grupo !== "conta" || p.ativo === false) return;
+      links.push('<a href="' + p.url + '"' + (paginaAtual() === p.url ? ' class="is-current" aria-current="page"' : "") + '>' + p.nome + '</a>');
+    });
+    alvo.outerHTML = '<nav class="conta-nav" aria-label="Minha conta">' + links.join("") + '</nav>';
+  }
+
+  /* Utilitários usados pelas páginas de conta e loja */
+  window.dvEsc = function (t) {
+    return String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  };
+  /* Só aceita http(s) ou imagens locais — nada de javascript: em href/src */
+  window.dvUrlSegura = function (u) {
+    u = String(u || "").trim();
+    return /^(https?:\/\/|imagens\/)/i.test(u) ? u : "";
+  };
+  window.dvPreco = function (centavos, moeda) {
+    if (!centavos) return "Grátis";
+    try { return (centavos / 100).toLocaleString("pt-BR", { style: "currency", currency: moeda || "BRL" }); }
+    catch (e) { return "R$ " + (centavos / 100).toFixed(2).replace(".", ","); }
+  };
+  window.dvData = function (iso, comHora) {
+    var d = iso ? new Date(iso) : null;
+    if (!d || isNaN(d.getTime())) return "—";
+    return comHora
+      ? d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })
+      : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
+  };
+
+  var SITUACOES = {
+    pending:      ["AGUARDANDO", "selo-alerta"],
+    approved:     ["APROVADO", "selo-ok"],
+    rejected:     ["RECUSADO", "selo-erro"],
+    cancelled:    ["CANCELADO", "selo-mudo"],
+    refunded:     ["REEMBOLSADO", "selo-mudo"],
+    charged_back: ["ESTORNADO", "selo-erro"]
+  };
+  window.dvSeloPedido = function (status) {
+    var s = SITUACOES[status] || [String(status || "?").toUpperCase(), "selo-mudo"];
+    return '<span class="selo ' + s[1] + '">' + s[0] + '</span>';
+  };
+
+  /* Capa de um sistema (imagem ou dado d20 como placeholder) */
+  window.dvCapaSistema = function (s, seloHtml) {
+    var capa = window.dvUrlSegura(s.cover_url);
+    return '<div class="sis-capa">' +
+      (capa
+        ? '<img src="' + window.dvEsc(capa) + '" alt="" loading="lazy">'
+        : '<svg viewBox="0 0 64 64" aria-hidden="true"><polygon points="32,4 58,20 58,46 32,62 6,46 6,20" fill="none" stroke="currentColor" stroke-width="2.5"/><polygon points="32,16 48,25 48,42 32,52 16,42 16,25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>') +
+      (seloHtml || "") +
+    '</div>';
+  };
+
+  var toastTimer = null;
+  window.dvToast = function (msg, tipo) {
+    var t = document.getElementById("dv-toast");
+    if (!t) {
+      t = el("div", { id: "dv-toast", class: "toast", role: "status", "aria-live": "polite" });
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.className = "toast is-visible" + (tipo ? " is-" + tipo : "");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.className = "toast"; }, 4200);
+  };
+
+  /* Blocos prontos para "entre para continuar" e "contas em breve" */
+  window.dvBlocoLogin = function (alvo, titulo, texto) {
+    alvo.innerHTML =
+      '<div class="empty-state">' +
+        '<h3>' + (titulo || "Entre para continuar") + '</h3>' +
+        '<p>' + (texto || "Use sua conta Google. O primeiro acesso já cria o seu perfil no DiceVTT.") + '</p>' +
+        '<button type="button" class="btn btn-primary btn-small js-entrar">Entrar com Google</button>' +
+      '</div>';
+    alvo.querySelector(".js-entrar").addEventListener("click", function () {
+      if (window.dvConta) window.dvConta.entrar();
+    });
+  };
+  window.dvBlocoIndisponivel = function (alvo, erro) {
+    var offline = erro && erro.code === "API_OFFLINE";
+    alvo.innerHTML =
+      '<div class="empty-state">' +
+        '<h3>' + (offline ? "Servidor fora do ar" : "Contas chegando em breve") + '</h3>' +
+        '<p>' + (offline
+          ? "Não conseguimos falar com o servidor do DiceVTT agora. Tente de novo em alguns minutos."
+          : "Login, biblioteca e loja de sistemas estão em fase final de testes. Acompanhe as novidades no Discord.") + '</p>' +
+        '<a class="btn btn-discord btn-small" data-href="links.discord">Novidades no Discord</a>' +
+      '</div>';
+    aplicarConfigNoDom(alvo);
+  };
+  window.dvErroNaTela = function (alvo, erro) {
+    if (erro && erro.code === "API_OFFLINE") return window.dvBlocoIndisponivel(alvo, erro);
+    alvo.innerHTML = '<p class="status-msg is-error">' + window.dvEsc((erro && erro.message) || "Algo deu errado.") +
+      (erro && erro.requestId ? '<br><small>código: ' + window.dvEsc(erro.requestId) + '</small>' : '') + '</p>';
+  };
+
+  /* =====================================================================
      INICIALIZAÇÃO
      ===================================================================== */
   function iniciar() {
     montarHeader();
+    montarNavConta();
     montarFooter();
     criarModalAviso();
     criarModalDownload();
@@ -671,6 +808,7 @@
     ligarReveal();
     atualizarVersao();
     ligarAnalytics();
+    carregarConta();
 
     document.addEventListener("keydown", function (e) {
       if (e.key !== "Escape") return;
