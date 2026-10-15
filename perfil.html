@@ -126,8 +126,10 @@
       navigator.clipboard.writeText(me.uid).then(function () { dvToast("ID copiado. Envie para o suporte se precisar de ajuda.", "ok"); });
     });
     area.querySelector(".js-excluir").addEventListener("click", excluirConta);
+    ligarSteam();
 
     if (location.hash === "#guilda") document.getElementById("guilda").scrollIntoView();
+    if (location.hash === "#conexoes") document.getElementById("conexoes").scrollIntoView();
   }
 
   function selosGuilda(g) {
@@ -324,12 +326,54 @@
       return '<div class="conexao"><div class="conexao-icone">' + icone + '</div>' +
         '<div class="conexao-info"><strong>' + nome + '</strong><span>' + texto + '</span></div>' + selo + '</div>';
     }
-    return '<section class="card"><div class="card-header"><h3>Conexões</h3><span class="card-tag">contas vinculadas</span></div>' +
+    var st = me.conexoes && me.conexoes.steam;
+    var fotoSteam = st && dvUrlSegura(st.avatar);
+    var linhaSteam = st
+      ? linha(fotoSteam ? '<img src="' + E(fotoSteam) + '" alt="" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover">' : ICONE_STEAM,
+          "Steam · " + E(st.nome || "conta conectada"),
+          "SteamID " + E(st.steamId) + " · o programa entra nesta conta automaticamente",
+          '<span class="selo selo-ok">CONECTADA</span><button type="button" class="mini-btn js-steam-sair" style="margin-left:8px">desvincular</button>')
+      : linha(ICONE_STEAM, "Steam", "Ligue sua Steam para o programa reconhecer você e liberar seus sistemas.",
+          '<button type="button" class="btn btn-primary btn-small js-steam-conectar">Conectar Steam</button>');
+    return '<section class="card" id="conexoes"><div class="card-header"><h3>Conexões</h3><span class="card-tag">contas vinculadas</span></div>' +
       '<div class="card-body">' +
         linha(ICONE_GOOGLE, "Google", E(me.email) + " · usado para entrar no site", '<span class="selo selo-ok">CONECTADA</span>') +
-        linha(ICONE_STEAM, "Steam", "Vai permitir entrar no programa com esta mesma conta e liberar seus sistemas.", '<span class="selo selo-mudo">EM BREVE</span>') +
+        linhaSteam +
         linha(ICONE_LOJA, "Lojas parceiras", "Vincule a conta da editora para confirmar sistemas comprados no site dela.", '<span class="selo selo-mudo">EM BREVE</span>') +
       '</div></section>';
+  }
+
+  /* ---------------- Steam ---------------- */
+  function ligarSteam() {
+    var conectar = area.querySelector(".js-steam-conectar");
+    if (conectar) conectar.addEventListener("click", async function () {
+      conectar.disabled = true; conectar.textContent = "Abrindo a Steam…";
+      try {
+        var r = await dvConta.api("/v1/me/steam/openid", { metodo: "POST", auth: true });
+        location.href = r.url;
+      } catch (e) {
+        dvToast(e.message, "erro");
+        conectar.disabled = false; conectar.textContent = "Conectar Steam";
+      }
+    });
+
+    var sair = area.querySelector(".js-steam-sair");
+    if (sair) sair.addEventListener("click", function () {
+      confirmar({
+        titulo: "Desvincular a Steam?",
+        texto: "O programa deixa de entrar nesta conta com essa Steam até você conectar de novo. Seus sistemas continuam na conta. O Google vai pedir para você confirmar.",
+        botao: "Desvincular",
+        perigo: true,
+        acao: async function () {
+          var ok = await dvConta.reautenticar();
+          if (!ok) throw new Error("Confirmação com o Google cancelada.");
+          await dvConta.api("/v1/me/steam", { metodo: "DELETE", auth: true });
+          dvToast("Steam desvinculada.", "ok");
+          uidAtual = null;
+          carregar();
+        }
+      });
+    });
   }
 
   /* ---------------- Excluir conta ---------------- */

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<meta name="referrer" content="no-referrer" />
+<title>Conectar Steam — DiceVTT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@300;400;500;700&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+<div id="site-header"></div>
+
+<section class="page-head">
+  <div class="container container-narrow">
+    <p class="breadcrumb"><a href="index.html">Início</a> / <a href="perfil.html">Meu perfil</a> / Steam</p>
+    <p class="page-kicker">// VINCULO_STEAM</p>
+    <h1 class="page-title">Conectar Steam</h1>
+    <p class="page-desc">Ligue a sua conta Steam à sua conta do DiceVTT. É assim que o programa reconhece você e libera os seus sistemas.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="container container-narrow">
+    <div id="steam-area"><p class="status-msg">Carregando…</p></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var area = document.getElementById("steam-area");
+  var E = dvEsc;
+  var q = new URLSearchParams(location.search);
+  var tentativa = q.get("tentativa");
+  var codigo = q.get("codigo");
+  var CHAVE_CODIGO = "dv_steam_codigo";
+  var feito = false;
+
+  /* Parâmetros do OpenID que a Steam devolveu (só os openid.*) */
+  var paramsOpenId = {};
+  q.forEach(function (v, k) { if (k.indexOf("openid.") === 0) paramsOpenId[k] = v; });
+
+  dvAoMudarConta(function (estado) {
+    if (!estado.disponivel) return dvBlocoIndisponivel(area);
+    if (!estado.usuario) {
+      feito = false;
+      return dvBlocoLogin(area, "Entre para continuar",
+        codigo ? "Entre com a conta Google do DiceVTT que vai usar no programa."
+               : "Entre com a mesma conta Google que você usou para pedir o vínculo.");
+    }
+    if (feito) return;
+    feito = true;
+    if (tentativa) concluirOpenId();
+    else if (codigo) mostrarPedido();
+    else explicar();
+  });
+
+  function caixa(selo, titulo, texto, botoes, steam) {
+    var foto = steam && dvUrlSegura(steam.avatar);
+    area.innerHTML = '<div class="empty-state">' +
+      (foto ? '<div class="perfil-avatar" style="width:84px;height:84px"><img src="' + E(foto) + '" alt="" referrerpolicy="no-referrer"></div>' : '') +
+      (steam && steam.nome ? '<p class="perfil-nome" style="margin-bottom:4px">' + E(steam.nome) + '</p>' : '') +
+      (steam ? '<p class="sis-meta" style="margin-bottom:14px">SteamID ' + E(steam.steamId) + '</p>' : '') +
+      '<div style="margin-bottom:14px">' + selo + '</div>' +
+      '<h3>' + titulo + '</h3><p>' + texto + '</p>' +
+      '<div class="cta-actions">' + (botoes || "") + '</div>' +
+    '</div>';
+  }
+
+  function explicar() {
+    caixa('<span class="selo selo-info">STEAM</span>', "Como conectar",
+      "Use o botão <strong>Conectar Steam</strong> no seu perfil, ou abra o DiceVTT: se a sua Steam ainda não estiver ligada, o programa abre esta página com o pedido de aprovação.",
+      '<a class="btn btn-primary btn-small" href="perfil.html#conexoes">Ir para o perfil</a>');
+  }
+
+  /* Volta do login da Steam */
+  async function concluirOpenId() {
+    area.innerHTML = '<p class="status-msg">Confirmando sua conta Steam…</p>';
+    history.replaceState(null, "", location.pathname); // não reenviar ao recarregar
+    try {
+      var r = await dvConta.api("/v1/me/steam/openid/confirmar", { metodo: "POST", corpo: { tentativa: tentativa, params: paramsOpenId }, auth: true });
+      if (typeof track === "function") track("steam_link", { method: "openid" });
+      var pendente = sessionStorage.getItem(CHAVE_CODIGO);
+      if (pendente) {
+        sessionStorage.removeItem(CHAVE_CODIGO);
+        location.replace("vincular-steam.html?codigo=" + encodeURIComponent(pendente));
+        return;
+      }
+      caixa('<span class="selo selo-ok">CONECTADA</span>', "Steam conectada!",
+        "Agora o DiceVTT reconhece você pela Steam. Ao abrir o programa, seus sistemas aparecem liberados.",
+        '<a class="btn btn-primary btn-small" href="perfil.html#conexoes">Voltar ao perfil</a>', r.steam);
+    } catch (e) {
+      sessionStorage.removeItem(CHAVE_CODIGO);
+      caixa('<span class="selo selo-erro">NÃO CONECTADA</span>', "Não foi possível conectar", E(e.message),
+        '<a class="btn btn-ghost btn-small" href="perfil.html#conexoes">Voltar ao perfil</a>');
+    }
+  }
+
+  /* Pedido aberto pelo programa */
+  async function mostrarPedido() {
+    area.innerHTML = '<p class="status-msg">Abrindo o pedido do programa…</p>';
+    var d;
+    try {
+      d = await dvConta.api("/v1/me/steam/codigos/" + encodeURIComponent(codigo), { auth: true });
+    } catch (e) {
+      return caixa('<span class="selo selo-erro">PEDIDO INVÁLIDO</span>', "Pedido não encontrado", E(e.message), "");
+    }
+    var email = E(dvConta.estado().usuario.email);
+    var steam = d.steam;
+
+    switch (d.situacao) {
+      case "vincular":
+        caixa('<span class="selo selo-info">PEDIDO DO PROGRAMA</span>', "Ligar esta Steam à sua conta?",
+          "O DiceVTT, aberto com esta conta Steam, pediu para entrar na conta <strong>" + email + "</strong>. " +
+          "Se foi você que abriu o programa agora, confirme.",
+          '<button type="button" class="btn btn-primary btn-small js-aprovar">Ligar e entrar no programa</button>' +
+          '<a class="btn btn-ghost btn-small" href="index.html">Não fui eu</a>', steam);
+        break;
+      case "autorizar":
+        caixa('<span class="selo selo-info">PEDIDO DO PROGRAMA</span>', "Entrar no programa?",
+          "O DiceVTT pediu para entrar na conta <strong>" + email + "</strong> com esta Steam. Se foi você que abriu o programa agora, autorize.",
+          '<button type="button" class="btn btn-primary btn-small js-aprovar">Autorizar</button>' +
+          '<a class="btn btn-ghost btn-small" href="index.html">Não fui eu</a>', steam);
+        break;
+      case "precisa_openid":
+        caixa('<span class="selo selo-alerta">CONFIRMAÇÃO NECESSÁRIA</span>', "Confirme que esta Steam é sua",
+          "Antes de liberar o programa, a Steam precisa confirmar que esta conta é sua. Você vai para o site da Steam e volta para cá.",
+          '<button type="button" class="btn btn-primary btn-small js-openid">Confirmar com a Steam</button>', steam);
+        break;
+      case "outra_steam":
+        caixa('<span class="selo selo-erro">OUTRA STEAM</span>', "Sua conta já tem outra Steam",
+          "A conta <strong>" + email + "</strong> está ligada à Steam " + E((d.minhaSteam && (d.minhaSteam.nome || d.minhaSteam.steamId)) || "") +
+          ". Para usar esta, desvincule a atual no perfil.",
+          '<a class="btn btn-ghost btn-small" href="perfil.html#conexoes">Ir para o perfil</a>', steam);
+        break;
+      case "steam_de_outra_conta":
+        caixa('<span class="selo selo-erro">STEAM EM USO</span>', "Esta Steam é de outra conta",
+          "Esta conta Steam já está ligada a outra conta Google do DiceVTT. Saia e entre com essa outra conta para autorizar.",
+          '<button type="button" class="btn btn-ghost btn-small js-sair">Trocar de conta Google</button>', steam);
+        break;
+      case "ja_aprovado":
+        caixa('<span class="selo selo-ok">APROVADO</span>', "Pedido já aprovado", "Pode voltar ao DiceVTT.", "", steam);
+        break;
+      default:
+        caixa('<span class="selo selo-mudo">EXPIRADO</span>', "Pedido expirado",
+          "Os pedidos valem 15 minutos. Feche o aviso no programa e tente entrar de novo.", "", steam);
+    }
+
+    var b = area.querySelector(".js-aprovar");
+    if (b) b.addEventListener("click", function () { aprovar(b, steam); });
+    var o = area.querySelector(".js-openid");
+    if (o) o.addEventListener("click", function () { iniciarOpenId(o); });
+    var s = area.querySelector(".js-sair");
+    if (s) s.addEventListener("click", function () { feito = false; dvConta.sair(); });
+  }
+
+  async function aprovar(botao, steam) {
+    botao.disabled = true; botao.textContent = "Aprovando…";
+    try {
+      await dvConta.api("/v1/me/steam/codigos/" + encodeURIComponent(codigo) + "/aprovar", { metodo: "POST", auth: true });
+      if (typeof track === "function") track("steam_link", { method: "programa" });
+      caixa('<span class="selo selo-ok">PRONTO</span>', "Pode voltar ao DiceVTT",
+        "O programa vai entrar sozinho em alguns segundos. Você já pode fechar esta aba.", "", steam);
+    } catch (e) {
+      dvToast(e.message, "erro");
+      botao.disabled = false; botao.textContent = "Tentar de novo";
+    }
+  }
+
+  async function iniciarOpenId(botao) {
+    botao.disabled = true; botao.textContent = "Abrindo a Steam…";
+    try {
+      sessionStorage.setItem(CHAVE_CODIGO, codigo);
+      var r = await dvConta.api("/v1/me/steam/openid", { metodo: "POST", auth: true });
+      location.href = r.url;
+    } catch (e) {
+      sessionStorage.removeItem(CHAVE_CODIGO);
+      dvToast(e.message, "erro");
+      botao.disabled = false; botao.textContent = "Confirmar com a Steam";
+    }
+  }
+})();
+</script>
+</body>
+</html>
