@@ -653,9 +653,9 @@ document.addEventListener("dicevtt:pronto", function () {
     alvo.innerHTML = ultimas.map(function (n, i) {
       return '<div class="nota-item"><div class="nota-head" style="cursor:default">' +
         (i === 0 ? '<span class="nota-badge">ATUAL</span>' : '') +
-        '<span class="nota-versao">' + n.versao + '</span>' +
-        '<span class="nota-titulo">' + (n.titulo || "Notas da versão " + n.versao) + '</span>' +
-        (n.data ? '<span class="nota-data">' + n.data + '</span>' : '') +
+        '<span class="nota-versao">' + dvEsc(n.versao) + '</span>' +
+        '<span class="nota-titulo">' + dvEsc(n.titulo || "Notas da versão " + n.versao) + '</span>' +
+        (n.data ? '<span class="nota-data">' + dvEsc(n.data) + '</span>' : '') +
         '</div></div>';
     }).join("");
   });

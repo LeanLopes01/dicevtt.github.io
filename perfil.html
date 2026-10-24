@@ -145,14 +145,14 @@
       '<div class="card-body form-grid">' +
         '<div class="form-grid form-grid-2">' +
           '<label class="campo" data-campo="display_name"><span class="campo-rotulo">Nome de exibição</span>' +
-            '<input name="display_name" maxlength="40" required value="' + E(p.display_name) + '">' +
+            '<input name="display_name" maxlength="80" required value="' + E(p.display_name) + '">' +
             '<small>Como você aparece para a mesa.</small></label>' +
           '<label class="campo" data-campo="username"><span class="campo-rotulo">Nome de usuário</span>' +
             '<span class="campo-prefixo"><b>@</b><input name="username" maxlength="20" autocomplete="off" spellcheck="false" value="' + E(p.username || "") + '"></span>' +
             '<small>3 a 20 letras minúsculas, números ou _. Único no DiceVTT.</small></label>' +
         '</div>' +
         '<label class="campo" data-campo="bio"><span class="campo-rotulo">Bio</span>' +
-          '<textarea name="bio" maxlength="280" placeholder="Mestre de fim de semana, fã de horror cósmico…">' + E(p.bio || "") + '</textarea>' +
+          '<textarea name="bio" maxlength="560" placeholder="Mestre de fim de semana, fã de horror cósmico…">' + E(p.bio || "") + '</textarea>' +
           '<small><span class="js-bio-cont">0</span>/280</small></label>' +
         '<div class="form-grid form-grid-2">' +
           '<label class="campo" data-campo="locale"><span class="campo-rotulo">Idioma</span><select name="locale">' +
@@ -179,7 +179,9 @@
     var cont = form.querySelector(".js-bio-cont");
     var msg = form.querySelector(".js-form-msg");
     var botao = form.querySelector("button[type=submit]");
-    function contar() { cont.textContent = bio.value.length; }
+    // Conta como o servidor: um emoji é um caractere (o maxlength do navegador conta 2,
+    // por isso ele é o dobro do limite e quem confere de verdade é a API)
+    function contar() { cont.textContent = Array.from(bio.value).length; }
     bio.addEventListener("input", contar); contar();
     form.elements.username.addEventListener("input", function () { this.value = this.value.toLowerCase(); });
 

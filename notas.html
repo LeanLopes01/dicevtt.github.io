@@ -71,13 +71,13 @@ document.addEventListener("dicevtt:pronto", function () {
     lista = ordenar(lista);
 
     alvo.innerHTML = lista.map(function (n, i) {
-      return '<article class="nota-item' + (i === 0 ? " is-open" : "") + '" data-versao="' + n.versao + '">' +
+      return '<article class="nota-item' + (i === 0 ? " is-open" : "") + '" data-versao="' + dvEsc(n.versao) + '">' +
         '<button type="button" class="nota-head" aria-expanded="' + (i === 0) + '">' +
           chevron +
-          '<span class="nota-versao">' + n.versao + '</span>' +
+          '<span class="nota-versao">' + dvEsc(n.versao) + '</span>' +
           (i === 0 ? '<span class="nota-badge">ATUAL</span>' : '') +
-          '<span class="nota-titulo">' + (n.titulo || "") + '</span>' +
-          (n.data ? '<span class="nota-data">' + n.data + '</span>' : '') +
+          '<span class="nota-titulo">' + dvEsc(n.titulo || "") + '</span>' +
+          (n.data ? '<span class="nota-data">' + dvEsc(n.data) + '</span>' : '') +
         '</button>' +
         '<div class="nota-corpo"><div class="md-body"><p class="status-msg">Carregando…</p></div></div>' +
       '</article>';
@@ -97,7 +97,7 @@ document.addEventListener("dicevtt:pronto", function () {
         })
         .catch(function (erro) {
           corpo.innerHTML = '<p class="status-msg is-error">Não foi possível carregar a nota da versão ' +
-            artigo.dataset.versao + '. Verifique se o arquivo existe na pasta <code>notas/</code>.</p>';
+            dvEsc(artigo.dataset.versao) + '. Verifique se o arquivo existe na pasta <code>notas/</code>.</p>';
           track("nota_load_error", { versao: artigo.dataset.versao, error_message: String(erro && erro.message || erro) });
         });
     }
@@ -129,9 +129,11 @@ document.addEventListener("dicevtt:pronto", function () {
     });
 
     /* Abre direto numa versão pelo link: notas.html#0.4.5.14 */
-    var alvoHash = decodeURIComponent(window.location.hash.replace("#", ""));
+    // Link malformado (%E0, aspas) não pode derrubar a página
+    var alvoHash = "";
+    try { alvoHash = decodeURIComponent(window.location.hash.replace("#", "")); } catch (e) { /* ignora */ }
     if (alvoHash) {
-      var artigo = alvo.querySelector('[data-versao="' + alvoHash + '"]');
+      var artigo = alvo.querySelector('[data-versao="' + CSS.escape(alvoHash) + '"]');
       if (artigo) {
         artigo.classList.add("is-open");
         carregar(artigo);
