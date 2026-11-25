@@ -257,80 +257,231 @@
   <div class="container">
     <div class="y2k-divider"><span class="y2k-divider-label">[ // ARSENAL_INTEGRADO ]</span></div>
     <header class="section-header">
-      <h2 class="section-title">Ferramentas <span class="text-glow">em foco</span></h2>
-      <p class="section-lead">O que já está funcionando dentro do motor do DiceVTT hoje.</p>
+      <h2 class="section-title">Ferramentas <span class="text-glow">por telas</span></h2>
+      <p class="section-lead">Explore cada tela do novo DiceVTT e clique nas imagens para ampliar.</p>
     </header>
 
     <div class="shot" data-reveal="0">
-      <img data-src="imagens.inicio" alt="Tela inicial do DiceVTT com as mesas, sistemas e personagens do usuário" loading="lazy">
+      <img class="tool-zoomable" data-src="imagens.inicio" data-zoom-title="Tela Inicial — Visão geral" data-zoom-caption="Hub principal com atalhos para salas ativas, campanhas, fichas, sistemas, comunidade, loja, guildas e tutoriais." alt="Tela inicial do DiceVTT com banner de campanha, barra lateral, atalhos rápidos no topo e seções de salas e campanhas" loading="lazy">
+      <span class="tool-zoom-hint">Clique para ampliar</span>
     </div>
-    <p class="shot-caption">É assim que o programa recebe você: <strong>mesas, sistemas e personagens já organizados</strong> numa tela só, sem configuração antes de jogar.</p>
+    <p class="shot-caption"><strong>Tela Inicial:</strong> mesas, campanhas, ficha ativa e sistemas já organizados numa tela só — com navegação superior para <em>Início, Jogar, Biblioteca, Comunidade, Loja, Guildas e Tutorial</em>.</p>
 
     <div class="tool-row" data-reveal="0">
       <div class="tool-content">
-        <span class="tool-tag">Regras e estatísticas</span>
-        <h3 class="tool-title">Fichas automatizadas</h3>
-        <p class="tool-desc">A ficha calcula sozinha modificadores, proficiência, classe de armadura e vida. Um clique numa perícia ou arma rola os dados e manda o resultado para a mesa inteira.</p>
+        <span class="tool-tag">Tela Jogar · Salas e Campanhas</span>
+        <h3 class="tool-title">Salas ao vivo e preparo de campanhas</h3>
+        <p class="tool-desc">Na tela Jogar você alterna entre <strong>Salas Ativas</strong> (sessões multiplayer em tempo real via Steam Lobby ou Rede Local) e <strong>Campanhas de RPG</strong> (seus mundos preparados offline), criando novas mesas direto no painel lateral.</p>
         <ul class="tick-list">
-          <li>Rolagem automática com um clique</li>
-          <li>Inventário com controle de peso</li>
-          <li>Espaço para magias, habilidades e anotações</li>
-          <li>O mestre vê as mudanças ao vivo</li>
+          <li>Conexão multiplayer por Steam Lobby ou Rede Local</li>
+          <li>Vínculo direto de uma campanha existente ao criar a sala</li>
+          <li>Busca e filtro rápido por sistema de regras</li>
+          <li>Ações diretas para Continuar Sessão, Jogar em Sala ou Preparar / Editar</li>
         </ul>
       </div>
-      <div class="tool-visual"><img data-src="imagens.ficha" alt="Ficha de personagem automatizada do DiceVTT" loading="lazy"></div>
-    </div>
-
-    <div class="tool-row" data-reveal="0">
-      <div class="tool-content">
-        <span class="tool-tag">Durante a sessão</span>
-        <h3 class="tool-title">A ficha em jogo</h3>
-        <p class="tool-desc">Cada rolagem mostra o dado, o modificador e o total — ninguém precisa adivinhar de onde saiu o número. Vida, recursos e usos diários ficam visíveis e se atualizam sozinhos.</p>
-        <ul class="tick-list">
-          <li>Detalhe completo de cada rolagem</li>
-          <li>Valores sempre à vista, sem menu escondido</li>
-          <li>Recursos e usos diários atualizados na hora</li>
-          <li>Histórico das rolagens da mesa</li>
-        </ul>
+      <div class="tool-visual">
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable" data-src="imagens.salasCampanhas" data-zoom-title="Tela Jogar — Salas e Campanhas" data-zoom-caption="Salas Ativas multiplayer, Campanhas de RPG e painel lateral para criar sala ou campanha." alt="Tela Jogar do DiceVTT mostrando Salas Ativas, Campanhas de RPG e painel de criação de sala" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
       </div>
-      <div class="tool-visual"><img data-src="imagens.fichaEmJogo" alt="Ficha durante a sessão, mostrando o detalhamento das rolagens" loading="lazy"></div>
     </div>
 
     <div class="tool-row" data-reveal="0">
       <div class="tool-content">
-        <span class="tool-tag">Exploração tática</span>
-        <h3 class="tool-title">Mapas de batalha</h3>
-        <p class="tool-desc">Arraste a imagem para o tabuleiro, alinhe o grid e comece. O necessário para montar um encontro está à mão, sem configuração longa no caminho.</p>
+        <span class="tool-tag">Tela Biblioteca · Arquivos locais</span>
+        <h3 class="tool-title">Todos os seus mundos em um só lugar</h3>
+        <p class="tool-desc">Um explorador completo para gerenciar localmente suas fichas, salas, campanhas, sistemas e itens de campanha, com favoritos, recentes, lixeira e painel lateral para criar novos personagens na hora.</p>
         <ul class="tick-list">
-          <li>Arrastar e soltar mapas e tokens</li>
-          <li>Alinhamento de grid e régua de movimento</li>
-          <li>Desenho, pings e marcações</li>
-          <li>Névoa de guerra para esconder o que vem depois</li>
+          <li>Categorias para Fichas, Salas, Campanhas, Sistemas e Itens</li>
+          <li>Modos de visualização em Lista, Grade e Detalhes</li>
+          <li>Ações de duplicar, renomear, mover, excluir e importar imagem</li>
+          <li>Criação rápida de fichas com escolha de sistema no painel direito</li>
         </ul>
       </div>
-      <div class="tool-visual"><img data-src="imagens.mapas" alt="Mapa de batalha aberto no DiceVTT" loading="lazy"></div>
+      <div class="tool-visual">
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable" data-src="imagens.biblioteca" data-zoom-title="Tela Biblioteca" data-zoom-caption="Gerenciamento de fichas, salas, campanhas e sistemas salvos localmente." alt="Tela Biblioteca do DiceVTT listando fichas locais, pastas à esquerda e painel Criar no Local à direita" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
+      </div>
     </div>
 
     <div class="tool-row" data-reveal="0">
       <div class="tool-content">
-        <span class="tool-tag">Compatibilidade</span>
-        <h3 class="tool-title">Gerenciador de sistemas</h3>
-        <p class="tool-desc">O mestre define as regras da sala e os jogadores sincronizam automaticamente, carregando dados, fichas e compêndios do sistema em uso.</p>
+        <span class="tool-tag">Tela de Campanha · Preparação do Mestre</span>
+        <h3 class="tool-title">Cenas, Atlas e ferramentas táticas</h3>
+        <p class="tool-desc">Prepare mapas, camadas, pontos de passagem, bestiário e o Atlas do seu mundo sem pressa. Na barra lateral da cena você configura terreno, iluminação, paredes, elevação, clima e portais, com prévia na <strong>Visão do Jogador</strong>.</p>
         <ul class="tick-list">
-          <li>Sistemas embutidos, começando por D&amp;D 5e</li>
-          <li>Importação e exportação em JSON</li>
-          <li>Fórmulas e dependências lógicas na ficha</li>
-          <li>Troca rápida entre mesas de sistemas diferentes</li>
+          <li>Cenas com camadas, Galeria de Mapas, Galeria de NPCs e Caderno (.md + grafo)</li>
+          <li>Atlas procedural e importação de <code>.map</code> (Azgaar) com filtros e camadas</li>
+          <li>Terreno tático, iluminação com tochas e paredes com modo <code>AUTO</code></li>
+          <li>Elevação com paralaxe, clima (chuva/neve) e portais <code>A ↔ B</code> entre camadas</li>
         </ul>
       </div>
-      <div class="tool-visual"><img data-src="imagens.sistema" alt="Gerenciador de sistemas do DiceVTT" loading="lazy"></div>
+      <div class="tool-visual" data-tool-gallery="campanha">
+        <div class="tool-tabs" role="tablist" aria-label="Ferramentas da tela de Campanha">
+          <button type="button" class="tool-tab is-active" role="tab" aria-selected="true"
+                  data-img="imagens.campanha"
+                  data-title="Campanha · Preparação da Cena"
+                  data-desc="Abas de criação (Cenas, Camadas, Passagens, Atlas, Itens, NPCs), Caderno de Campanha e barra tática lateral."
+                  data-alt="Tela de preparação de campanha no DiceVTT com mapa de lago, painel esquerdo de cenas e barra de ferramentas à direita">Cena</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaAtlas"
+                  data-title="Campanha · Atlas do Mundo"
+                  data-desc="Geração procedural ou importação .map (Azgaar), filtros de temperatura/biomas, 14 camadas e ferramentas de desenho."
+                  data-alt="Tela de Atlas do Mundo no DiceVTT com mapa continental, filtros, camadas e ferramentas de edição de rotas e pontos">Atlas</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaNpc"
+                  data-title="Campanha · Editor de NPC"
+                  data-desc="Crie monstros e NPCs com retrato, campos editáveis, fórmulas de vida/CA e unidades customizáveis."
+                  data-alt="Editor de NPC do DiceVTT exibindo Dragão Negro Adulto com campos de tamanho, CA, vida, deslocamento e salvaguardas">NPCs</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaTerreno"
+                  data-title="Ferramenta · Terreno"
+                  data-desc="Pinte zonas táticas de Terreno Difícil, Lava, Água, Folhagem e Buraco usando grid ou desenho livre."
+                  data-alt="Painel de Terreno do DiceVTT com modos Grid, Draw, Selec, Apagar, Player e zonas de terreno tático">Terreno</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaIluminacao"
+                  data-title="Ferramenta · Iluminação e Visão"
+                  data-desc="Coloque fontes de luz coloridas, ajuste raios de luz e visão, tempo das tochas e alterne para a visão do jogador."
+                  data-alt="Painel de Iluminação do DiceVTT com colocação de luz colorida, alteração de visão e sliders de raio de luz e visão">Iluminação</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaParedes"
+                  data-title="Ferramenta · Paredes, Portas e Janelas"
+                  data-desc="Detecção automática (AUTO), paredes comuns, balcão, destrutível e etérea, além de colocação de portas e janelas."
+                  data-alt="Painel de Paredes do DiceVTT com detecção automática, tipos de parede, portas, janelas e opções de vetorização">Paredes</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaElevacao"
+                  data-title="Ferramenta · Elevação"
+                  data-desc="Defina níveis de altura com paralaxe, blend, contorno, escadas e regras de dado de escalada (D6 a D100)."
+                  data-alt="Painel de Elevação do DiceVTT com pincéis, sliders de altura e paralaxe e regras de dado de escalada">Elevação</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaClima"
+                  data-title="Ferramenta · Clima da Cena"
+                  data-desc="Pré-visualize céu limpo, Chuva ou Neve na cena e leve o clima escolhido automaticamente ao abrir a sala."
+                  data-alt="Painel de Clima da Cena do DiceVTT com opções Nenhum, Chuva e Neve">Clima</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.campanhaPontoPassagem"
+                  data-title="Ferramenta · Portais e Passagens"
+                  data-desc="Conecte portais A ↔ B no mesmo mapa ou desenhe passagens entre diferentes camadas da cena."
+                  data-alt="Painel de Pontos de Passagem e Portais do DiceVTT para conectar portais A-B e camadas da cena">Portais</button>
+        </div>
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable js-gallery-img" data-src="imagens.campanha" data-zoom-title="Campanha · Preparação da Cena" data-zoom-caption="Abas de criação (Cenas, Camadas, Passagens, Atlas, Itens, NPCs), Caderno de Campanha e barra tática lateral." alt="Tela de preparação de campanha no DiceVTT com mapa de lago, painel esquerdo de cenas e barra de ferramentas à direita" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
+        <div class="tool-subcaption js-gallery-caption">
+          <div><strong>Campanha · Preparação da Cena:</strong> Abas de criação (Cenas, Camadas, Passagens, Atlas, Itens, NPCs), Caderno de Campanha e barra tática lateral.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Telas de Ficha · Identidade por sistema</span>
+        <h3 class="tool-title">Criação guiada e fichas tematizadas</h3>
+        <p class="tool-desc">Cada sistema possui visual e fluxo próprios, da criação passo a passo à ficha em jogo — como <strong>Os Bons Costumes</strong> e <strong>Nefastus</strong> — com prévia ao vivo, cálculos automáticos e mesa de dados embutida.</p>
+        <ul class="tick-list">
+          <li>Assistentes passo a passo com resumo e conferência de benefícios</li>
+          <li>Cálculo automático de atributos, proficiências, perícias e movimento</li>
+          <li>Mesa de dados integrada com vantagem, desvantagem, benefício/malefício e histórico</li>
+          <li>Importação e exportação em JSON e consulta rápida ao compêndio</li>
+        </ul>
+      </div>
+      <div class="tool-visual" data-tool-gallery="fichas">
+        <div class="tool-tabs" role="tablist" aria-label="Telas de criação e ficha por sistema">
+          <button type="button" class="tool-tab is-active" role="tab" aria-selected="true"
+                  data-img="imagens.criacaoBonsCostumes"
+                  data-title="Criação · Os Bons Costumes"
+                  data-desc="Criador em 7 etapas com seleção de arquétipo, ajuste de atributos (FIS, HAB, POD, COG) e prévia do personagem."
+                  data-alt="Tela de criação de personagem de Os Bons Costumes no DiceVTT mostrando etapas, arquétipos e prévia">Criação · Bons Costumes</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.fichaBonsCostumes"
+                  data-title="Ficha · Os Bons Costumes"
+                  data-desc="Ficha tematizada com proficiências calculadas, aptidões, vantagens, experiência e mesa de dados com d12."
+                  data-alt="Ficha de personagem de Os Bons Costumes no DiceVTT com atributos, proficiências, aptidões e mesa de dados">Ficha · Bons Costumes</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.criacaoZinefastus"
+                  data-title="Criação · Nefastus (Zinefastus #3)"
+                  data-desc="Criador em 8 etapas com revisão de Saúde, Vigor, Stress, Defesa, benefícios de origem e compêndio do SRD."
+                  data-alt="Tela de criação de personagem de Nefastus no DiceVTT na etapa de revisão final">Criação · Nefastus</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.fichaZinefastus"
+                  data-title="Ficha · Nefastus (Zinefastus #3)"
+                  data-desc="Ficha completa com reservas, salvaguardas, perícias filtráveis, movimento, condições, determinação e dado nefasto."
+                  data-alt="Ficha de personagem de Nefastus no DiceVTT com reservas, combate, perícias, movimento e mesa de dados">Ficha · Nefastus</button>
+        </div>
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable js-gallery-img" data-src="imagens.criacaoBonsCostumes" data-zoom-title="Criação · Os Bons Costumes" data-zoom-caption="Criador em 7 etapas com seleção de arquétipo, ajuste de atributos (FIS, HAB, POD, COG) e prévia do personagem." alt="Tela de criação de personagem de Os Bons Costumes no DiceVTT mostrando etapas, arquétipos e prévia" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
+        <div class="tool-subcaption js-gallery-caption">
+          <div><strong>Criação · Os Bons Costumes:</strong> Criador em 7 etapas com seleção de arquétipo, ajuste de atributos (FIS, HAB, POD, COG) e prévia do personagem.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Tela Guildas · Campanhas compartilhadas</span>
+        <h3 class="tool-title">Salão das guildas e gestão da companhia</h3>
+        <p class="tool-desc">Reúna seu grupo permanente num espaço compartilhado. No <strong>Salão das Guildas</strong> você busca companhias por sistema, entra com código de convite e gerencia campanhas, membros e o Atlas no Conselho da guilda.</p>
+        <ul class="tick-list">
+          <li>Diretório de guildas com filtro por sistema e busca por nome</li>
+          <li>Entrada por código de convite ou criação de nova companhia</li>
+          <li>Painel da guilda com campanhas ativas e lista de membros</li>
+          <li>Conselho da guilda com Atlas compartilhado, convites e sincronização</li>
+        </ul>
+      </div>
+      <div class="tool-visual" data-tool-gallery="guildas">
+        <div class="tool-tabs" role="tablist" aria-label="Telas do sistema de Guildas">
+          <button type="button" class="tool-tab is-active" role="tab" aria-selected="true"
+                  data-img="imagens.guildaDiretorio"
+                  data-title="Guildas · Salão das Guildas"
+                  data-desc="Diretório com contadores de guildas e aventureiros, busca por nome, filtro por sistema e entrada com código."
+                  data-alt="Tela do Salão das Guildas no DiceVTT mostrando diretório de guildas e filtros">Salão das Guildas</button>
+          <button type="button" class="tool-tab" role="tab" aria-selected="false"
+                  data-img="imagens.guildaPainel"
+                  data-title="Guildas · Painel da Guilda"
+                  data-desc="Visão da companhia com campanhas, membros e o Conselho da guilda para gerenciar Atlas, convites e sincronização."
+                  data-alt="Tela Minha Guilda no DiceVTT mostrando membros, campanhas e menu Conselho da guilda">Minha Guilda</button>
+        </div>
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable js-gallery-img" data-src="imagens.guildaDiretorio" data-zoom-title="Guildas · Salão das Guildas" data-zoom-caption="Diretório com contadores de guildas e aventureiros, busca por nome, filtro por sistema e entrada com código." alt="Tela do Salão das Guildas no DiceVTT mostrando diretório de guildas e filtros" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
+        <div class="tool-subcaption js-gallery-caption">
+          <div><strong>Guildas · Salão das Guildas:</strong> Diretório com contadores de guildas e aventureiros, busca por nome, filtro por sistema e entrada com código.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-row" data-reveal="0">
+      <div class="tool-content">
+        <span class="tool-tag">Tela Tutorial · Central de Guias</span>
+        <h3 class="tool-title">Aprenda cada tela sem sair do programa</h3>
+        <p class="tool-desc">A <strong>Central de Guias</strong> integrada traz trilhas organizadas por assunto, busca de ferramentas, acompanhamento do seu progresso e um botão direto para abrir e testar a tela na hora.</p>
+        <ul class="tick-list">
+          <li>9 trilhas guiadas: da Tela Inicial até Forja de Sistemas e Guildas</li>
+          <li>Busca por ferramenta e progresso da sua jornada</li>
+          <li>Seções para controles, passo a passo, dicas e solução de problemas</li>
+          <li>Botão <em>Abrir esta Tela</em> para praticar imediatamente</li>
+        </ul>
+      </div>
+      <div class="tool-visual">
+        <div class="tool-visual-frame">
+          <img class="tool-zoomable" data-src="imagens.tutorial" data-zoom-title="Tela Tutorial — Central de Guias" data-zoom-caption="Guias passo a passo dentro do DiceVTT com trilhas, progresso e atalho para abrir cada tela." alt="Tela Tutorial Central de Guias do DiceVTT com trilhas de aprendizado à esquerda, guia no centro e atalho à direita" loading="lazy">
+          <span class="tool-zoom-hint">Clique para ampliar</span>
+        </div>
+      </div>
     </div>
 
     <div class="tool-row" data-reveal="0">
       <div class="tool-content">
         <span class="tool-tag">Demonstração</span>
         <h3 class="tool-title">Veja funcionando</h3>
-        <p class="tool-desc">Fichas, mapas e o gerenciador de sistemas trabalhando juntos numa sessão real. Para os passos detalhados, a página de tutoriais tem um vídeo por assunto.</p>
+        <p class="tool-desc">Fichas, mapas e ferramentas trabalhando juntos numa sessão real. Para os passos detalhados, a página de tutoriais tem um vídeo por assunto.</p>
         <a class="btn btn-ghost btn-small" data-pagina="tutoriais">Ver todos os tutoriais</a>
       </div>
       <div class="tool-visual" style="padding:14px">
@@ -522,6 +673,129 @@
 
 <script src="site.js"></script>
 <script>
+/* ---- Galerias por tela e zoom (Ferramentas) ---- */
+(function () {
+  "use strict";
+
+  document.querySelectorAll("[data-tool-gallery]").forEach(function (box) {
+    var tabs = box.querySelectorAll(".tool-tab");
+    var img = box.querySelector(".js-gallery-img");
+    var cap = box.querySelector(".js-gallery-caption");
+    if (!tabs.length || !img) return;
+
+    function selecionar(tab) {
+      tabs.forEach(function (t) {
+        var ativo = t === tab;
+        t.classList.toggle("is-active", ativo);
+        t.setAttribute("aria-selected", String(ativo));
+      });
+      var src = typeof dvGet === "function" ? dvGet(tab.dataset.img) : "";
+      if (src) img.setAttribute("src", src);
+      img.dataset.src = tab.dataset.img || "";
+      img.dataset.zoomTitle = tab.dataset.title || "";
+      img.dataset.zoomCaption = tab.dataset.desc || "";
+      if (tab.dataset.alt) img.setAttribute("alt", tab.dataset.alt);
+      if (cap) {
+        cap.innerHTML = "<div><strong>" + dvEsc(tab.dataset.title || "") + ":</strong> " + dvEsc(tab.dataset.desc || "") + "</div>";
+      }
+      if (typeof track === "function") {
+        track("tool_screen_select", { group: box.dataset.toolGallery, screen: tab.textContent.trim() });
+      }
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () { selecionar(tab); });
+      tab.addEventListener("keydown", function (e) {
+        var arr = Array.from(tabs), i = arr.indexOf(tab), prox = null;
+        if (e.key === "ArrowRight") prox = (i + 1) % arr.length;
+        else if (e.key === "ArrowLeft") prox = (i - 1 + arr.length) % arr.length;
+        if (prox !== null) { e.preventDefault(); arr[prox].focus(); selecionar(arr[prox]); }
+      });
+    });
+  });
+
+  var overlay = document.createElement("div");
+  overlay.id = "tool-lightbox-overlay";
+  overlay.className = "modal-overlay";
+  overlay.hidden = true;
+  overlay.innerHTML =
+    '<div class="lightbox-box" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">' +
+      '<div class="titlebar">' +
+        '<span class="tb-btn"></span><span class="tb-btn"></span><span class="tb-btn"></span>' +
+        '<span class="tb-title" id="lightbox-title">VISUALIZAR_TELA.PNG</span>' +
+        '<button type="button" class="modal-close js-lightbox-close" aria-label="Fechar">✕</button>' +
+      '</div>' +
+      '<div class="lightbox-body">' +
+        '<img id="lightbox-img" src="" alt="">' +
+        '<div class="lightbox-foot">' +
+          '<span id="lightbox-caption"></span>' +
+          '<div style="display:flex;gap:8px">' +
+            '<button type="button" class="mini-btn js-lightbox-prev" hidden>← Anterior</button>' +
+            '<button type="button" class="mini-btn js-lightbox-next" hidden>Próxima →</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  var lbImg = overlay.querySelector("#lightbox-img");
+  var lbTitle = overlay.querySelector("#lightbox-title");
+  var lbCap = overlay.querySelector("#lightbox-caption");
+  var btnPrev = overlay.querySelector(".js-lightbox-prev");
+  var btnNext = overlay.querySelector(".js-lightbox-next");
+  var galeriaAtual = null;
+
+  function abrirLightbox(imgEl) {
+    var box = imgEl.closest("[data-tool-gallery]");
+    galeriaAtual = box;
+    atualizarLightbox(imgEl.getAttribute("src"), imgEl.getAttribute("alt"), imgEl.dataset.zoomTitle, imgEl.dataset.zoomCaption);
+    var temGrupo = Boolean(box && box.querySelectorAll(".tool-tab").length > 1);
+    btnPrev.hidden = !temGrupo;
+    btnNext.hidden = !temGrupo;
+    overlay.hidden = false;
+    overlay.querySelector(".js-lightbox-close").focus();
+  }
+
+  function atualizarLightbox(src, alt, titulo, desc) {
+    if (src) lbImg.setAttribute("src", src);
+    lbImg.setAttribute("alt", alt || "");
+    lbTitle.textContent = titulo || "VISUALIZAR_TELA.PNG";
+    lbCap.textContent = desc || "";
+  }
+
+  function navegarGrupo(delta) {
+    if (!galeriaAtual) return;
+    var tabs = Array.from(galeriaAtual.querySelectorAll(".tool-tab"));
+    var idx = tabs.findIndex(function (t) { return t.classList.contains("is-active"); });
+    if (idx === -1 || tabs.length < 2) return;
+    var prox = tabs[(idx + delta + tabs.length) % tabs.length];
+    prox.click();
+    var img = galeriaAtual.querySelector(".js-gallery-img");
+    if (img) atualizarLightbox(img.getAttribute("src"), img.getAttribute("alt"), img.dataset.zoomTitle, img.dataset.zoomCaption);
+  }
+
+  document.querySelectorAll(".tool-zoomable").forEach(function (imgEl) {
+    imgEl.setAttribute("tabindex", "0");
+    imgEl.setAttribute("role", "button");
+    imgEl.addEventListener("click", function () { abrirLightbox(imgEl); });
+    imgEl.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrirLightbox(imgEl); }
+    });
+  });
+
+  btnPrev.addEventListener("click", function () { navegarGrupo(-1); });
+  btnNext.addEventListener("click", function () { navegarGrupo(1); });
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay || e.target.closest(".js-lightbox-close")) overlay.hidden = true;
+  });
+  document.addEventListener("keydown", function (e) {
+    if (overlay.hidden) return;
+    if (e.key === "Escape") overlay.hidden = true;
+    else if (e.key === "ArrowLeft" && !btnPrev.hidden) navegarGrupo(-1);
+    else if (e.key === "ArrowRight" && !btnNext.hidden) navegarGrupo(1);
+  });
+})();
+
 /* ---- Abas de sistemas ---- */
 (function () {
   "use strict";

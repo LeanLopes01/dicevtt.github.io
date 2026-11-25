@@ -51,11 +51,25 @@ window.DICEVTT = {
      Caminhos relativos (pasta do site) ou URLs completas — os dois funcionam.
      --------------------------------------------------------------------- */
   imagens: {
-    inicio:           "imagens/inicio.png",
-    ficha:            "imagens/ficha.png",
-    fichaEmJogo:      "imagens/ficha-visualizacao.png",
-    mapas:            "imagens/salas-mapas.png",
-    sistema:          "imagens/sistema.png"
+    inicio:                  "imagens/TelaInicial1.png",
+    salasCampanhas:          "imagens/TelaSalasCampanhas.png",
+    biblioteca:              "imagens/TelaBiblioteca.png",
+    campanha:                "imagens/TelaCampanha.png",
+    campanhaAtlas:           "imagens/TelaCampanhaAtlas.png",
+    campanhaNpc:             "imagens/TelaCampanhaNPC.png",
+    campanhaTerreno:         "imagens/TelaCampanhaTerreno.png",
+    campanhaClima:           "imagens/TelaCampanhaClima.png",
+    campanhaElevacao:        "imagens/TelaCampanhaElevacao.png",
+    campanhaPontoPassagem:   "imagens/TelaCampanhaPontoPassagem.png",
+    campanhaIluminacao:      "imagens/TelaCampanhaIluminacao.png",
+    campanhaParedes:         "imagens/TelaCampanhaParedes.png",
+    criacaoBonsCostumes:     "imagens/TelaCriacaoBonsCostumes.png",
+    fichaBonsCostumes:       "imagens/TelaFichaBonsCostumes.png",
+    criacaoZinefastus:       "imagens/TelaCriacaoZinefastus.png",
+    fichaZinefastus:         "imagens/TelaFichaZinefastus.png",
+    guildaDiretorio:         "imagens/TelaGuilda1.png",
+    guildaPainel:            "imagens/TelaGuilda2.png",
+    tutorial:                "imagens/TelaTutorial.png"
   },
 
   /* ---------------------------------------------------------------------
